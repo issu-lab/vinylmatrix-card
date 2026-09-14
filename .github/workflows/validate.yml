@@ -1,0 +1,38 @@
+name: Validate
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm build
+      - run: git diff --exit-code -- dist/vinylmatrix-card.js
+      - run: pnpm exec playwright install --with-deps chromium --only-shell
+      - name: Browser scenarios
+        run: |
+          pnpm dev --port 5177 --strictPort > /tmp/vinylmatrix-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:5177/ > /dev/null; then break; fi
+            sleep 1
+          done
+          pnpm test:browser
+  hacs:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: plugin
