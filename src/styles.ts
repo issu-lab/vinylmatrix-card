@@ -10,11 +10,8 @@ export const styles = css`
     padding:16px; box-shadow:var(--ha-card-box-shadow,none);
   }
   .card.dark { --surface:#282c2e; --ink:#f0efec; --muted:#bbbcb8; --line:rgba(225,225,225,.25); --arm:#b9bcb9; --button:#f1f0ec; --button-ink:#242728; }
-  .card.vinyl,.card.ambient { background:linear-gradient(150deg,var(--surface),color-mix(in srgb,var(--surface),#888 16%)); }
   .backdrop { position:absolute; z-index:-2; inset:-35px; width:calc(100% + 70px); height:calc(100% + 70px); object-fit:cover; filter:blur(30px) saturate(.35); opacity:.27; pointer-events:none; }
-  .card.vinyl::after,.card.ambient::after { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(180deg,transparent,var(--surface) 96%); opacity:.65; pointer-events:none; }
   .stage { display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; gap:2px; }
-  .stage.lateral { grid-template-columns:minmax(0,1fr) 62px; }
   .deck { position:relative; min-width:0; aspect-ratio:320 / 300; }
   .record { position:absolute; z-index:0; width:82%; aspect-ratio:1; left:1%; top:8%; border-radius:50%; background:var(--disc);
     box-shadow:0 2px 5px #0003,inset 0 0 0 1px #8885; overflow:hidden; }
@@ -30,7 +27,6 @@ export const styles = css`
   .tonearm { position:absolute; z-index:1; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
   .arm-moving { transform-origin:260px 44px; transform:rotate(-4deg); transition:transform 900ms cubic-bezier(.4,0,.2,1); }
   .playing .arm-moving { transform:rotate(14deg); }
-  .minimal.playing .arm-moving { transform:rotate(11deg); }
   .shaft { stroke:var(--arm); stroke-width:4; fill:none; stroke-linecap:round; }
   .shaft-shadow { stroke:#0004; stroke-width:6; fill:none; transform:translate(1px,1px); }
   .pivot-outer { fill:#292c2b; stroke:#555b59; stroke-width:1; }
@@ -39,23 +35,6 @@ export const styles = css`
   .cartridge { fill:#282d2a; stroke:#666e67; stroke-width:.5; }
   .needle,.arm-rest { stroke:#888e86; stroke-width:2; fill:none; }
   .screw { fill:none; stroke:#b9c1b6; stroke-width:1; }
-  .minimal .record { box-shadow:none; }
-  .minimal .record::after { display:none; }
-  .minimal .cover { inset:5%; box-shadow:none; }
-  .minimal .shaft-shadow,.minimal .weight,.minimal .screw { display:none; }
-  .minimal .shaft { stroke-width:3; }
-  .minimal .pivot { fill:#757a77; stroke:none; }
-  .classic { background:linear-gradient(135deg,var(--surface),color-mix(in srgb,var(--surface),#888 22%)); }
-  .classic .record { border:4px dotted #90938d; outline:2px solid #5b605b; box-shadow:0 2px 6px #0005; }
-  .classic .cover { inset:20%; }
-  .classic .pivot-outer { r:19px; }
-  .classic .shaft { stroke-width:6; }
-  .classic .shaft-shadow { stroke-width:8; }
-  .classic .weight { height:23px; }
-  .classic .transport .primary { border-radius:6px; border:1px solid var(--muted); background:linear-gradient(135deg,#e1e2db,#a2a7a1); color:#252927; width:48px; }
-  .classic .transport .primary svg { width:19px; }
-  .classic .transport .primary span { font-size:7px; letter-spacing:.07em; }
-  .classic .transport .primary { display:flex; flex-direction:column; gap:1px; }
   .meta { min-width:0; margin:9px 0 8px; }
   .title { margin:0; font-size:clamp(16px,5.2cqi,23px); line-height:1.3; letter-spacing:-.025em; font-weight:550; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
   .artist { margin:4px 0 0; font-size:clamp(12px,3.7cqi,15px); line-height:1.4; color:var(--muted); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
@@ -63,7 +42,6 @@ export const styles = css`
   .player .dot { display:inline-block; width:4px; height:4px; border-radius:50%; background:currentColor; margin:0 5px 2px 0; }
   .horizontal { margin-top:12px; }
   .times { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); font-variant-numeric:tabular-nums; margin-top:-3px; }
-  .side { display:flex; gap:0; padding:16px 0 10px 2px; min-height:0; }
   .vertical { display:flex; flex:1; min-width:0; flex-direction:column; align-items:center; justify-content:space-between; gap:4px; }
   .vertical > svg { width:16px; height:16px; flex-shrink:0; }
   .vertical input[type=range] { writing-mode:vertical-lr; direction:rtl; width:28px; height:100%; min-height:45px; flex:1; padding:8px 10px; }

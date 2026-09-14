@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.0 — 2026-09-14
+
+Two reference-aligned themes and searchable players.
+
+- Added the reference-aligned Classic design in graphite and silver, with dotted platter, S arm, vertical volume, physical Start/Stop and lower information/control strip.
+- Kept only Minimal (default) and Classic. Removed the previous Vinyl/Ambient interfaces; legacy configurations automatically open Minimal.
+- Added 33/45 record-animation controls without changing audio playback speed.
+- Replaced free-text player entries with Home Assistant's searchable entity selector restricted to media players, plus a searchable fallback for the local preview. Name/ID filtering and duplicate exclusion are supported.
+- Passed 10 logic tests, 5 documentation checks and 15 browser scenarios. Verified search, native-selector event contract, physical playback controls, visual speed and overflow from 240 to 900 px. Actual Home Assistant selector rendering remains untested.
+
+### Minimal reference alignment
+
+- Rebuilt Minimal around the approved reference proportions: record at 72.3% of card width and circular artwork at 46% of record diameter.
+- Added subtle grooves and reflections, a curved metallic tonearm with counterweight and cartridge, and a dedicated rest position.
+- Centered title and artist and moved progress and transport below the record, with expandable volume and neutral artwork-derived background.
+- Added direct local theme preview (`?theme=minimal`) and actual light/dark screenshots.
+- TypeScript checks and distribution build passed. Live Home Assistant validation remains pending.
+
 ## 0.1.0 — 2026-09-14
 
 Initial experimental release.

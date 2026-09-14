@@ -9,7 +9,8 @@ test('configuration requires ordered media player ids and preserves explicit lis
   assert.throws(()=>normalizeConfig({entities:ids,theme:'invalid'}));
   assert.throws(()=>normalizeConfig({entities:[],entity:ids[0]}));
   assert.deepEqual(normalizeConfig({entities:[...ids,ids[0]]}).entities,ids);
-  assert.equal(normalizeConfig({entity:ids[0]}).theme,'vinyl');
+  for(const theme of ['vinyl','ambient']) assert.equal(normalizeConfig({entities:ids,theme}).theme,'minimal');
+  assert.equal(normalizeConfig({entity:ids[0]}).theme,'minimal');
 });
 test('playing player wins over an idle earlier entry',()=>{
   assert.equal(selectPlayer(ids,{[ids[0]]:player('idle'),[ids[1]]:player()},ids[0]),ids[1]);

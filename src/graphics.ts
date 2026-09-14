@@ -9,19 +9,27 @@ export function icon(name: string) {
   };
   return svg`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d=${paths[name] ?? paths.play}/></svg>`;
 }
-export function arm(classic: boolean) {
-  // Rest rotation pivots around (260, 44); playback rotates the cartridge inward.
-  return svg`<svg class="tonearm" viewBox="0 0 320 300" aria-hidden="true">
-    <g class="arm-rest"><path d="M274 101v20"/><path d="M268 101h12"/></g>
+// Geometry follows the reference image in a 1000 × 837 deck, independently of card width.
+export function minimalArm() {
+  return svg`<svg class="tonearm reference-arm" viewBox="0 0 1000 837" aria-hidden="true">
+    <defs>
+      <linearGradient id="vm-metal" x1="0" x2="1"><stop stop-color="#1b1b1b"/><stop offset=".24" stop-color="#747474"/><stop offset=".46" stop-color="#ededeb"/><stop offset=".65" stop-color="#939392"/><stop offset="1" stop-color="#292929"/></linearGradient>
+      <linearGradient id="vm-head" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#353535"/><stop offset="1" stop-color="#101010"/></linearGradient>
+      <radialGradient id="vm-pivot"><stop stop-color="#6f706e"/><stop offset=".62" stop-color="#484947"/><stop offset="1" stop-color="#202120"/></radialGradient>
+    </defs>
+    <g class="reference-rest"><path d="M889 578h24m-12-12v28"/></g>
     <g class="arm-moving">
-      <path class="shaft-shadow" d=${classic ? "M260 18V105C260 140 283 155 278 185S260 229 255 241" : "M260 18V191Q260 224 247 245"}/>
-      <path class="shaft" d=${classic ? "M260 18V105C260 140 283 155 278 185S260 229 255 241" : "M260 18V191Q260 224 247 245"}/>
-      <rect class="weight" x="250" y="13" width="20" height="18" rx="2"/>
-      <circle class="pivot-outer" cx="260" cy="44" r="13"/>
-      <circle class="pivot" cx="260" cy="44" r="8"/>
-      <g transform=${classic ? "translate(256 238) rotate(22)" : "translate(250 239) rotate(22)"}>
-        <rect class="cartridge" x="-6" y="-1" width="12" height="27" rx="3"/>
-        <path class="needle" d="M0 26v5"/><circle class="screw" cx="0" cy="17" r="2"/>
+      <path d="M870 68 856 194 828 532Q823 603 802 633L776 660" fill="none" stroke="#0008" stroke-width="14" transform="translate(3 3)"/>
+      <path d="M870 68 856 194 828 532Q823 603 802 633L776 660" fill="none" stroke="#414141" stroke-width="10"/>
+      <path d="M868 68 854 194 826 532Q821 601 800 632L774 658" fill="none" stroke="#c4c4c2" stroke-width="5"/>
+      <path d="M867 68 853 194 825 532Q820 601 799 632L773 658" fill="none" stroke="#fff9" stroke-width="1.5"/>
+      <rect x="839" y="93" width="53" height="42" rx="2" fill="url(#vm-metal)" stroke="#222" stroke-width="2" transform="rotate(6 865 114)"/>
+      <circle cx="856" cy="194" r="29" fill="#111" stroke="#41413e" stroke-width="3"/>
+      <circle cx="856" cy="194" r="17" fill="url(#vm-pivot)" stroke="#bfc0bb" stroke-width="2.5"/>
+      <g transform="translate(774 659) rotate(39)">
+        <path d="M0 44v20" stroke="#93938e" stroke-width="2"/>
+        <rect x="-19" y="-8" width="38" height="65" rx="12" fill="url(#vm-head)" stroke="#141414" stroke-width="2"/>
+        <circle cx="0" cy="32" r="7" fill="#181818" stroke="#d3d5cf" stroke-width="2"/>
       </g>
     </g>
   </svg>`;

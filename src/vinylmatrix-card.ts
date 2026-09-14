@@ -4,8 +4,11 @@ import { keyed } from "lit/directives/keyed.js";
 import type { Config, NormalizedConfig, HomeAssistant, Player } from "./types.ts";
 import { available, artworkUrl, canSeek, duration, Feature, formatTime, mediaKey, normalizeConfig, number, playbackAction, position, selectPlayer, supports, text } from "./player.ts";
 import { labels, type Label } from "./i18n.ts";
-import { arm, icon } from "./graphics.ts";
+import { minimalArm, icon } from "./graphics.ts";
 import { styles } from "./styles.ts";
+import { minimalStyles } from "./minimal-styles.ts";
+import { classicStyles } from "./classic-styles.ts";
+import { classicArm, platterRim } from "./classic-graphics.ts";
 import "./editor.ts";
 
 type Slider = "seek" | "volume";
@@ -15,9 +18,9 @@ export class VinylMatrixCard extends LitElement {
   static properties = {
     hass: { attribute:false }, config: { state:true }, active: { state:true },
     clock: { state:true }, failedArt: { state:true }, error: { state:true },
-    busy: { state:true }, volumeOpen: { state:true }, gesture: { state:true },
+    rpm: { state:true }, busy: { state:true }, volumeOpen: { state:true }, gesture: { state:true },
   };
-  static styles = styles;
+  static styles = [styles, minimalStyles, classicStyles];
   hass?: HomeAssistant;
   private config?: NormalizedConfig;
   private active?: string;
@@ -25,22 +28,35 @@ export class VinylMatrixCard extends LitElement {
   private failedArt = "";
   private error = "";
   private busy = false;
+  private rpm: 33 | 45 = 33;
   private volumeOpen = false;
   private gesture?: Gesture;
   private timer?: ReturnType<typeof setInterval>;
   private commandGeneration = 0;
 
-  static getConfigElement() { return document.createElement("vinylmatrix-card-editor"); }
+  static async getConfigElement() {
+    if (!customElements.get("ha-selector")) {
+      const load=(window as Window & { loadCardHelpers?: () => Promise<{createCardElement:(config:object)=>HTMLElement}> }).loadCardHelpers;
+      if (load) {
+        try {
+          const helpers=await load();
+          const tile=helpers.createCardElement({type:"tile",entity:"media_player.placeholder"});
+          await (tile.constructor as typeof HTMLElement & {getConfigElement?:()=>Promise<HTMLElement>}).getConfigElement?.();
+        } catch { /* The editor also provides a searchable fallback. */ }
+      }
+    }
+    return document.createElement("vinylmatrix-card-editor");
+  }
   static getStubConfig(hass: HomeAssistant) {
     const entities=Object.keys(hass.states).filter(id=>id.startsWith("media_player."));
-    return { entities:entities.slice(0,1), theme:"vinyl", color_mode:"auto" };
+    return { entities:entities.slice(0,1), theme:"minimal", color_mode:"auto" };
   }
   setConfig(config: Config) {
     this.config=normalizeConfig(config);
     if (this.gesture) this.gesture={...this.gesture,canceled:true};
     this.error="";
   }
-  getCardSize() { return this.config?.theme === "vinyl" ? 8 : 7; }
+  getCardSize() { return (this.config?.theme === "minimal") ? 8 : 7; }
   getGridOptions() { return { columns:12, min_columns:6 }; }
   connectedCallback() {
     super.connectedCallback();
@@ -120,6 +136,7 @@ export class VinylMatrixCard extends LitElement {
       ${vertical ? icon(isSeek ? "progress" : "volume") : nothing}
       <input data-kind=${kind} type="range" min="0" max=${max} step=${isSeek ? "1" : "0.01"}
         .value=${live(String(value))} ?disabled=${!enabled || this.busy} aria-label=${label}
+        style=${`--range-fill:${Math.min(100,Math.max(0,value/max*100))}%`}
         aria-orientation=${vertical ? "vertical" : "horizontal"}
         aria-valuetext=${isSeek ? formatTime(value) : `${Math.round(value*100)}%`}
         @pointerdown=${()=>this.capture(kind,value)} @pointercancel=${()=>{this.gesture=undefined;}}
@@ -135,6 +152,7 @@ export class VinylMatrixCard extends LitElement {
     const p=this.player;
     const playing=p?.state === "playing";
     const theme=this.config.theme;
+    const horizontal=theme === "minimal";
     const dark=this.config.color_mode === "dark" || (this.config.color_mode === "auto" && (this.hass.themes?.darkMode ?? false));
     const requestedArt=this.art();
     const artUrl=requestedArt && requestedArt !== this.failedArt ? requestedArt : undefined;
@@ -146,25 +164,34 @@ export class VinylMatrixCard extends LitElement {
     const actionLabel=action ? t[action.icon] : t.play;
     const capturedEntity=this.active;
     const artImage=artUrl ? html`<img src=${artUrl} alt="" referrerpolicy="no-referrer" @error=${()=>{this.failedArt=artUrl;}}/>` : nothing;
-    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
-      ${(theme === "vinyl" || theme === "ambient") && artUrl ? html`<img class="backdrop" src=${artUrl} alt="" referrerpolicy="no-referrer"/>` : nothing}
-      <div class="stage ${theme !== "vinyl" ? "lateral" : ""}">
-        <div class="deck" role="img" aria-label=${`${title} · ${state}`}>
-          <div class="record"><div class="rotor"><div class="cover">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div></div><span class="spindle"></span></div>
-          ${arm(theme === "classic")}
-        </div>
-        ${theme !== "vinyl" ? html`<div class="side">${this.slider("seek",true)}${this.slider("volume",true)}</div>` : nothing}
-      </div>
-      <div class="meta"><h2 class="title" title=${title}>${title}</h2><p class="artist" title=${artist}>${artist}</p></div>
+    const footer=html`      <div class="meta"><h2 class="title" title=${title}>${title}</h2><p class="artist" title=${artist}>${artist}</p></div>
       <p class="player" title=${`${playerName} · ${state}`}><span class="dot"></span>${playerName} · ${state}</p>
-      ${theme === "vinyl" ? this.slider("seek") : nothing}
+      ${this.slider("seek")}
       <div class="transport">
         <button aria-label=${t.previous} title=${t.previous} ?disabled=${!supports(p,Feature.PREVIOUS_TRACK) || this.busy} @click=${()=>this.command("media_previous_track",Feature.PREVIOUS_TRACK,{},capturedEntity)}>${icon("previous")}</button>
-        <button class="primary" aria-label=${actionLabel} title=${actionLabel} ?disabled=${!action || this.busy} @click=${()=>action && this.command(action.service,action.feature,{},capturedEntity)}>${icon(action?.icon ?? "play")}${theme === "classic" ? html`<span>START / STOP</span>` : nothing}</button>
+        <button class="primary" aria-label=${actionLabel} title=${actionLabel} ?disabled=${!action || this.busy} @click=${()=>action && this.command(action.service,action.feature,{},capturedEntity)}>${icon(action?.icon ?? "play")}</button>
         <button aria-label=${t.next} title=${t.next} ?disabled=${!supports(p,Feature.NEXT_TRACK) || this.busy} @click=${()=>this.command("media_next_track",Feature.NEXT_TRACK,{},capturedEntity)}>${icon("next")}</button>
-        ${theme === "vinyl" ? html`<button aria-label=${t.volume} title=${t.volume} aria-expanded=${this.volumeOpen} ?disabled=${!supports(p,Feature.VOLUME_SET) && !supports(p,Feature.VOLUME_MUTE)} @click=${()=>{this.volumeOpen=!this.volumeOpen;}}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button>` : nothing}
+        ${horizontal ? html`<button aria-label=${t.volume} title=${t.volume} aria-expanded=${this.volumeOpen} ?disabled=${!supports(p,Feature.VOLUME_SET) && !supports(p,Feature.VOLUME_MUTE)} @click=${()=>{this.volumeOpen=!this.volumeOpen;}}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button>` : nothing}
       </div>
-      ${theme === "vinyl" && this.volumeOpen ? html`<div class="volume-popover"><button aria-label=${p?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!supports(p,Feature.VOLUME_MUTE) || this.busy} @click=${()=>this.command("volume_mute",Feature.VOLUME_MUTE,{is_volume_muted:!p?.attributes.is_volume_muted},capturedEntity)}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : nothing}
+`;
+    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" style=${theme === "classic" ? `--record-period:${this.rpm === 33 ? 60/33 : 60/45}s` : ""} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
+      ${horizontal && artUrl ? html`<img class="backdrop" src=${artUrl} alt="" referrerpolicy="no-referrer"/>` : nothing}
+      <div class="stage">
+        <div class="deck" role=${theme === "classic" ? "group" : "img"} aria-label=${`${title} · ${state}`}>
+          ${theme === "classic" ? platterRim() : nothing}
+          <div class="record"><div class="rotor"><div class="cover">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div></div><span class="spindle"></span></div>
+          ${theme === "classic" ? classicArm() : minimalArm()}
+          ${theme === "classic" ? html`
+            <div class="deck-buttons">
+              <button class="start-stop" aria-label=${`Start / Stop · ${actionLabel}`} title=${actionLabel} ?disabled=${!action || this.busy} @click=${()=>action && this.command(action.service,action.feature,{},capturedEntity)}><span>START<br/>STOP</span></button>
+              <div class="speed-buttons" role="group" aria-label=${t.recordSpeed}>${([33,45] as const).map(rpm=>html`<button aria-pressed=${this.rpm === rpm} title=${`${t.recordSpeed}: ${rpm}`} aria-label=${`${t.recordSpeed}: ${rpm}`} @click=${()=>{this.rpm=rpm;}}>${rpm}</button>`)}</div>
+            </div>
+            <div class="classic-volume"><span>${t.volume}</span>${this.slider("volume",true)}</div>
+          ` : nothing}
+        </div>
+      </div>
+      ${theme === "classic" ? html`<div class="classic-footer">${footer}</div>` : footer}
+      ${horizontal && this.volumeOpen ? html`<div class="volume-popover"><button aria-label=${p?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!supports(p,Feature.VOLUME_MUTE) || this.busy} @click=${()=>this.command("volume_mute",Feature.VOLUME_MUTE,{is_volume_muted:!p?.attributes.is_volume_muted},capturedEntity)}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : nothing}
       ${this.error ? html`<p class="error" role="alert">${this.error}</p>` : nothing}
     </ha-card>`;
   }
@@ -173,4 +200,4 @@ if (!customElements.get("vinylmatrix-card")) customElements.define("vinylmatrix-
 const registry=window as Window & { customCards?: Array<{type:string;name:string;description:string;preview:boolean}> };
 registry.customCards ??= [];
 if (!registry.customCards.some(card=>card.type === "vinylmatrix-card")) registry.customCards.push({type:"vinylmatrix-card",name:"VinylMatrix Card",description:"An animated turntable for your music players",preview:true});
-console.info("VinylMatrix Card 0.1.0");
+console.info("VinylMatrix Card 0.2.0");

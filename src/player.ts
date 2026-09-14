@@ -1,19 +1,26 @@
-import type { Config, NormalizedConfig, Player } from "./types.ts";
+import type { Config, NormalizedConfig, Player, Theme } from "./types.ts";
 
 // Home Assistant MediaPlayerEntityFeature (core/components/media_player/const.py).
 export const Feature = { PAUSE: 1, SEEK: 2, VOLUME_SET: 4, VOLUME_MUTE: 8,
   PREVIOUS_TRACK: 16, NEXT_TRACK: 32, STOP: 4096, PLAY: 16384 } as const;
+
+export function normalizeTheme(theme?: string): Theme {
+  // Retired v0.1.0 styles open Minimal so existing dashboards keep loading.
+  if (!theme || theme === "vinyl" || theme === "ambient") return "minimal";
+  if (theme === "minimal" || theme === "classic") return theme;
+  throw new Error("VinylMatrix: invalid theme.");
+}
 
 export function normalizeConfig(config: Config): NormalizedConfig {
   const ids = config.entities ?? (config.entity ? [config.entity] : []);
   if (!Array.isArray(ids) || ids.length === 0 || ids.some(id => typeof id !== "string" || !/^media_player\.[a-z0-9_]+$/.test(id))) {
     throw new Error("VinylMatrix: configure at least one media_player in entities.");
   }
-  if (config.theme && !["vinyl", "minimal", "classic", "ambient"].includes(config.theme)) throw new Error("VinylMatrix: invalid theme.");
+  const theme=normalizeTheme(config.theme);
   if (config.color_mode && !["auto", "light", "dark"].includes(config.color_mode)) throw new Error("VinylMatrix: invalid color_mode.");
   if (config.language && !["auto", "en", "it"].includes(config.language)) throw new Error("VinylMatrix: invalid language.");
   if (config.name !== undefined && typeof config.name !== "string") throw new Error("VinylMatrix: name must be text.");
-  return { ...config, entities: [...new Set(ids)], theme: config.theme ?? "vinyl", color_mode: config.color_mode ?? "auto", language: config.language ?? "auto" };
+  return { ...config, entities: [...new Set(ids)], theme, color_mode: config.color_mode ?? "auto", language: config.language ?? "auto" };
 }
 
 export function available(player?: Player): player is Player {

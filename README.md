@@ -24,8 +24,8 @@ VinylMatrix brings album artwork, a rotating record and a moving tonearm to your
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.1.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.1.0)) |
-| **Validation** | 10 logic tests, 5 documentation checks, 12 browser scenarios and HACS validation passed ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions)) |
+| **Current version** | `0.2.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.2.0)) |
+| **Validation** | 10 logic tests, 5 documentation checks and 15 browser scenarios ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
@@ -47,7 +47,7 @@ It works with existing Home Assistant media players, keeping the same experience
 - 🔄 Automatic selection from an ordered list of media players.
 - 💿 Rotating record and a tonearm that returns to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
-- 🎨 Four selectable styles with automatic, light and dark colors.
+- 🎨 Two selectable styles with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
 - 🌍 English and Italian, with automatic language selection.
 - ♿ Keyboard controls, accessible labels and reduced-motion support.
@@ -76,10 +76,8 @@ These screenshots show the actual card with original sample artwork and simulate
 
 | Style | Appearance |
 |---|---|
-| **Vinyl** — default | Floating record, slim arm and a soft artwork backdrop. Playback and progress below; the speaker button opens volume. |
-| **Minimal** | Flat neutral surfaces, enlarged cover and vertical progress and volume on the right. |
-| **Classic** | Detailed platter rim, curved arm and a physical-style start/stop button, with controls on the right. |
-| **Ambient** | Soft artwork colors and subtle vinyl texture, with controls on the right. |
+| **Minimal** — default | Reference-matched record (72.3% of card width), artwork at 46% of the record diameter, curved metal arm, centered metadata and horizontal progress. The speaker button opens volume. |
+| **Classic** | Graphite or silver turntable base, dotted platter rim, S-shaped metal arm, Start/Stop button, vertical volume and a lower strip for track information and playback controls. |
 
 ![VinylMatrix styles in light mode](assets/themes-light.png)
 
@@ -131,7 +129,7 @@ type: custom:vinylmatrix-card
 entities:
   - media_player.living_room
   - media_player.office
-theme: vinyl
+theme: minimal
 color_mode: auto
 language: auto
 ```
@@ -141,9 +139,15 @@ language: auto
 | `entities` | Required unless `entity` is used | Ordered list of media player entity IDs. |
 | `entity` | — | Single-player shorthand. `entities` takes precedence if both are present. |
 | `name` | Player's friendly name | Optional player label; the track title stays separate. |
-| `theme` | `vinyl` | `vinyl`, `minimal`, `classic` or `ambient`. |
+| `theme` | `minimal` | `minimal` or `classic`. |
 | `color_mode` | `auto` | Follow Home Assistant, or force `light` / `dark`. |
 | `language` | `auto` | Follow Home Assistant, or choose `en` / `it`. Other languages fall back to English. |
+
+In the visual editor, search for a media player by friendly name or entity ID. Only `media_player` entities are offered; players already selected in another row are excluded. The row order defines startup priority.
+
+Classic’s 33/45 buttons change the record animation speed only. They do not change the playback speed of your audio.
+
+Configurations saved with the retired `vinyl` or `ambient` style open Minimal automatically.
 
 For a single player:
 

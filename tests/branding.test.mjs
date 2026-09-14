@@ -10,7 +10,7 @@ test('README uses banner first, status and shared public structure without dupli
   const titles=['Project Status','Why It Exists','Features','How It Works','Interface','Installation','Configuration','Known Limitations','Documentation','License'];
   const positions=titles.map(title=>readme.indexOf('## '+title));
   assert.ok(positions.every((p,i)=>p>=0 && (i===0 || p>positions[i-1])));
-  assert.match(readme,/Experimental/);assert.match(readme,/`0\.1\.0` — experimental/);
+  assert.match(readme,/Experimental/);assert.ok(readme.includes('`'+JSON.parse(read('package.json')).version+'` — experimental'));
 });
 test('footer has exact HACS-safe raw URL, destination and width',()=>{
   assert.match(readme,/<a href="https:\/\/github.com\/issu-lab\/Open-Homelab">\s*<img src="https:\/\/raw.githubusercontent.com\/issu-lab\/vinylmatrix-card\/main\/assets\/issu-open-homelab-badge.png"\s+alt="Explore iSSU Open Homelab"\s+width="480">/);
