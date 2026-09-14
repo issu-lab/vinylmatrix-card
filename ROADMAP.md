@@ -1,5 +1,5 @@
 # VinylMatrix Card roadmap
 
-- Complete publication checks for the initial experimental release and configure the repository social preview.
+- Activate the supplied `assets/vinylmatrix-social-preview.png` in GitHub repository settings under **Social preview**. The image is published, but the custom preview is not yet configured.
 
-Live Home Assistant validation has not yet been performed. See the README for current limits.
+The initial experimental release and HACS installation link are published. Build, browser and HACS validation passed on GitHub. Live Home Assistant validation has not yet been performed; see the README for current limits.

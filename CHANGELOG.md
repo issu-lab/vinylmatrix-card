@@ -13,4 +13,6 @@ Initial experimental release.
 - Shared iSSU banner, social preview and unchanged Open Homelab footer, with editable branding sources.
 - Validation: 10 logic tests, 5 documentation checks and 12 Chromium browser scenarios. Layout reviewed at 240, 280, 340 and 480 px. Clean dependency installation and reproducible bundle verified.
 
+- Published the standalone GitHub release with its JavaScript asset and verified the public README, HACS button, banner and canonical footer. GitHub build, browser tests and HACS validation passed.
+
 The card has only been tested with simulated players. Live Home Assistant validation remains pending.

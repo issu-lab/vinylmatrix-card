@@ -24,8 +24,8 @@ VinylMatrix brings album artwork, a rotating record and a moving tonearm to your
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.1.0` — experimental |
-| **Local validation** | 10 logic tests, 5 documentation checks and 12 browser scenarios passed |
+| **Current version** | `0.1.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.1.0)) |
+| **Validation** | 10 logic tests, 5 documentation checks, 12 browser scenarios and HACS validation passed ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions)) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
