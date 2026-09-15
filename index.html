@@ -11,7 +11,7 @@
 <script type="module">
 // Vite excludes dist from its file watcher; a unique URL avoids serving a cached older build.
 await import(/* @vite-ignore */ './dist/vinylmatrix-card.js?preview='+Date.now());
-const themes=['minimal','classic'];
+const themes=['minimal','classic','cassette'];
 const entities=['media_player.living_room','media_player.office'];
 const attrs={friendly_name:'Living room',supported_features:16447,media_title:'Night Session',media_artist:'Studio Ensemble',media_content_id:'track-1',media_duration:342,media_position:138,media_position_updated_at:new Date().toISOString(),volume_level:.48,entity_picture:'/dev/cover.svg'};
 let states={[entities[0]]:{entity_id:entities[0],state:'playing',attributes:{...attrs}},[entities[1]]:{entity_id:entities[1],state:'idle',attributes:{...attrs,friendly_name:'Office',media_title:'Morning Light',media_content_id:'track-2'}}};
@@ -27,6 +27,6 @@ document.querySelector('#stream').onclick=()=>{for(const p of Object.values(stat
 document.querySelector('#fail').onclick=()=>{fail=true};
 // Deliberate development-only hook for browser integration tests.
 const focusedTheme=new URLSearchParams(location.search).get('theme');
-if(themes.includes(focusedTheme)){document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;grid.style.display='block';grid.style.maxWidth=focusedTheme==='classic'?'900px':'480px';cards.forEach((c,i)=>{c.parentElement.hidden=themes[i]!==focusedTheme;c.parentElement.querySelector('h2').hidden=true;});document.body.style.padding='0';}
+if(themes.includes(focusedTheme)){document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;grid.style.display='block';grid.style.maxWidth=focusedTheme==='minimal'?'480px':'900px';cards.forEach((c,i)=>{c.parentElement.hidden=themes[i]!==focusedTheme;c.parentElement.querySelector('h2').hidden=true;});document.body.style.padding='0';}
 window.preview={cards,entities,get states(){return states},get calls(){return calls},setStates(value){states=value;update()},update};update();
 </script></body></html>

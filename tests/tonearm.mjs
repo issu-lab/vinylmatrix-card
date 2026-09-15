@@ -17,7 +17,7 @@ export async function checkTonearm(page) {
     },{attributes,state});
   }
   async function geometry() {
-    return page.locator('vinylmatrix-card').evaluateAll(cards=>cards.map(card=>{
+    return page.locator('vinylmatrix-card').evaluateAll(cards=>cards.filter(c=>c.shadowRoot.querySelector('.tonearm')).map(card=>{
       const root=card.shadowRoot,stylus=root.querySelector('.stylus');
       const point=stylus.getPointAtLength(stylus.getTotalLength()).matrixTransform(stylus.getScreenCTM());
       const disc=root.querySelector('.record').getBoundingClientRect();

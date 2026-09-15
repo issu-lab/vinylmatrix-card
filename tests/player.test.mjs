@@ -78,3 +78,8 @@ test('arm progress has no synthetic timeline when duration or position is missin
     assert.equal(progress(player('playing',attributes)),undefined);
   }
 });
+
+test('Cassette is selectable without changing the default or legacy themes',()=>{
+  assert.equal(normalizeConfig({entity:ids[0],theme:'cassette'}).theme,'cassette');
+  assert.equal(normalizeConfig({entity:ids[0]}).theme,'minimal');
+});

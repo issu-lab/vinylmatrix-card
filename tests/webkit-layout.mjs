@@ -1,3 +1,4 @@
+import { checkCassette } from './cassette.mjs';
 import { checkTonearm } from './tonearm.mjs';
 import assert from 'node:assert/strict';
 const {webkit}=await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
@@ -41,6 +42,7 @@ try {
   assert.equal(await page.evaluate(()=>window.preview.calls.at(-1).service),'media_pause');
   assert.equal(await minimal.locator('.rotor').evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
   await checkTonearm(page);
+  await checkCassette(page);
   assert.deepEqual(errors,[]);
   console.log('WebKit: 12 light/dark layout checks, state/artwork visibility and playback passed.');
 } finally {await browser.close()}

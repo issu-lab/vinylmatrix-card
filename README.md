@@ -7,9 +7,9 @@
 [![HACS](https://img.shields.io/badge/HACS-custom_repository-C346F4?style=flat-square)](#installation)
 [![License](https://img.shields.io/badge/license-MIT-C346F4?style=flat-square)](LICENSE)
 
-**A turntable music card for Home Assistant.**
+**A turntable and cassette music card for Home Assistant.**
 
-VinylMatrix brings album artwork, a rotating record and a moving tonearm to your dashboard. Configure your media players once; the card follows the one that is playing.
+VinylMatrix brings album artwork and animated turntable or cassette mechanisms to your dashboard. Configure your media players once; the card follows the one that is playing.
 
 </div>
 
@@ -24,8 +24,8 @@ VinylMatrix brings album artwork, a rotating record and a moving tonearm to your
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.3.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.3.0)) |
-| **Validation** | 12 logic tests, 5 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
+| **Current version** | `0.4.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.4.0)) |
+| **Validation** | 13 logic tests, 5 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm/Cassette checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
@@ -47,7 +47,8 @@ It works with existing Home Assistant media players, keeping the same experience
 - 🔄 Automatic selection from an ordered list of media players.
 - 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
-- 🎨 Two selectable styles with automatic, light and dark colors.
+- 📼 Transparent Cassette style with rotating reels, lifting playback heads and compact artwork/progress.
+- 🎨 Three selectable styles with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
 - 🌍 English and Italian, with automatic language selection.
 - ♿ Keyboard controls, accessible labels and reduced-motion support.
@@ -66,6 +67,8 @@ The record rotates only during `playing`. In both Minimal and Classic, the arm g
 
 The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
 
+In Cassette, both reels rotate while playing and the playback heads rise to the tape. Pause, stop, buffering and unavailable states stop the reels and lower the heads. Reduced motion disables reel rotation and makes the heads move instantly. The four rectangular buttons control previous track, play/pause (or stop when supported instead), next track and volume.
+
 Selection itself sends no commands. Playback controls target the displayed entity, and a seek or volume gesture is canceled if the active player changes. Seeking is also canceled when the track changes.
 
 ---
@@ -80,8 +83,11 @@ These screenshots show the actual card with original sample artwork and simulate
 |---|---|
 | **Minimal** — default | Reference-matched record (72.3% of card width), artwork at 46% of the record diameter, curved metal arm, centered metadata and horizontal progress. The speaker button opens volume. |
 | **Classic** | Graphite or silver turntable base, dotted platter rim, S-shaped metal arm, Start/Stop button, vertical volume and a lower strip for track information and playback controls. |
+| **Cassette** | Flat transparent shell with two exposed reels and lifting heads, four rectangular keys and small artwork/seek controls beneath. Available in graphite and light neutral colors. |
 
 ![VinylMatrix styles in light mode](assets/themes-light.png)
+
+![Cassette in dark mode](assets/cassette-dark.png)
 
 ---
 
@@ -141,11 +147,13 @@ language: auto
 | `entities` | Required unless `entity` is used | Ordered list of media player entity IDs. |
 | `entity` | — | Single-player shorthand. `entities` takes precedence if both are present. |
 | `name` | Player's friendly name | Optional player label; the track title stays separate. |
-| `theme` | `minimal` | `minimal` or `classic`. |
+| `theme` | `minimal` | `minimal`, `classic` or `cassette`. |
 | `color_mode` | `auto` | Follow Home Assistant, or force `light` / `dark`. |
 | `language` | `auto` | Follow Home Assistant, or choose `en` / `it`. Other languages fall back to English. |
 
 In the visual editor, search for a media player by friendly name or entity ID. Only `media_player` entities are offered; players already selected in another row are excluded. The row order defines startup priority.
+
+Choose **Cassette** in the visual editor, or set `theme: cassette` in YAML. Minimal remains the default for existing and new configurations.
 
 Classic’s 33/45 buttons change the record animation speed only. They do not change the playback speed of your audio.
 
@@ -163,7 +171,7 @@ entity: media_player.living_room
 ## Known Limitations
 
 - Live Home Assistant validation is still pending. Distribution through a custom repository does not imply acceptance into the default HACS catalog.
-- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and tonearm geometry, playback and motion checks for both themes in both engines. Validation on physical mobile devices and across Home Assistant versions remains pending.
+- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and shared tonearm/Cassette geometry, playback and motion checks in both engines. Validation on physical mobile devices and across Home Assistant versions remains pending.
 - Available controls depend on the features reported by the selected player. Unsupported controls are disabled.
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.

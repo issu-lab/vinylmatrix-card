@@ -7,7 +7,7 @@ export const Feature = { PAUSE: 1, SEEK: 2, VOLUME_SET: 4, VOLUME_MUTE: 8,
 export function normalizeTheme(theme?: string): Theme {
   // Retired v0.1.0 styles open Minimal so existing dashboards keep loading.
   if (!theme || theme === "vinyl" || theme === "ambient") return "minimal";
-  if (theme === "minimal" || theme === "classic") return theme;
+  if (theme === "minimal" || theme === "classic" || theme === "cassette") return theme;
   throw new Error("VinylMatrix: invalid theme.");
 }
 

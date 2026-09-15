@@ -10,7 +10,7 @@ pnpm build
 pnpm dev --port 5177 --strictPort
 ```
 
-Open `http://127.0.0.1:5177`. Add `?theme=minimal` or `?theme=classic` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
+Open `http://127.0.0.1:5177`. Add `?theme=minimal`, `?theme=classic` or `?theme=cassette` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
 
 Browser checks, with the preview server running:
 
@@ -20,7 +20,7 @@ pnpm test:browser
 pnpm test:webkit
 ```
 
-`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Chromium checks regenerate the screenshots in `assets/` using the original sample SVG in `dev/cover.svg`. WebKit checks verify Minimal geometry in both colors from 240 to 900 px, visibility across player states and missing artwork, and play/pause. Both browser suites also run `tests/tonearm.mjs`, measuring the actual SVG stylus against the grooves and label at five progress positions, three widths and both colors. They cover seeking, clock updates, player handover, parking, missing timeline data, smooth transitions and reduced motion. These simulated checks do not replace validation on a physical iOS device or in Home Assistant.
+`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Chromium checks regenerate the screenshots in `assets/` using the original sample SVG in `dev/cover.svg`. WebKit checks verify Minimal geometry in both colors from 240 to 900 px, visibility across player states and missing artwork, and play/pause. Both browser suites also run `tests/tonearm.mjs`, measuring the actual SVG stylus against the grooves and label at five progress positions, three widths and both colors. They cover seeking, clock updates, player handover, parking, missing timeline data, smooth transitions and reduced motion. `tests/cassette.mjs` runs in both engines, covering 10 size/color combinations, reel rotation, head lift/parking, essential controls, active-player handover, artwork fallback, service errors and reduced motion. These simulated checks do not replace validation on a physical iOS device or in Home Assistant.
 
 ### Structure
 
@@ -32,6 +32,8 @@ src/styles.ts            shared styles
 src/minimal-styles.ts     reference proportions and Minimal styling
 src/classic-styles.ts     turntable base and responsive Classic controls
 src/classic-graphics.ts   dotted platter and S-shaped arm
+src/cassette-graphics.ts  transparent shell, reels, tape path and lifting heads
+src/cassette-styles.ts    flat Cassette colors, motion and responsive controls
 src/graphics.ts          Minimal tonearm and shared icons
 src/i18n.ts              English and Italian interface text
 tests/                   unit and browser tests

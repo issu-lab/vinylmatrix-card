@@ -7,7 +7,7 @@ const en = {
   artist: "Unknown artist", loading: "Waiting for Home Assistant", error: "The player could not complete the action.",
   players: "Media players · priority order", add: "Add player", remove: "Remove player", name: "Custom name",
   theme: "Style", color: "Color mode", language: "Language", auto: "Automatic", light: "Light", dark: "Dark",
-  minimal: "Minimal", classic: "Classic", searchPlayers: "Search media players", choosePlayer: "Choose a media player", noPlayers: "No matching media players",
+  minimal: "Minimal", classic: "Classic", cassette: "Cassette", searchPlayers: "Search media players", choosePlayer: "Choose a media player", noPlayers: "No matching media players",
   hint: "The playing player is selected automatically. Order determines priority when the card first opens.",
 };
 const it: typeof en = {
@@ -18,7 +18,7 @@ const it: typeof en = {
   artist: "Artista sconosciuto", loading: "In attesa di Home Assistant", error: "Il lettore non ha completato il comando.",
   players: "Lettori multimediali · ordine di priorità", add: "Aggiungi lettore", remove: "Rimuovi lettore", name: "Nome personalizzato",
   theme: "Stile", color: "Colore", language: "Lingua", auto: "Automatico", light: "Chiaro", dark: "Scuro",
-  minimal: "Minimal", classic: "Classic", searchPlayers: "Cerca lettori multimediali", choosePlayer: "Scegli un lettore multimediale", noPlayers: "Nessun lettore corrispondente",
+  minimal: "Minimal", classic: "Classic", cassette: "Cassette", searchPlayers: "Cerca lettori multimediali", choosePlayer: "Scegli un lettore multimediale", noPlayers: "Nessun lettore corrispondente",
   hint: "Viene selezionato automaticamente il lettore in riproduzione. L’ordine determina la priorità all’apertura della card.",
 };
 export type Label = keyof typeof en;

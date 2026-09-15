@@ -11,7 +11,7 @@ export interface HomeAssistant {
   hassUrl?: (path?: string) => string;
   callService(domain: string, service: string, data: Record<string, unknown>): Promise<unknown>;
 }
-export type Theme = "minimal" | "classic";
+export type Theme = "minimal" | "classic" | "cassette";
 export interface Config {
   type: string;
   entities?: string[];

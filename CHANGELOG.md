@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0 — 2026-09-15
+
+Cassette joins Minimal and Classic.
+
+- Added the approved flat Cassette design with a transparent shell, two exposed reels, a visible tape path and playback heads that lift during playback and lower in every non-playing state.
+- Added four rectangular transport/volume keys and a compact artwork, title and seek strip; the layout adapts from 240 to 900 px.
+- Added Cassette to the visual editor and YAML configuration, with automatic, light and dark colors. Minimal remains the default.
+- Reused active-player selection, capability checks, guarded services, artwork fallback and reduced-motion behavior.
+- Passed 13 logic tests, 5 documentation checks, existing Chromium/WebKit regression suites and Cassette coverage in both engines: 10 size/color layouts, reel rotation, head transitions, controls, player handover, fallback and command errors.
+- Updated documentation and actual preview screenshots. Live Home Assistant validation remains pending.
+
 ## 0.3.0 — 2026-09-15
 
 A progress-following tonearm for Minimal and Classic.
