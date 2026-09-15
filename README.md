@@ -77,11 +77,11 @@ Selection itself sends no commands. Playback controls target the displayed entit
 
 The three styles below use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
 
-| Theme | Light | Dark |
-|---|---|---|
-| **Minimal** · default | ![Minimal in light mode](assets/minimal-light.png) | ![Minimal in dark mode](assets/minimal-dark.png) |
-| **Classic** | ![Classic in light mode](assets/classic-light.png) | ![Classic in dark mode](assets/classic-dark.png) |
-| **Cassette** | ![Cassette in light mode](assets/cassette-light.png) | ![Cassette in dark mode](assets/cassette-dark.png) |
+| Light | Dark |
+|---|---|
+| **Minimal · default**<br>![Minimal in light mode](assets/minimal-light.png) | **Minimal · default**<br>![Minimal in dark mode](assets/minimal-dark.png) |
+| **Classic**<br>![Classic in light mode](assets/classic-light.png) | **Classic**<br>![Classic in dark mode](assets/classic-dark.png) |
+| **Cassette**<br>![Cassette in light mode](assets/cassette-light.png) | **Cassette**<br>![Cassette in dark mode](assets/cassette-dark.png) |
 
 **Minimal** puts the record and artwork first. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 

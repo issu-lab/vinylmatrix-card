@@ -48,6 +48,6 @@ test('README gallery uses six equally sized theme previews without legacy collag
     assert.equal(png.readUInt32BE(20),640,file);
     assert.equal(readme.split(`](${file})`).length-1,1,file);
   }
-  assert.ok(readme.includes('| Theme | Light | Dark |'));
+  assert.ok(readme.includes('| Light | Dark |'));
   assert.equal(readme.includes('assets/themes-'),false);
 });
