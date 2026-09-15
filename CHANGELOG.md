@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1 — 2026-09-15
+
+Fix the missing Minimal turntable on Safari/WebKit.
+
+- Reproduced a zero-height Minimal deck in WebKit: the record and tonearm disappeared while metadata and controls remained visible.
+- Give the deck an explicit responsive height and block layout, preserving the approved record and artwork proportions in light and dark modes.
+- Added WebKit regression coverage for 12 size/color combinations, playback states, missing artwork and play/pause. Run these checks in CI alongside the existing 15 Chromium scenarios.
+- Verified the fix with simulated players in Chromium and WebKit; confirmation on a physical iOS device remains pending.
+
 ## 0.2.0 — 2026-09-14
 
 Two reference-aligned themes and searchable players.

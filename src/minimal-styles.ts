@@ -14,7 +14,9 @@ export const minimalStyles = css`
   }
   .minimal .backdrop { opacity:.22; filter:blur(4cqi) saturate(.08); inset:-8%; width:116%; height:116%; }
   .minimal::after { content:""; position:absolute; z-index:-1; inset:0; pointer-events:none; background:linear-gradient(180deg,transparent 48%,var(--surface) 100%); opacity:.55; }
-  .minimal .deck { aspect-ratio:1000 / 837; }
+  /* WebKit can collapse an empty aspect-ratio grid item to 0 × 0. */
+  .minimal .stage { display:block; }
+  .minimal .deck { width:100%; height:83.7cqi; aspect-ratio:auto; }
   .minimal .record {
     left:13.8%; top:8.24%; width:72.3%; background:#080808;
     box-shadow:0 .5cqi 1.1cqi #0007,inset 0 0 0 .65cqi #080808,inset 0 0 0 .9cqi #343434;

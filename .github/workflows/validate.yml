@@ -18,7 +18,7 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: git diff --exit-code -- dist/vinylmatrix-card.js
-      - run: pnpm exec playwright install --with-deps chromium --only-shell
+      - run: pnpm exec playwright install --with-deps chromium webkit --only-shell
       - name: Browser scenarios
         run: |
           pnpm dev --port 5177 --strictPort > /tmp/vinylmatrix-preview.log 2>&1 &
@@ -29,6 +29,7 @@ jobs:
             sleep 1
           done
           pnpm test:browser
+          pnpm test:webkit
   hacs:
     runs-on: ubuntu-latest
     permissions: {}

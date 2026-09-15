@@ -24,8 +24,8 @@ VinylMatrix brings album artwork, a rotating record and a moving tonearm to your
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.2.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.2.0)) |
-| **Validation** | 10 logic tests, 5 documentation checks and 15 browser scenarios ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
+| **Current version** | `0.2.1` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.2.1)) |
+| **Validation** | 10 logic tests, 5 documentation checks, 15 Chromium scenarios and 12 WebKit layout checks ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
@@ -161,7 +161,7 @@ entity: media_player.living_room
 ## Known Limitations
 
 - Live Home Assistant validation is still pending. Distribution through a custom repository does not imply acceptance into the default HACS catalog.
-- Browser scenarios run in Chromium; compatibility across browsers, mobile devices and Home Assistant versions is not yet established.
+- Browser scenarios run in Chromium, with additional Minimal layout and playback regression checks in WebKit. Validation on physical mobile devices and across Home Assistant versions remains pending.
 - Available controls depend on the features reported by the selected player. Unsupported controls are disabled.
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.

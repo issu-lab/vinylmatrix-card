@@ -15,11 +15,12 @@ Open `http://127.0.0.1:5177`. Add `?theme=minimal` or `?theme=classic` for a foc
 Browser checks, with the preview server running:
 
 ```sh
-pnpm exec playwright install chromium --only-shell
+pnpm exec playwright install --with-deps chromium webkit --only-shell
 pnpm test:browser
+pnpm test:webkit
 ```
 
-`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Browser checks regenerate the screenshots in `assets/` using the original sample SVG in `dev/cover.svg`.
+`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Chromium checks regenerate the screenshots in `assets/` using the original sample SVG in `dev/cover.svg`. WebKit checks verify Minimal geometry in both colors from 240 to 900 px, visibility across player states and missing artwork, and play/pause. These simulated checks do not replace validation on a physical iOS device or in Home Assistant.
 
 ### Structure
 

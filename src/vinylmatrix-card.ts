@@ -200,4 +200,4 @@ if (!customElements.get("vinylmatrix-card")) customElements.define("vinylmatrix-
 const registry=window as Window & { customCards?: Array<{type:string;name:string;description:string;preview:boolean}> };
 registry.customCards ??= [];
 if (!registry.customCards.some(card=>card.type === "vinylmatrix-card")) registry.customCards.push({type:"vinylmatrix-card",name:"VinylMatrix Card",description:"An animated turntable for your music players",preview:true});
-console.info("VinylMatrix Card 0.2.0");
+console.info("VinylMatrix Card 0.2.1");
