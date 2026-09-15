@@ -24,8 +24,8 @@ VinylMatrix brings album artwork, a rotating record and a moving tonearm to your
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.2.1` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.2.1)) |
-| **Validation** | 10 logic tests, 5 documentation checks, 15 Chromium scenarios and 12 WebKit layout checks ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
+| **Current version** | `0.3.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.3.0)) |
+| **Validation** | 12 logic tests, 5 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
@@ -45,7 +45,7 @@ It works with existing Home Assistant media players, keeping the same experience
 
 - 🎵 Album artwork, track title, artist and active player.
 - 🔄 Automatic selection from an ordered list of media players.
-- 💿 Rotating record and a tonearm that returns to rest when playback stops or pauses.
+- 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
 - 🎨 Two selectable styles with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
@@ -62,7 +62,9 @@ The playing player takes priority. If several players are playing, VinylMatrix k
 
 When nobody is playing, the last available player remains visible so its artwork and resume control stay accessible. If that player becomes unavailable, the card falls back to the first available configured entry. If all are unavailable, it shows an unavailable state.
 
-The record rotates only during `playing`. The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
+The record rotates only during `playing`. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
+
+The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
 
 Selection itself sends no commands. Playback controls target the displayed entity, and a seek or volume gesture is canceled if the active player changes. Seeking is also canceled when the track changes.
 
@@ -161,7 +163,7 @@ entity: media_player.living_room
 ## Known Limitations
 
 - Live Home Assistant validation is still pending. Distribution through a custom repository does not imply acceptance into the default HACS catalog.
-- Browser scenarios run in Chromium, with additional Minimal layout and playback regression checks in WebKit. Validation on physical mobile devices and across Home Assistant versions remains pending.
+- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and tonearm geometry, playback and motion checks for both themes in both engines. Validation on physical mobile devices and across Home Assistant versions remains pending.
 - Available controls depend on the features reported by the selected player. Unsupported controls are disabled.
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.

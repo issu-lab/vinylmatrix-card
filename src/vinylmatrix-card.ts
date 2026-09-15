@@ -2,7 +2,7 @@ import { LitElement, html, nothing, type PropertyValues } from "lit";
 import { live } from "lit/directives/live.js";
 import { keyed } from "lit/directives/keyed.js";
 import type { Config, NormalizedConfig, HomeAssistant, Player } from "./types.ts";
-import { available, artworkUrl, canSeek, duration, Feature, formatTime, mediaKey, normalizeConfig, number, playbackAction, position, selectPlayer, supports, text } from "./player.ts";
+import { available, artworkUrl, canSeek, duration, Feature, formatTime, mediaKey, normalizeConfig, number, playbackAction, position, progress, selectPlayer, supports, text } from "./player.ts";
 import { labels, type Label } from "./i18n.ts";
 import { minimalArm, icon } from "./graphics.ts";
 import { styles } from "./styles.ts";
@@ -174,7 +174,7 @@ export class VinylMatrixCard extends LitElement {
         ${horizontal ? html`<button aria-label=${t.volume} title=${t.volume} aria-expanded=${this.volumeOpen} ?disabled=${!supports(p,Feature.VOLUME_SET) && !supports(p,Feature.VOLUME_MUTE)} @click=${()=>{this.volumeOpen=!this.volumeOpen;}}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button>` : nothing}
       </div>
 `;
-    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" style=${theme === "classic" ? `--record-period:${this.rpm === 33 ? 60/33 : 60/45}s` : ""} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
+    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" style=${`--arm-progress:${progress(p,this.clock) ?? .35};--record-period:${this.rpm === 33 ? 60/33 : 60/45}s`} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
       ${horizontal && artUrl ? html`<img class="backdrop" src=${artUrl} alt="" referrerpolicy="no-referrer"/>` : nothing}
       <div class="stage">
         <div class="deck" role=${theme === "classic" ? "group" : "img"} aria-label=${`${title} · ${state}`}>
@@ -200,4 +200,4 @@ if (!customElements.get("vinylmatrix-card")) customElements.define("vinylmatrix-
 const registry=window as Window & { customCards?: Array<{type:string;name:string;description:string;preview:boolean}> };
 registry.customCards ??= [];
 if (!registry.customCards.some(card=>card.type === "vinylmatrix-card")) registry.customCards.push({type:"vinylmatrix-card",name:"VinylMatrix Card",description:"An animated turntable for your music players",preview:true});
-console.info("VinylMatrix Card 0.2.1");
+console.info("VinylMatrix Card 0.3.0");

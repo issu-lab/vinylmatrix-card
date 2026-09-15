@@ -30,7 +30,8 @@ export const minimalStyles = css`
   .minimal .cover { inset:27%; box-shadow:0 0 0 .8cqi #080808,0 0 0 .95cqi #8884; }
   .minimal .spindle { width:3%; height:3%; background:radial-gradient(circle at 35% 27%,#fff 0%,#d4d5d2 16%,#929490 35%,#444 68%,#151515 100%); box-shadow:.1cqi .3cqi .35cqi #000a; }
   .minimal .arm-moving { transform-origin:856px 194px; transform:rotate(-15deg); filter:drop-shadow(.2cqi .3cqi .25cqi #0006); }
-  .minimal.playing .arm-moving { transform:rotate(0deg); }
+  /* Sweep the stylus from the outer grooves to just outside the artwork. */
+  .minimal.playing .arm-moving { transform:rotate(calc(3deg + 19deg * var(--arm-progress,.35))); transition:transform 1s linear; }
   .reference-rest { fill:none; stroke:#8d8d8870; stroke-width:3; opacity:1; transition:opacity .3s; }
   .minimal.playing .reference-rest { opacity:0; }
   .minimal .meta { text-align:center; margin:1.6cqi 8% 0; }
@@ -55,5 +56,5 @@ export const minimalStyles = css`
   .minimal .volume-popover { margin:3cqi 10% 0; }
   .minimal .volume-popover .horizontal { margin:0; }
   .minimal .error { margin:3cqi 10% 0; }
-  @media(prefers-reduced-motion:reduce) { .minimal .arm-moving,.reference-rest { transition:none; } }
+  @media(prefers-reduced-motion:reduce) { .minimal .arm-moving,.minimal.playing .arm-moving,.reference-rest { transition:none; } }
 `;

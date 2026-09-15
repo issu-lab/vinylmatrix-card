@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 — 2026-09-15
+
+A progress-following tonearm for Minimal and Classic.
+
+- Move the stylus gradually from the outer grooves toward the label using the selected player's track position and duration, with separate arcs for each theme. The stylus stays outside the artwork.
+- Follow confirmed seeks, track changes and automatic player handovers. Keep a fixed playing position when duration or position is unavailable, including radio streams.
+- Preserve arm parking outside playback and reduced-motion preferences. Smooth the progress updates without sending additional player commands.
+- Fix a zero-sized Classic deck in WebKit above 600 px, found by the new geometry checks.
+- Passed 12 logic tests, 5 documentation checks, the existing Chromium/WebKit suites and shared tonearm regression checks in both engines: 60 groove/label measurements, seek, clock updates, parking, fallback, handover and smooth/reduced motion.
+
+
 ## 0.2.1 — 2026-09-15
 
 Fix the missing Minimal turntable on Safari/WebKit.

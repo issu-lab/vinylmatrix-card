@@ -27,7 +27,7 @@ export function minimalArm() {
       <circle cx="856" cy="194" r="29" fill="#111" stroke="#41413e" stroke-width="3"/>
       <circle cx="856" cy="194" r="17" fill="url(#vm-pivot)" stroke="#bfc0bb" stroke-width="2.5"/>
       <g transform="translate(774 659) rotate(39)">
-        <path d="M0 44v20" stroke="#93938e" stroke-width="2"/>
+        <path class="stylus" d="M0 44v20" stroke="#93938e" stroke-width="2"/>
         <rect x="-19" y="-8" width="38" height="65" rx="12" fill="url(#vm-head)" stroke="#141414" stroke-width="2"/>
         <circle cx="0" cy="32" r="7" fill="#181818" stroke="#d3d5cf" stroke-width="2"/>
       </g>

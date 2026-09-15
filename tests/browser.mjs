@@ -1,3 +1,4 @@
+import { checkTonearm } from './tonearm.mjs';
 // Run against `pnpm dev` after building. Playwright can be installed separately.
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
@@ -171,6 +172,7 @@ try {
   await page.locator('#color').selectOption('dark');
   await classic.screenshot({path:'assets/classic-dark.png'});
   pass('light/dark themes and widths 240/280/340/480/900 have no overflow');
+  await checkTonearm(page);
   assert.deepEqual(errors,[]);
   console.log(`${count} browser scenarios passed; no page errors.`);
 } finally {await browser.close()}

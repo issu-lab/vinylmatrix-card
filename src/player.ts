@@ -58,6 +58,11 @@ export function position(player: Player | undefined, now = Date.now()): number |
   const elapsed = player?.state === "playing" && Number.isFinite(timestamp) ? Math.max(0, (now - timestamp) / 1000) : 0;
   return Math.max(0, Math.min(base + elapsed, duration(player) ?? Infinity));
 }
+/** Normalized track progress; no invented timeline for streams or incomplete metadata. */
+export function progress(player: Player | undefined, now = Date.now()): number | undefined {
+  const total = duration(player), elapsed = position(player, now);
+  return total === undefined || elapsed === undefined ? undefined : Math.min(1, elapsed / total);
+}
 export function mediaKey(player?: Player): string {
   return JSON.stringify([player?.attributes.media_content_id, player?.attributes.media_title, player?.attributes.media_artist, player?.attributes.media_duration]);
 }

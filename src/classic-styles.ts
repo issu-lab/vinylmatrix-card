@@ -12,7 +12,9 @@ export const classicStyles = css`
     border-color:#8d8d8d33;
     background:repeating-linear-gradient(95deg,#ffffff01 0 1px,#00000002 1px 2px),linear-gradient(120deg,#3c3c3c,#2a2a2a 58%,#252525);
   }
-  .classic .deck { aspect-ratio:1000 / 586; }
+  /* Keep the deck sized even when WebKit lays out an empty grid item. */
+  .classic .stage { display:block; }
+  .classic .deck { width:100%; height:58.6cqi; aspect-ratio:auto; }
   .classic .platter-rim { position:absolute; left:13.5%; top:1.29cqi; width:56.2%; height:auto; aspect-ratio:1; filter:drop-shadow(.2cqi .5cqi .45cqi #000000aa); }
   .classic .record {
     width:51.4%; left:15.9%; top:3.69cqi; background:#0a0a0a; border:0; outline:0;
@@ -26,7 +28,8 @@ export const classicStyles = css`
   .classic .cover { inset:32.5%; box-shadow:0 0 0 .15cqi #99999999,0 0 0 .9cqi #0a0a0a; }
   .classic .spindle { width:2.8%; height:2.8%; background:radial-gradient(circle at 34% 27%,#ffffff,#c9c9c9 20%,#737373 42%,#282828 80%); box-shadow:.12cqi .25cqi .35cqi #000000cc; }
   .classic .arm-moving { transform-origin:814px 120px; transform:rotate(-31deg); transition:transform 1.2s cubic-bezier(.4,0,.2,1); }
-  .classic.playing .arm-moving { transform:rotate(0deg); }
+  /* The S arm needs a shorter sweep than Minimal to stay outside its label. */
+  .classic.playing .arm-moving { transform:rotate(calc(-6deg + 17deg * var(--arm-progress,.35))); transition:transform 1s linear; }
   .classic .classic-arm { height:58.6cqi; filter:drop-shadow(.15cqi .35cqi .3cqi #00000077); }
   .classic .deck-buttons { position:absolute; left:3.8%; bottom:3.4cqi; display:flex; align-items:end; gap:2.1cqi; }
   .classic .start-stop {
@@ -78,5 +81,5 @@ export const classicStyles = css`
     .classic-footer > .horizontal { grid-column:1 / 3; grid-row:3; margin-top:8px; padding:0 34px; }
     .classic .classic-volume { width:8%; left:89%; gap:4px; }
   }
-  @media(prefers-reduced-motion:reduce) { .classic .arm-moving { transition:none; } }
+  @media(prefers-reduced-motion:reduce) { .classic .arm-moving,.classic.playing .arm-moving { transition:none; } }
 `;

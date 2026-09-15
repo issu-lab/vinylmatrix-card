@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { artworkUrl, canSeek, duration, Feature, formatTime, normalizeConfig, playbackAction, position, selectPlayer, supports } from '../src/player.ts';
+import { artworkUrl, canSeek, duration, Feature, formatTime, normalizeConfig, playbackAction, position, progress, selectPlayer, supports } from '../src/player.ts';
 const ids=['media_player.living_room','media_player.office'];
 const player=(state='playing',attributes={})=>({entity_id:ids[0],state,attributes});
 test('configuration requires ordered media player ids and preserves explicit list precedence',()=>{
@@ -63,4 +63,18 @@ test('artwork accepts HA proxy URLs and http(s), rejects unsafe or ambiguous sch
   assert.equal(artworkUrl('/api/media_player_proxy/example',path=>'https://ha.example'+path),'https://ha.example/api/media_player_proxy/example');
   assert.equal(artworkUrl('https://example.org/art.jpg'),'https://example.org/art.jpg');
   for(const input of ['javascript:alert(1)','data:text/html,test','//outside.example/a','/\\outside.example','file:///etc/passwd',{},'']) assert.equal(artworkUrl(input),undefined);
+});
+
+test('arm progress follows the playback clock and clamps the track boundaries',()=>{
+  const now=Date.parse('2026-01-01T00:00:10Z');
+  const attributes={media_duration:100,media_position:20,media_position_updated_at:'2026-01-01T00:00:00Z'};
+  assert.equal(progress(player('playing',attributes),now),.3);
+  assert.equal(progress(player('paused',attributes),now),.2);
+  assert.equal(progress(player('playing',attributes),now+100000),1);
+  assert.equal(progress(player('playing',{media_duration:100,media_position:-1}),now),0);
+});
+test('arm progress has no synthetic timeline when duration or position is missing',()=>{
+  for(const attributes of [{media_position:10},{media_duration:100},{media_duration:0,media_position:10},{media_duration:Infinity,media_position:10},{media_duration:100,media_position:NaN}]) {
+    assert.equal(progress(player('playing',attributes)),undefined);
+  }
 });

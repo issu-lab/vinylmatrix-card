@@ -47,7 +47,7 @@ export function classicArm() {
         ${[14,28].map(y=>[ -9,9 ].map(x=>svg`<circle cx=${x} cy=${y} r="4.6" fill="#101010" stroke="#545454" stroke-width=".8"/>`))}
         <path d="M-10 47v8m20-8v8" stroke="#b8b8b8" stroke-width="3" stroke-linecap="round"/>
         <path d="M19 47h31v8H21" fill="#1e1e1e" stroke="#595959"/>
-        <path d="M0 76v8" stroke="#b6b6b6" stroke-width="1.5"/>
+        <path class="stylus" d="M0 76v8" stroke="#b6b6b6" stroke-width="1.5"/>
       </g>
     </g>
   </svg>`;

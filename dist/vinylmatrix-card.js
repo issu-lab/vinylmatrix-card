@@ -35,7 +35,7 @@ const Rt = (i) => new wt(typeof i == "string" ? i : i + "", void 0, at), F = (i,
   for (const r of t.cssRules) e += r.cssText;
   return Rt(e);
 })(i) : i;
-const { is: Lt, defineProperty: Ht, getOwnPropertyDescriptor: It, getOwnPropertyNames: Bt, getOwnPropertySymbols: Vt, getPrototypeOf: Dt } = Object, Y = globalThis, pt = Y.trustedTypes, jt = pt ? pt.emptyScript : "", Gt = Y.reactiveElementPolyfillSupport, O = (i, t) => i, tt = { toAttribute(i, t) {
+const { is: Lt, defineProperty: Ht, getOwnPropertyDescriptor: It, getOwnPropertyNames: Bt, getOwnPropertySymbols: Dt, getPrototypeOf: Vt } = Object, Y = globalThis, pt = Y.trustedTypes, jt = pt ? pt.emptyScript : "", Gt = Y.reactiveElementPolyfillSupport, R = (i, t) => i, tt = { toAttribute(i, t) {
   switch (t) {
     case Boolean:
       i = i ? jt : null;
@@ -65,7 +65,7 @@ const { is: Lt, defineProperty: Ht, getOwnPropertyDescriptor: It, getOwnProperty
   return e;
 } }, _t = (i, t) => !Lt(i, t), ut = { attribute: !0, type: String, converter: tt, reflect: !1, useDefault: !1, hasChanged: _t };
 Symbol.metadata ??= /* @__PURE__ */ Symbol("metadata"), Y.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-let E = class extends HTMLElement {
+let q = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
   }
@@ -93,14 +93,14 @@ let E = class extends HTMLElement {
     return this.elementProperties.get(t) ?? ut;
   }
   static _$Ei() {
-    if (this.hasOwnProperty(O("elementProperties"))) return;
-    const t = Dt(this);
+    if (this.hasOwnProperty(R("elementProperties"))) return;
+    const t = Vt(this);
     t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
   }
   static finalize() {
-    if (this.hasOwnProperty(O("finalized"))) return;
-    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(O("properties"))) {
-      const e = this.properties, r = [...Bt(e), ...Vt(e)];
+    if (this.hasOwnProperty(R("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(R("properties"))) {
+      const e = this.properties, r = [...Bt(e), ...Dt(e)];
       for (const s of r) this.createProperty(s, e[s]);
     }
     const t = this[Symbol.metadata];
@@ -246,23 +246,23 @@ let E = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-E.elementStyles = [], E.shadowRootOptions = { mode: "open" }, E[O("elementProperties")] = /* @__PURE__ */ new Map(), E[O("finalized")] = /* @__PURE__ */ new Map(), Gt?.({ ReactiveElement: E }), (Y.reactiveElementVersions ??= []).push("2.1.2");
-const ot = globalThis, mt = (i) => i, W = ot.trustedTypes, ft = W ? W.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, At = "$lit$", y = `lit$${Math.random().toFixed(9).slice(2)}$`, Et = "?" + y, Wt = `<${Et}>`, w = document, H = () => w.createComment(""), I = (i) => i === null || typeof i != "object" && typeof i != "function", nt = Array.isArray, Kt = (i) => nt(i) || typeof i?.[Symbol.iterator] == "function", J = `[ 	
-\f\r]`, T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, gt = /-->/g, bt = />/g, $ = RegExp(`>|${J}(?:([^\\s"'>=/]+)(${J}*=${J}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), vt = /'/g, xt = /"/g, qt = /^(?:script|style|textarea|title)$/i, St = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), u = St(1), S = St(2), v = /* @__PURE__ */ Symbol.for("lit-noChange"), d = /* @__PURE__ */ Symbol.for("lit-nothing"), yt = /* @__PURE__ */ new WeakMap(), k = w.createTreeWalker(w, 129);
+q.elementStyles = [], q.shadowRootOptions = { mode: "open" }, q[R("elementProperties")] = /* @__PURE__ */ new Map(), q[R("finalized")] = /* @__PURE__ */ new Map(), Gt?.({ ReactiveElement: q }), (Y.reactiveElementVersions ??= []).push("2.1.2");
+const ot = globalThis, mt = (i) => i, W = ot.trustedTypes, ft = W ? W.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, At = "$lit$", y = `lit$${Math.random().toFixed(9).slice(2)}$`, qt = "?" + y, Wt = `<${qt}>`, w = document, H = () => w.createComment(""), I = (i) => i === null || typeof i != "object" && typeof i != "function", nt = Array.isArray, Kt = (i) => nt(i) || typeof i?.[Symbol.iterator] == "function", J = `[ 	
+\f\r]`, U = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, gt = /-->/g, bt = />/g, $ = RegExp(`>|${J}(?:([^\\s"'>=/]+)(${J}*=${J}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), vt = /'/g, xt = /"/g, Et = /^(?:script|style|textarea|title)$/i, St = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), u = St(1), M = St(2), v = /* @__PURE__ */ Symbol.for("lit-noChange"), d = /* @__PURE__ */ Symbol.for("lit-nothing"), yt = /* @__PURE__ */ new WeakMap(), k = w.createTreeWalker(w, 129);
 function Ct(i, t) {
   if (!nt(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return ft !== void 0 ? ft.createHTML(t) : t;
 }
 const Zt = (i, t) => {
   const e = i.length - 1, r = [];
-  let s, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = T;
+  let s, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = U;
   for (let l = 0; l < e; l++) {
     const n = i[l];
     let h, p, c = -1, g = 0;
-    for (; g < n.length && (o.lastIndex = g, p = o.exec(n), p !== null); ) g = o.lastIndex, o === T ? p[1] === "!--" ? o = gt : p[1] !== void 0 ? o = bt : p[2] !== void 0 ? (qt.test(p[2]) && (s = RegExp("</" + p[2], "g")), o = $) : p[3] !== void 0 && (o = $) : o === $ ? p[0] === ">" ? (o = s ?? T, c = -1) : p[1] === void 0 ? c = -2 : (c = o.lastIndex - p[2].length, h = p[1], o = p[3] === void 0 ? $ : p[3] === '"' ? xt : vt) : o === xt || o === vt ? o = $ : o === gt || o === bt ? o = T : (o = $, s = void 0);
+    for (; g < n.length && (o.lastIndex = g, p = o.exec(n), p !== null); ) g = o.lastIndex, o === U ? p[1] === "!--" ? o = gt : p[1] !== void 0 ? o = bt : p[2] !== void 0 ? (Et.test(p[2]) && (s = RegExp("</" + p[2], "g")), o = $) : p[3] !== void 0 && (o = $) : o === $ ? p[0] === ">" ? (o = s ?? U, c = -1) : p[1] === void 0 ? c = -2 : (c = o.lastIndex - p[2].length, h = p[1], o = p[3] === void 0 ? $ : p[3] === '"' ? xt : vt) : o === xt || o === vt ? o = $ : o === gt || o === bt ? o = U : (o = $, s = void 0);
     const m = o === $ && i[l + 1].startsWith("/>") ? " " : "";
-    a += o === T ? n + Wt : c >= 0 ? (r.push(h), n.slice(0, c) + At + n.slice(c) + y + m) : n + y + (c === -2 ? l : m);
+    a += o === U ? n + Wt : c >= 0 ? (r.push(h), n.slice(0, c) + At + n.slice(c) + y + m) : n + y + (c === -2 ? l : m);
   }
   return [Ct(i, a + (i[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 };
@@ -282,7 +282,7 @@ class B {
           const g = p[o++], m = s.getAttribute(c).split(y), x = /([.?@])?(.*)/.exec(g);
           n.push({ type: 1, index: a, name: x[2], strings: m, ctor: x[1] === "." ? Yt : x[1] === "?" ? Qt : x[1] === "@" ? Jt : Q }), s.removeAttribute(c);
         } else c.startsWith(y) && (n.push({ type: 6, index: a }), s.removeAttribute(c));
-        if (qt.test(s.tagName)) {
+        if (Et.test(s.tagName)) {
           const c = s.textContent.split(y), g = c.length - 1;
           if (g > 0) {
             s.textContent = W ? W.emptyScript : "";
@@ -290,7 +290,7 @@ class B {
             s.append(c[g], H());
           }
         }
-      } else if (s.nodeType === 8) if (s.data === Et) n.push({ type: 2, index: a });
+      } else if (s.nodeType === 8) if (s.data === qt) n.push({ type: 2, index: a });
       else {
         let c = -1;
         for (; (c = s.data.indexOf(y, c + 1)) !== -1; ) n.push({ type: 7, index: a }), c += y.length - 1;
@@ -303,11 +303,11 @@ class B {
     return r.innerHTML = t, r;
   }
 }
-function C(i, t, e = i, r) {
+function P(i, t, e = i, r) {
   if (t === v) return t;
   let s = r !== void 0 ? e._$Co?.[r] : e._$Cl;
   const a = I(t) ? void 0 : t._$litDirective$;
-  return s?.constructor !== a && (s?._$AO?.(!1), a === void 0 ? s = void 0 : (s = new a(i), s._$AT(i, e, r)), r !== void 0 ? (e._$Co ??= [])[r] = s : e._$Cl = s), s !== void 0 && (t = C(i, s._$AS(i, t.values), s, r)), t;
+  return s?.constructor !== a && (s?._$AO?.(!1), a === void 0 ? s = void 0 : (s = new a(i), s._$AT(i, e, r)), r !== void 0 ? (e._$Co ??= [])[r] = s : e._$Cl = s), s !== void 0 && (t = P(i, s._$AS(i, t.values), s, r)), t;
 }
 class Ft {
   constructor(t, e) {
@@ -326,7 +326,7 @@ class Ft {
     for (; n !== void 0; ) {
       if (o === n.index) {
         let h;
-        n.type === 2 ? h = new D(a, a.nextSibling, this, t) : n.type === 1 ? h = new n.ctor(a, n.name, n.strings, this, t) : n.type === 6 && (h = new Xt(a, this, t)), this._$AV.push(h), n = r[++l];
+        n.type === 2 ? h = new V(a, a.nextSibling, this, t) : n.type === 1 ? h = new n.ctor(a, n.name, n.strings, this, t) : n.type === 6 && (h = new Xt(a, this, t)), this._$AV.push(h), n = r[++l];
       }
       o !== n?.index && (a = k.nextNode(), o++);
     }
@@ -337,7 +337,7 @@ class Ft {
     for (const r of this._$AV) r !== void 0 && (r.strings !== void 0 ? (r._$AI(t, r, e), e += r.strings.length - 2) : r._$AI(t[e])), e++;
   }
 }
-class D {
+class V {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv;
   }
@@ -356,7 +356,7 @@ class D {
     return this._$AB;
   }
   _$AI(t, e = this) {
-    t = C(this, t, e), I(t) ? t === d || t == null || t === "" ? (this._$AH !== d && this._$AR(), this._$AH = d) : t !== this._$AH && t !== v && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Kt(t) ? this.k(t) : this._(t);
+    t = P(this, t, e), I(t) ? t === d || t == null || t === "" ? (this._$AH !== d && this._$AR(), this._$AH = d) : t !== this._$AH && t !== v && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Kt(t) ? this.k(t) : this._(t);
   }
   O(t) {
     return this._$AA.parentNode.insertBefore(t, this._$AB);
@@ -383,7 +383,7 @@ class D {
     nt(this._$AH) || (this._$AH = [], this._$AR());
     const e = this._$AH;
     let r, s = 0;
-    for (const a of t) s === e.length ? e.push(r = new D(this.O(H()), this.O(H()), this, this.options)) : r = e[s], r._$AI(a), s++;
+    for (const a of t) s === e.length ? e.push(r = new V(this.O(H()), this.O(H()), this, this.options)) : r = e[s], r._$AI(a), s++;
     s < e.length && (this._$AR(r && r._$AB.nextSibling, s), e.length = s);
   }
   _$AR(t = this._$AA.nextSibling, e) {
@@ -409,11 +409,11 @@ class Q {
   _$AI(t, e = this, r, s) {
     const a = this.strings;
     let o = !1;
-    if (a === void 0) t = C(this, t, e, 0), o = !I(t) || t !== this._$AH && t !== v, o && (this._$AH = t);
+    if (a === void 0) t = P(this, t, e, 0), o = !I(t) || t !== this._$AH && t !== v, o && (this._$AH = t);
     else {
       const l = t;
       let n, h;
-      for (t = a[0], n = 0; n < a.length - 1; n++) h = C(this, l[r + n], e, n), h === v && (h = this._$AH[n]), o ||= !I(h) || h !== this._$AH[n], h === d ? t = d : t !== d && (t += (h ?? "") + a[n + 1]), this._$AH[n] = h;
+      for (t = a[0], n = 0; n < a.length - 1; n++) h = P(this, l[r + n], e, n), h === v && (h = this._$AH[n]), o ||= !I(h) || h !== this._$AH[n], h === d ? t = d : t !== d && (t += (h ?? "") + a[n + 1]), this._$AH[n] = h;
     }
     o && !s && this.j(t);
   }
@@ -442,7 +442,7 @@ class Jt extends Q {
     super(t, e, r, s, a), this.type = 5;
   }
   _$AI(t, e = this) {
-    if ((t = C(this, t, e, 0) ?? d) === v) return;
+    if ((t = P(this, t, e, 0) ?? d) === v) return;
     const r = this._$AH, s = t === d && r !== d || t.capture !== r.capture || t.once !== r.once || t.passive !== r.passive, a = t !== d && (r === d || s);
     s && this.element.removeEventListener(this.name, this, r), a && this.element.addEventListener(this.name, this, t), this._$AH = t;
   }
@@ -458,22 +458,22 @@ class Xt {
     return this._$AM._$AU;
   }
   _$AI(t) {
-    C(this, t);
+    P(this, t);
   }
 }
 const te = ot.litHtmlPolyfillSupport;
-te?.(B, D), (ot.litHtmlVersions ??= []).push("3.3.3");
+te?.(B, V), (ot.litHtmlVersions ??= []).push("3.3.3");
 const ee = (i, t, e) => {
   const r = e?.renderBefore ?? t;
   let s = r._$litPart$;
   if (s === void 0) {
     const a = e?.renderBefore ?? null;
-    r._$litPart$ = s = new D(t.insertBefore(H(), a), a, void 0, e ?? {});
+    r._$litPart$ = s = new V(t.insertBefore(H(), a), a, void 0, e ?? {});
   }
   return s._$AI(i), s;
 };
 const lt = globalThis;
-let q = class extends E {
+let S = class extends q {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -495,9 +495,9 @@ let q = class extends E {
     return v;
   }
 };
-q._$litElement$ = !0, q.finalized = !0, lt.litElementHydrateSupport?.({ LitElement: q });
+S._$litElement$ = !0, S.finalized = !0, lt.litElementHydrateSupport?.({ LitElement: S });
 const ie = lt.litElementPolyfillSupport;
-ie?.({ LitElement: q });
+ie?.({ LitElement: S });
 (lt.litElementVersions ??= []).push("4.2.2");
 const _ = { ATTRIBUTE: 1, PROPERTY: 3, BOOLEAN_ATTRIBUTE: 4 }, Mt = (i) => (...t) => ({ _$litDirective$: i, values: t });
 let Pt = class {
@@ -571,48 +571,52 @@ function ne(i) {
   if (i.name !== void 0 && typeof i.name != "string") throw new Error("VinylMatrix: name must be text.");
   return { ...i, entities: [...new Set(t)], theme: e, color_mode: i.color_mode ?? "auto", language: i.language ?? "auto" };
 }
-function V(i) {
+function D(i) {
   return !!i && !["unavailable", "unknown"].includes(i.state);
 }
 function Ut(i) {
-  return V(i) && !["off", "standby"].includes(i.state);
+  return D(i) && !["off", "standby"].includes(i.state);
 }
 function le(i, t, e) {
   const r = i.filter((s) => t[s]?.state === "playing");
-  return e && r.includes(e) ? e : r.length ? r[0] : e && i.includes(e) && V(t[e]) ? e : i.find((s) => V(t[s])) ?? i[0];
+  return e && r.includes(e) ? e : r.length ? r[0] : e && i.includes(e) && D(t[e]) ? e : i.find((s) => D(t[s])) ?? i[0];
 }
 function b(i, t) {
   const e = i?.attributes.supported_features;
   return Ut(i) && typeof e == "number" && (e & t) === t;
 }
-function R(i) {
+function N(i) {
   return typeof i == "number" && Number.isFinite(i) ? i : void 0;
 }
-function z(i) {
+function O(i) {
   return typeof i == "string" ? i : "";
 }
-function N(i) {
-  const t = R(i?.attributes.media_duration);
+function C(i) {
+  const t = N(i?.attributes.media_duration);
   return t !== void 0 && t > 0 ? t : void 0;
 }
-function U(i, t = Date.now()) {
-  const e = R(i?.attributes.media_position);
+function E(i, t = Date.now()) {
+  const e = N(i?.attributes.media_position);
   if (e === void 0) return;
-  const r = Date.parse(z(i?.attributes.media_position_updated_at)), s = i?.state === "playing" && Number.isFinite(r) ? Math.max(0, (t - r) / 1e3) : 0;
-  return Math.max(0, Math.min(e + s, N(i) ?? 1 / 0));
+  const r = Date.parse(O(i?.attributes.media_position_updated_at)), s = i?.state === "playing" && Number.isFinite(r) ? Math.max(0, (t - r) / 1e3) : 0;
+  return Math.max(0, Math.min(e + s, C(i) ?? 1 / 0));
+}
+function ce(i, t = Date.now()) {
+  const e = C(i), r = E(i, t);
+  return e === void 0 || r === void 0 ? void 0 : Math.min(1, r / e);
 }
 function X(i) {
   return JSON.stringify([i?.attributes.media_content_id, i?.attributes.media_title, i?.attributes.media_artist, i?.attributes.media_duration]);
 }
 function $t(i) {
-  return b(i, f.SEEK) && N(i) !== void 0 && U(i) !== void 0;
+  return b(i, f.SEEK) && C(i) !== void 0 && E(i) !== void 0;
 }
 function j(i) {
   if (i === void 0 || !Number.isFinite(i)) return "—:—";
   const t = Math.max(0, Math.floor(i)), e = Math.floor(t / 3600);
   return `${e ? `${e}:` : ""}${String(Math.floor(t / 60) % 60).padStart(e ? 2 : 1, "0")}:${String(t % 60).padStart(2, "0")}`;
 }
-function ce(i) {
+function de(i) {
   if (Ut(i)) {
     if (i.state === "playing") {
       if (b(i, f.PAUSE)) return { service: "media_pause", feature: f.PAUSE, icon: "pause" };
@@ -626,7 +630,7 @@ function kt(i, t = (e) => e) {
   if (/^https?:\/\//i.test(e)) return e;
   if (e.startsWith("/") && !e.startsWith("//") && !e.includes("\\")) return t(e);
 }
-const de = {
+const he = {
   recordSpeed: "Record animation speed",
   play: "Play",
   pause: "Pause",
@@ -665,7 +669,7 @@ const de = {
   choosePlayer: "Choose a media player",
   noPlayers: "No matching media players",
   hint: "The playing player is selected automatically. Order determines priority when the card first opens."
-}, he = {
+}, pe = {
   recordSpeed: "Velocità animazione disco",
   play: "Riproduci",
   pause: "Pausa",
@@ -706,7 +710,7 @@ const de = {
   hint: "Viene selezionato automaticamente il lettore in riproduzione. L’ordine determina la priorità all’apertura della card."
 };
 function L(i, t) {
-  return (i?.language && i.language !== "auto" ? i.language : t?.locale?.language ?? t?.language ?? "en").toLowerCase().startsWith("it") ? he : de;
+  return (i?.language && i.language !== "auto" ? i.language : t?.locale?.language ?? t?.language ?? "en").toLowerCase().startsWith("it") ? pe : he;
 }
 function A(i) {
   const t = {
@@ -719,10 +723,10 @@ function A(i) {
     mute: "M4 9v6h4l5 4V5L8 9ZM17 9l5 6M22 9l-5 6",
     progress: "M12 7v5l3 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"
   };
-  return S`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d=${t[i] ?? t.play}/></svg>`;
+  return M`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d=${t[i] ?? t.play}/></svg>`;
 }
-function pe() {
-  return S`<svg class="tonearm reference-arm" viewBox="0 0 1000 837" aria-hidden="true">
+function ue() {
+  return M`<svg class="tonearm reference-arm" viewBox="0 0 1000 837" aria-hidden="true">
     <defs>
       <linearGradient id="vm-metal" x1="0" x2="1"><stop stop-color="#1b1b1b"/><stop offset=".24" stop-color="#747474"/><stop offset=".46" stop-color="#ededeb"/><stop offset=".65" stop-color="#939392"/><stop offset="1" stop-color="#292929"/></linearGradient>
       <linearGradient id="vm-head" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#353535"/><stop offset="1" stop-color="#101010"/></linearGradient>
@@ -738,14 +742,14 @@ function pe() {
       <circle cx="856" cy="194" r="29" fill="#111" stroke="#41413e" stroke-width="3"/>
       <circle cx="856" cy="194" r="17" fill="url(#vm-pivot)" stroke="#bfc0bb" stroke-width="2.5"/>
       <g transform="translate(774 659) rotate(39)">
-        <path d="M0 44v20" stroke="#93938e" stroke-width="2"/>
+        <path class="stylus" d="M0 44v20" stroke="#93938e" stroke-width="2"/>
         <rect x="-19" y="-8" width="38" height="65" rx="12" fill="url(#vm-head)" stroke="#141414" stroke-width="2"/>
         <circle cx="0" cy="32" r="7" fill="#181818" stroke="#d3d5cf" stroke-width="2"/>
       </g>
     </g>
   </svg>`;
 }
-const ue = F`
+const me = F`
   :host { display:block; min-width:0; container-type:inline-size; }
   * { box-sizing:border-box; }
   .card { --surface:#edece8; --ink:#292c2e; --muted:#656866; --line:rgba(55,58,58,.23);
@@ -819,7 +823,7 @@ const ue = F`
   @keyframes spin { to { transform:rotate(360deg); } }
   @media (prefers-reduced-motion:reduce) { .rotor { animation:none; } .arm-moving { transition:none; } }
   @container (max-width:280px) { .card { padding:10px; } .stage.lateral { grid-template-columns:minmax(0,1fr) 54px; } .transport { gap:5px; } .side { padding-top:8px; } .title { font-size:16px; } }
-`, me = F`
+`, fe = F`
   .card.minimal {
     --surface:#dedbd6; --ink:#292827; --muted:#615e5a; --line:#57534d55;
     padding:0 0 8.7cqi; border:0;
@@ -848,7 +852,8 @@ const ue = F`
   .minimal .cover { inset:27%; box-shadow:0 0 0 .8cqi #080808,0 0 0 .95cqi #8884; }
   .minimal .spindle { width:3%; height:3%; background:radial-gradient(circle at 35% 27%,#fff 0%,#d4d5d2 16%,#929490 35%,#444 68%,#151515 100%); box-shadow:.1cqi .3cqi .35cqi #000a; }
   .minimal .arm-moving { transform-origin:856px 194px; transform:rotate(-15deg); filter:drop-shadow(.2cqi .3cqi .25cqi #0006); }
-  .minimal.playing .arm-moving { transform:rotate(0deg); }
+  /* Sweep the stylus from the outer grooves to just outside the artwork. */
+  .minimal.playing .arm-moving { transform:rotate(calc(3deg + 19deg * var(--arm-progress,.35))); transition:transform 1s linear; }
   .reference-rest { fill:none; stroke:#8d8d8870; stroke-width:3; opacity:1; transition:opacity .3s; }
   .minimal.playing .reference-rest { opacity:0; }
   .minimal .meta { text-align:center; margin:1.6cqi 8% 0; }
@@ -873,8 +878,8 @@ const ue = F`
   .minimal .volume-popover { margin:3cqi 10% 0; }
   .minimal .volume-popover .horizontal { margin:0; }
   .minimal .error { margin:3cqi 10% 0; }
-  @media(prefers-reduced-motion:reduce) { .minimal .arm-moving,.reference-rest { transition:none; } }
-`, fe = F`
+  @media(prefers-reduced-motion:reduce) { .minimal .arm-moving,.minimal.playing .arm-moving,.reference-rest { transition:none; } }
+`, ge = F`
   .card.classic {
     --surface:#c9c9c9; --ink:#2b2b2b; --muted:#656565; --line:#39393944;
     padding:0; border:1px solid #95959566; border-radius:3.2cqi;
@@ -886,7 +891,9 @@ const ue = F`
     border-color:#8d8d8d33;
     background:repeating-linear-gradient(95deg,#ffffff01 0 1px,#00000002 1px 2px),linear-gradient(120deg,#3c3c3c,#2a2a2a 58%,#252525);
   }
-  .classic .deck { aspect-ratio:1000 / 586; }
+  /* Keep the deck sized even when WebKit lays out an empty grid item. */
+  .classic .stage { display:block; }
+  .classic .deck { width:100%; height:58.6cqi; aspect-ratio:auto; }
   .classic .platter-rim { position:absolute; left:13.5%; top:1.29cqi; width:56.2%; height:auto; aspect-ratio:1; filter:drop-shadow(.2cqi .5cqi .45cqi #000000aa); }
   .classic .record {
     width:51.4%; left:15.9%; top:3.69cqi; background:#0a0a0a; border:0; outline:0;
@@ -900,7 +907,8 @@ const ue = F`
   .classic .cover { inset:32.5%; box-shadow:0 0 0 .15cqi #99999999,0 0 0 .9cqi #0a0a0a; }
   .classic .spindle { width:2.8%; height:2.8%; background:radial-gradient(circle at 34% 27%,#ffffff,#c9c9c9 20%,#737373 42%,#282828 80%); box-shadow:.12cqi .25cqi .35cqi #000000cc; }
   .classic .arm-moving { transform-origin:814px 120px; transform:rotate(-31deg); transition:transform 1.2s cubic-bezier(.4,0,.2,1); }
-  .classic.playing .arm-moving { transform:rotate(0deg); }
+  /* The S arm needs a shorter sweep than Minimal to stay outside its label. */
+  .classic.playing .arm-moving { transform:rotate(calc(-6deg + 17deg * var(--arm-progress,.35))); transition:transform 1s linear; }
   .classic .classic-arm { height:58.6cqi; filter:drop-shadow(.15cqi .35cqi .3cqi #00000077); }
   .classic .deck-buttons { position:absolute; left:3.8%; bottom:3.4cqi; display:flex; align-items:end; gap:2.1cqi; }
   .classic .start-stop {
@@ -952,19 +960,19 @@ const ue = F`
     .classic-footer > .horizontal { grid-column:1 / 3; grid-row:3; margin-top:8px; padding:0 34px; }
     .classic .classic-volume { width:8%; left:89%; gap:4px; }
   }
-  @media(prefers-reduced-motion:reduce) { .classic .arm-moving { transition:none; } }
+  @media(prefers-reduced-motion:reduce) { .classic .arm-moving,.classic.playing .arm-moving { transition:none; } }
 `;
-function ge() {
-  return S`<svg class="platter-rim" viewBox="0 0 100 100" aria-hidden="true">
+function be() {
+  return M`<svg class="platter-rim" viewBox="0 0 100 100" aria-hidden="true">
     <defs><linearGradient id="vm-rim" x2=".8" y2="1"><stop stop-color="#b3b3b3"/><stop offset=".3" stop-color="#4a4a4a"/><stop offset=".58" stop-color="#a7a7a7"/><stop offset="1" stop-color="#404040"/></linearGradient></defs>
     <circle cx="50" cy="50" r="49.7" fill="#181818" stroke="#090909" stroke-width=".6"/>
     <circle cx="50" cy="50" r="49.2" fill="none" stroke="url(#vm-rim)" stroke-width=".4"/>
-    ${[48.5, 47.6, 46.7].map((i, t) => S`<circle cx="50" cy="50" r=${i} fill="none" stroke="url(#vm-rim)" stroke-width=${0.42 - t * 0.05} stroke-dasharray=${`.01 ${1.75 - t * 0.035}`} stroke-linecap="round"/>`)}
+    ${[48.5, 47.6, 46.7].map((i, t) => M`<circle cx="50" cy="50" r=${i} fill="none" stroke="url(#vm-rim)" stroke-width=${0.42 - t * 0.05} stroke-dasharray=${`.01 ${1.75 - t * 0.035}`} stroke-linecap="round"/>`)}
     <circle cx="50" cy="50" r="45.7" fill="#111111" stroke="url(#vm-rim)" stroke-width=".35"/>
   </svg>`;
 }
-function be() {
-  return S`<svg class="tonearm classic-arm" viewBox="0 0 1000 586" aria-hidden="true">
+function ve() {
+  return M`<svg class="tonearm classic-arm" viewBox="0 0 1000 586" aria-hidden="true">
     <defs>
       <linearGradient id="vm-classic-metal"><stop stop-color="#323232"/><stop offset=".22" stop-color="#9a9a9a"/><stop offset=".42" stop-color="#f1f1f1"/><stop offset=".56" stop-color="#c1c1c1"/><stop offset=".85" stop-color="#676767"/><stop offset="1" stop-color="#333333"/></linearGradient>
       <radialGradient id="vm-classic-base"><stop stop-color="#434343"/><stop offset=".7" stop-color="#2a2a2a"/><stop offset="1" stop-color="#181818"/></radialGradient>
@@ -997,15 +1005,15 @@ function be() {
         <path d="M-13-12h26m-26 4h26m-26 4h26" stroke="#d6d6d688"/>
         <path d="M-16 59v17h32V59" fill="#b8b8b8" stroke="#414141"/>
         <rect x="-20" y="5" width="40" height="66" rx="4" fill="url(#vm-classic-head)" stroke="#747474" stroke-width="1"/>
-        ${[14, 28].map((i) => [-9, 9].map((t) => S`<circle cx=${t} cy=${i} r="4.6" fill="#101010" stroke="#545454" stroke-width=".8"/>`))}
+        ${[14, 28].map((i) => [-9, 9].map((t) => M`<circle cx=${t} cy=${i} r="4.6" fill="#101010" stroke="#545454" stroke-width=".8"/>`))}
         <path d="M-10 47v8m20-8v8" stroke="#b8b8b8" stroke-width="3" stroke-linecap="round"/>
         <path d="M19 47h31v8H21" fill="#1e1e1e" stroke="#595959"/>
-        <path d="M0 76v8" stroke="#b6b6b6" stroke-width="1.5"/>
+        <path class="stylus" d="M0 76v8" stroke="#b6b6b6" stroke-width="1.5"/>
       </g>
     </g>
   </svg>`;
 }
-const K = class K extends q {
+const K = class K extends S {
   constructor() {
     super(...arguments), this.config = { type: "custom:vinylmatrix-card", entities: [], theme: "minimal" }, this.queries = {};
   }
@@ -1073,7 +1081,7 @@ K.properties = { hass: { attribute: !1 }, config: { state: !0 }, queries: { stat
   `;
 let et = K;
 customElements.get("vinylmatrix-card-editor") || customElements.define("vinylmatrix-card-editor", et);
-const Z = class Z extends q {
+const Z = class Z extends S {
   constructor() {
     super(...arguments), this.clock = Date.now(), this.failedArt = "", this.error = "", this.busy = !1, this.rpm = 33, this.volumeOpen = !1, this.commandGeneration = 0, this.visibilityChanged = () => {
       this.clock = Date.now(), this.syncTimer();
@@ -1112,7 +1120,7 @@ const Z = class Z extends q {
     this.timer && clearInterval(this.timer), this.timer = void 0;
   }
   syncTimer() {
-    this.isConnected && !document.hidden && this.player?.state === "playing" && U(this.player) !== void 0 ? this.timer || (this.timer = setInterval(() => {
+    this.isConnected && !document.hidden && this.player?.state === "playing" && E(this.player) !== void 0 ? this.timer || (this.timer = setInterval(() => {
       this.clock = Date.now();
     }, 1e3)) : this.stopTimer();
   }
@@ -1141,7 +1149,7 @@ const Z = class Z extends q {
     if (this.gesture = void 0, !(!s || s.canceled || s.entity !== this.active || s.kind !== t)) {
       if (t === "seek") {
         if (!$t(this.player) || s.key !== X(this.player)) return;
-        await this.command("media_seek", f.SEEK, { seek_position: Math.min(N(this.player), Math.max(0, r)) }, s.entity);
+        await this.command("media_seek", f.SEEK, { seek_position: Math.min(C(this.player), Math.max(0, r)) }, s.entity);
       } else
         await this.command("volume_set", f.VOLUME_SET, { volume_level: Math.max(0, Math.min(1, r)) }, s.entity);
       this.requestUpdate();
@@ -1160,7 +1168,7 @@ const Z = class Z extends q {
     }
   }
   slider(t, e = !1) {
-    const r = L(this.config, this.hass), s = this.player, a = t === "seek", o = a ? N(s) ?? 1 : 1, l = a ? U(s, this.clock) ?? 0 : Math.max(0, Math.min(1, R(s?.attributes.volume_level) ?? 0)), n = this.gesture?.kind === t && !this.gesture.canceled ? this.gesture.value : l, h = a ? $t(s) : b(s, f.VOLUME_SET) && R(s?.attributes.volume_level) !== void 0, p = a ? r.progress : r.volume;
+    const r = L(this.config, this.hass), s = this.player, a = t === "seek", o = a ? C(s) ?? 1 : 1, l = a ? E(s, this.clock) ?? 0 : Math.max(0, Math.min(1, N(s?.attributes.volume_level) ?? 0)), n = this.gesture?.kind === t && !this.gesture.canceled ? this.gesture.value : l, h = a ? $t(s) : b(s, f.VOLUME_SET) && N(s?.attributes.volume_level) !== void 0, p = a ? r.progress : r.volume;
     return u`<div class=${e ? "vertical" : "horizontal"}>
       ${e ? A(a ? "progress" : "volume") : d}
       <input data-kind=${t} type="range" min="0" max=${o} step=${a ? "1" : "0.01"}
@@ -1181,46 +1189,46 @@ const Z = class Z extends q {
         @change=${(c) => this.commitSlider(t, c)} @blur=${() => {
       this.gesture = void 0;
     }}/>
-      ${e ? u`<output>${a ? j(U(s, this.clock)) : R(s?.attributes.volume_level) === void 0 ? "—" : `${Math.round(n * 100)}%`}</output>` : a ? u`<div class="times"><span>${j(U(s, this.clock))}</span><span>${j(N(s))}</span></div>` : d}
+      ${e ? u`<output>${a ? j(E(s, this.clock)) : N(s?.attributes.volume_level) === void 0 ? "—" : `${Math.round(n * 100)}%`}</output>` : a ? u`<div class="times"><span>${j(E(s, this.clock))}</span><span>${j(C(s))}</span></div>` : d}
     </div>`;
   }
   render() {
     const t = L(this.config, this.hass);
     if (!this.config || !this.hass) return u`<div class="empty">${t.loading}</div>`;
-    const e = this.player, r = e?.state === "playing", s = this.config.theme, a = s === "minimal", o = this.config.color_mode === "dark" || this.config.color_mode === "auto" && (this.hass.themes?.darkMode ?? !1), l = this.art(), n = l && l !== this.failedArt ? l : void 0, h = V(e) ? e.state in t ? t[e.state] : e.state : t.unavailable, p = V(e) ? z(e.attributes.media_title) || t.idle : t.unavailable, c = z(e?.attributes.media_artist) || z(e?.attributes.media_album_artist) || t.artist, g = this.config.name || z(e?.attributes.friendly_name) || this.active, m = ce(e), x = m ? t[m.icon] : t.play, M = this.active, Ot = n ? u`<img src=${n} alt="" referrerpolicy="no-referrer" @error=${() => {
+    const e = this.player, r = e?.state === "playing", s = this.config.theme, a = s === "minimal", o = this.config.color_mode === "dark" || this.config.color_mode === "auto" && (this.hass.themes?.darkMode ?? !1), l = this.art(), n = l && l !== this.failedArt ? l : void 0, h = D(e) ? e.state in t ? t[e.state] : e.state : t.unavailable, p = D(e) ? O(e.attributes.media_title) || t.idle : t.unavailable, c = O(e?.attributes.media_artist) || O(e?.attributes.media_album_artist) || t.artist, g = this.config.name || O(e?.attributes.friendly_name) || this.active, m = de(e), x = m ? t[m.icon] : t.play, T = this.active, Ot = n ? u`<img src=${n} alt="" referrerpolicy="no-referrer" @error=${() => {
       this.failedArt = n;
     }}/>` : d, ct = u`      <div class="meta"><h2 class="title" title=${p}>${p}</h2><p class="artist" title=${c}>${c}</p></div>
       <p class="player" title=${`${g} · ${h}`}><span class="dot"></span>${g} · ${h}</p>
       ${this.slider("seek")}
       <div class="transport">
-        <button aria-label=${t.previous} title=${t.previous} ?disabled=${!b(e, f.PREVIOUS_TRACK) || this.busy} @click=${() => this.command("media_previous_track", f.PREVIOUS_TRACK, {}, M)}>${A("previous")}</button>
-        <button class="primary" aria-label=${x} title=${x} ?disabled=${!m || this.busy} @click=${() => m && this.command(m.service, m.feature, {}, M)}>${A(m?.icon ?? "play")}</button>
-        <button aria-label=${t.next} title=${t.next} ?disabled=${!b(e, f.NEXT_TRACK) || this.busy} @click=${() => this.command("media_next_track", f.NEXT_TRACK, {}, M)}>${A("next")}</button>
+        <button aria-label=${t.previous} title=${t.previous} ?disabled=${!b(e, f.PREVIOUS_TRACK) || this.busy} @click=${() => this.command("media_previous_track", f.PREVIOUS_TRACK, {}, T)}>${A("previous")}</button>
+        <button class="primary" aria-label=${x} title=${x} ?disabled=${!m || this.busy} @click=${() => m && this.command(m.service, m.feature, {}, T)}>${A(m?.icon ?? "play")}</button>
+        <button aria-label=${t.next} title=${t.next} ?disabled=${!b(e, f.NEXT_TRACK) || this.busy} @click=${() => this.command("media_next_track", f.NEXT_TRACK, {}, T)}>${A("next")}</button>
         ${a ? u`<button aria-label=${t.volume} title=${t.volume} aria-expanded=${this.volumeOpen} ?disabled=${!b(e, f.VOLUME_SET) && !b(e, f.VOLUME_MUTE)} @click=${() => {
       this.volumeOpen = !this.volumeOpen;
     }}>${A(e?.attributes.is_volume_muted ? "mute" : "volume")}</button>` : d}
       </div>
 `;
-    return u`<ha-card class="card ${s} ${o ? "dark" : "light"} ${r ? "playing" : ""}" style=${s === "classic" ? `--record-period:${this.rpm === 33 ? 60 / 33 : 60 / 45}s` : ""} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${g}`}>
+    return u`<ha-card class="card ${s} ${o ? "dark" : "light"} ${r ? "playing" : ""}" style=${`--arm-progress:${ce(e, this.clock) ?? 0.35};--record-period:${this.rpm === 33 ? 60 / 33 : 60 / 45}s`} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${g}`}>
       ${a && n ? u`<img class="backdrop" src=${n} alt="" referrerpolicy="no-referrer"/>` : d}
       <div class="stage">
         <div class="deck" role=${s === "classic" ? "group" : "img"} aria-label=${`${p} · ${h}`}>
-          ${s === "classic" ? ge() : d}
+          ${s === "classic" ? be() : d}
           <div class="record"><div class="rotor"><div class="cover">${oe(n ?? "fallback", n ? Ot : u`<div class="fallback" aria-hidden="true">♫</div>`)}</div></div><span class="spindle"></span></div>
-          ${s === "classic" ? be() : pe()}
+          ${s === "classic" ? ve() : ue()}
           ${s === "classic" ? u`
             <div class="deck-buttons">
-              <button class="start-stop" aria-label=${`Start / Stop · ${x}`} title=${x} ?disabled=${!m || this.busy} @click=${() => m && this.command(m.service, m.feature, {}, M)}><span>START<br/>STOP</span></button>
-              <div class="speed-buttons" role="group" aria-label=${t.recordSpeed}>${[33, 45].map((P) => u`<button aria-pressed=${this.rpm === P} title=${`${t.recordSpeed}: ${P}`} aria-label=${`${t.recordSpeed}: ${P}`} @click=${() => {
-      this.rpm = P;
-    }}>${P}</button>`)}</div>
+              <button class="start-stop" aria-label=${`Start / Stop · ${x}`} title=${x} ?disabled=${!m || this.busy} @click=${() => m && this.command(m.service, m.feature, {}, T)}><span>START<br/>STOP</span></button>
+              <div class="speed-buttons" role="group" aria-label=${t.recordSpeed}>${[33, 45].map((z) => u`<button aria-pressed=${this.rpm === z} title=${`${t.recordSpeed}: ${z}`} aria-label=${`${t.recordSpeed}: ${z}`} @click=${() => {
+      this.rpm = z;
+    }}>${z}</button>`)}</div>
             </div>
             <div class="classic-volume"><span>${t.volume}</span>${this.slider("volume", !0)}</div>
           ` : d}
         </div>
       </div>
       ${s === "classic" ? u`<div class="classic-footer">${ct}</div>` : ct}
-      ${a && this.volumeOpen ? u`<div class="volume-popover"><button aria-label=${e?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!b(e, f.VOLUME_MUTE) || this.busy} @click=${() => this.command("volume_mute", f.VOLUME_MUTE, { is_volume_muted: !e?.attributes.is_volume_muted }, M)}>${A(e?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : d}
+      ${a && this.volumeOpen ? u`<div class="volume-popover"><button aria-label=${e?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!b(e, f.VOLUME_MUTE) || this.busy} @click=${() => this.command("volume_mute", f.VOLUME_MUTE, { is_volume_muted: !e?.attributes.is_volume_muted }, T)}>${A(e?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : d}
       ${this.error ? u`<p class="error" role="alert">${this.error}</p>` : d}
     </ha-card>`;
   }
@@ -1236,13 +1244,13 @@ Z.properties = {
   busy: { state: !0 },
   volumeOpen: { state: !0 },
   gesture: { state: !0 }
-}, Z.styles = [ue, me, fe];
+}, Z.styles = [me, fe, ge];
 let it = Z;
 customElements.get("vinylmatrix-card") || customElements.define("vinylmatrix-card", it);
 const rt = window;
 rt.customCards ??= [];
 rt.customCards.some((i) => i.type === "vinylmatrix-card") || rt.customCards.push({ type: "vinylmatrix-card", name: "VinylMatrix Card", description: "An animated turntable for your music players", preview: !0 });
-console.info("VinylMatrix Card 0.2.1");
+console.info("VinylMatrix Card 0.3.0");
 export {
   it as VinylMatrixCard
 };
