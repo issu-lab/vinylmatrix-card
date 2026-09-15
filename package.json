@@ -1,6 +1,6 @@
 {
   "name": "vinylmatrix-card",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "description": "An animated turntable and cassette music card for Home Assistant",
   "license": "MIT",

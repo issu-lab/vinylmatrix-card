@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-export async function checkCassette(page,{screenshots=false}={}) {
+export async function checkCassette(page) {
   await page.goto(process.env.PREVIEW_URL ?? 'http://127.0.0.1:5177');
   const card=page.locator('vinylmatrix-card').nth(2);
   await card.locator('.cassette').waitFor();
@@ -90,11 +90,5 @@ export async function checkCassette(page,{screenshots=false}={}) {
   assert.deepEqual(await card.locator('.reel-spin').evaluateAll(es=>es.map(e=>getComputedStyle(e).animationName)),['none','none']);
   assert.equal(await card.locator('.cassette-heads').evaluate(e=>getComputedStyle(e).transitionDuration),'0s');
   await update('playing',{media_title:'Night Session',media_artist:'Studio Ensemble',media_position:138,media_position_updated_at:null});
-  if(screenshots) {
-    for(const color of ['dark','light']) {
-      await page.locator('#color').selectOption(color);
-      await card.screenshot({path:`assets/cassette-${color}.png`});
-    }
-  }
   console.log('Cassette: 10 size/color layouts, reels, head lift/parking, controls, handover, fallback, error and reduced motion passed.');
 }

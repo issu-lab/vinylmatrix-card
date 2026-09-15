@@ -1017,6 +1017,7 @@ function xe() {
 }
 function ye() {
   return b`<svg class="cassette-mechanism" viewBox="0 0 1000 510" aria-hidden="true">
+    <defs><linearGradient id="vm-cassette-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e3d8b3"/><stop offset=".55" stop-color="#cfc194"/><stop offset="1" stop-color="#baaa7d"/></linearGradient></defs>
     <rect class="shell-glass" x="12" y="12" width="976" height="486" rx="24"/>
     <g class="shell-lines" fill="none" stroke-width="2">
       <path d="M24 76h60l28-28h776l28 28h60M24 438h44l26 42h812l26-42h44M90 48v-24m820 24v-24M500 24v330M110 98v185H74v76m816-261v185h36v76M400 348h200v38H400z"/>
@@ -1029,6 +1030,7 @@ function ye() {
       <g class="reel-spin" style=${`animation-delay:${t ? "-1.8s" : "0s"}`}>
         <circle class="reel-face" r="157"/>
         ${[0, 120, 240].map((e) => b`<path class="reel-window" transform=${`rotate(${e})`} d="M-37-66-70-119A138 138 0 0 1 70-119L37-66A76 76 0 0 0-37-66Z"/>`)}
+        <text class="reel-brand" x="0" y="113">iSSU</text>
         <circle class="reel-hub-ring" r="55"/><circle class="reel-hub" r="46"/>
         ${[0, 60, 120, 180, 240, 300].map((e) => b`<rect class="reel-tooth" x="-5" y="-46" width="10" height="9" rx="1" transform=${`rotate(${e})`}/> `)}
       </g>
@@ -1052,15 +1054,17 @@ function ye() {
 }
 const $e = D`
   .card.cassette {
-    --surface:#d3d5d3; --ink:#292e30; --muted:#5b6265; --line:#4d565a44;
-    --shell-glass:#aeb8be24; --shell-line:#68767f55; --reel:#d5d6d1; --hub:#30363a;
-    padding:0; border:1px solid #858e9280; border-radius:3cqi;
-    background:linear-gradient(125deg,#e3e6e4ed,#bfc6c7e8);
+    --surface:#eeeae2; --ink:#181d20; --muted:#434b50; --line:#414d5766;
+    --shell-glass:#98a6af14; --shell-line:#53657080; --hub:#20262a;
+    --head-face:#abb4b6; --head-edge:#4d5c64; --tape:#433024;
+    padding:0; border:1px solid #65727a99; border-radius:3cqi;
+    background:linear-gradient(125deg,#faf7f0f5,#deded8ef);
   }
   .card.cassette.dark {
-    --surface:#30363a; --ink:#f0f0ed; --muted:#b6bcbe; --line:#b5bec344;
-    --shell-glass:#a7b4bf0c; --shell-line:#a4b0ba38;
-    background:linear-gradient(125deg,#3c444aeb,#292f33e8);
+    --surface:#1e252b; --ink:#faf8f2; --muted:#d0d4d4; --line:#d1d9dc70;
+    --shell-glass:#a7b4bf08; --shell-line:#b1c0ca65;
+    --head-face:#e1e4df; --head-edge:#8d9ca3; --tape:#b18a66;
+    background:linear-gradient(125deg,#252d34f2,#12191fef);
   }
   .cassette .stage { display:block; }
   .cassette .deck { width:100%; height:51cqi; aspect-ratio:auto; }
@@ -1069,7 +1073,8 @@ const $e = D`
   .shell-lines { stroke:var(--shell-line); }
   .tape-pack { fill:#252727; stroke:#52585a; stroke-width:2; }
   .reel-rim { fill:#303539; stroke:#71797c; stroke-width:2; }
-  .reel-face { fill:var(--reel); }
+  .reel-face { fill:url(#vm-cassette-gold); }
+  .reel-brand { fill:#32251b; font-family:var(--primary-font-family,system-ui,sans-serif); font-size:25px; font-weight:750; letter-spacing:1px; text-anchor:middle; }
   .reel-window,.reel-hub { fill:var(--hub); }
   .reel-hub-ring { fill:#a2a9ac; stroke:#737d82; stroke-width:2; }
   .reel-tooth { fill:#9da5a8; }
@@ -1078,20 +1083,20 @@ const $e = D`
   .cassette.playing .reel-spin { animation-play-state:running; }
   .cassette-heads { transform:translateY(22px); transition:transform 550ms cubic-bezier(.4,0,.2,1); }
   .cassette.playing .cassette-heads { transform:translateY(0); }
-  .head-carriage { fill:#626d7350; }
-  .head-metal { fill:#bfc5c5; stroke:#7c878b; stroke-width:2; }
+  .head-carriage { fill:#73838e66; }
+  .head-metal { fill:var(--head-face); stroke:var(--head-edge); stroke-width:2; }
   .head-slot { stroke:#606a6f; }
   .pinch-roller,.guide-roller { fill:#333a3e; stroke:#232a2e; stroke-width:3; }
   .roller-axle { fill:#acb3b5; }
   .guide-center { fill:#495257; }
-  .cassette-tape { stroke:#5a4d42; }
+  .cassette-tape { stroke:var(--tape); }
   .shell-screw { fill:#828d94; stroke:#333c42; stroke-width:3; }
   .screw-slot { stroke:#323a3f; }
   .cassette-footer { display:grid; grid-template-columns:10% minmax(0,1fr) minmax(0,1.65fr); gap:0 2.5cqi; align-items:center; padding:0 3.5cqi 2.5cqi; }
   .cassette .transport { grid-row:1; grid-column:1 / -1; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1cqi; margin:0 -3.5cqi 2cqi; padding:1.1cqi 8.5cqi 1.6cqi; border-bottom:1px solid var(--line); }
-  .cassette .transport button { width:100%; height:max(32px,6cqi); padding:1cqi; border-radius:.65cqi; border:3px solid #232b30; background:#c7cdce; color:#303638; box-shadow:inset 0 1px 0 #ffffff70,0 1px 0 #0005; }
-  .cassette .transport .primary { background:#c7cdce; color:#303638; }
-  .cassette.playing .transport .primary { background:#aeb8bc; box-shadow:inset 0 2px 2px #0003; }
+  .cassette .transport button { width:100%; height:max(32px,6cqi); padding:1cqi; border-radius:.65cqi; border:3px solid #232b30; background:#e0e3df; color:#172126; box-shadow:inset 0 1px 0 #ffffff70,0 1px 0 #0005; }
+  .cassette .transport .primary { background:#e0e3df; color:#172126; }
+  .cassette.playing .transport .primary { background:#b6c0c3; box-shadow:inset 0 2px 2px #0003; }
   .cassette .transport button:hover:enabled { background:#e1e5e3; filter:none; }
   .cassette .transport button svg { width:clamp(18px,3cqi,32px); height:clamp(18px,3cqi,32px); }
   .cassette .transport button:first-child svg,.cassette .transport button:nth-child(3) svg { fill:currentColor; }
@@ -1358,7 +1363,7 @@ customElements.get("vinylmatrix-card") || customElements.define("vinylmatrix-car
 const at = window;
 at.customCards ??= [];
 at.customCards.some((i) => i.type === "vinylmatrix-card") || at.customCards.push({ type: "vinylmatrix-card", name: "VinylMatrix Card", description: "Animated turntable and cassette styles for your music players", preview: !0 });
-console.info("VinylMatrix Card 0.4.0");
+console.info("VinylMatrix Card 0.4.1");
 export {
   st as VinylMatrixCard
 };

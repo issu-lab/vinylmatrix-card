@@ -3,6 +3,7 @@ import { svg } from "lit";
 // A flat, see-through cassette. The tape stays fixed while reels turn and heads lift.
 export function cassetteMechanism() {
   return svg`<svg class="cassette-mechanism" viewBox="0 0 1000 510" aria-hidden="true">
+    <defs><linearGradient id="vm-cassette-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e3d8b3"/><stop offset=".55" stop-color="#cfc194"/><stop offset="1" stop-color="#baaa7d"/></linearGradient></defs>
     <rect class="shell-glass" x="12" y="12" width="976" height="486" rx="24"/>
     <g class="shell-lines" fill="none" stroke-width="2">
       <path d="M24 76h60l28-28h776l28 28h60M24 438h44l26 42h812l26-42h44M90 48v-24m820 24v-24M500 24v330M110 98v185H74v76m816-261v185h36v76M400 348h200v38H400z"/>
@@ -15,6 +16,7 @@ export function cassetteMechanism() {
       <g class="reel-spin" style=${`animation-delay:${i ? '-1.8s' : '0s'}`}>
         <circle class="reel-face" r="157"/>
         ${[0,120,240].map(angle=>svg`<path class="reel-window" transform=${`rotate(${angle})`} d="M-37-66-70-119A138 138 0 0 1 70-119L37-66A76 76 0 0 0-37-66Z"/>`)}
+        <text class="reel-brand" x="0" y="113">iSSU</text>
         <circle class="reel-hub-ring" r="55"/><circle class="reel-hub" r="46"/>
         ${[0,60,120,180,240,300].map(angle=>svg`<rect class="reel-tooth" x="-5" y="-46" width="10" height="9" rx="1" transform=${`rotate(${angle})`}/> `)}
       </g>

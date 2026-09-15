@@ -24,8 +24,8 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Recommended for production** | ❌ Not yet |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.4.0` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.4.0)) |
-| **Validation** | 13 logic tests, 5 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm/Cassette checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
+| **Current version** | `0.4.1` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.4.1)) |
+| **Validation** | 13 logic tests, 6 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm/Cassette checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
 > [!WARNING]
@@ -75,19 +75,15 @@ Selection itself sends no commands. Playback controls target the displayed entit
 
 ## Interface
 
-These screenshots show the actual card with original sample artwork and simulated entities.
+The three styles below use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
 
-![VinylMatrix styles in dark mode](assets/themes-dark.png)
+| Theme | Light | Dark |
+|---|---|---|
+| **Minimal** · default | ![Minimal in light mode](assets/minimal-light.png) | ![Minimal in dark mode](assets/minimal-dark.png) |
+| **Classic** | ![Classic in light mode](assets/classic-light.png) | ![Classic in dark mode](assets/classic-dark.png) |
+| **Cassette** | ![Cassette in light mode](assets/cassette-light.png) | ![Cassette in dark mode](assets/cassette-dark.png) |
 
-| Style | Appearance |
-|---|---|
-| **Minimal** — default | Reference-matched record (72.3% of card width), artwork at 46% of the record diameter, curved metal arm, centered metadata and horizontal progress. The speaker button opens volume. |
-| **Classic** | Graphite or silver turntable base, dotted platter rim, S-shaped metal arm, Start/Stop button, vertical volume and a lower strip for track information and playback controls. |
-| **Cassette** | Flat transparent shell with two exposed reels and lifting heads, four rectangular keys and small artwork/seek controls beneath. Available in graphite and light neutral colors. |
-
-![VinylMatrix styles in light mode](assets/themes-light.png)
-
-![Cassette in dark mode](assets/cassette-dark.png)
+**Minimal** puts the record and artwork first. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
 ---
 

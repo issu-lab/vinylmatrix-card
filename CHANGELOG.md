@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1 — 2026-09-15
+
+- Increased light/dark contrast between the shell, tape, heads, controls and text.
+- Added subdued champagne-gold reels with rotating iSSU lettering.
+- Reorganized the README into a single Light/Dark theme gallery with six matching 640 × 640 screenshots, preserving each card's aspect ratio.
+- Added repeatable browser capture and a documentation check for uniform preview dimensions.
+
 ## 0.4.0 — 2026-09-15
 
 Cassette joins Minimal and Classic.

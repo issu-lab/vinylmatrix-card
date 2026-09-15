@@ -40,3 +40,14 @@ test('installation badge targets the correct custom HACS dashboard repository',(
   assert.ok(readme.includes('/hacsfiles/vinylmatrix-card/vinylmatrix-card.js'));
   assert.ok(readme.includes('not included in the default HACS catalog'));
 });
+
+test('README gallery uses six equally sized theme previews without legacy collages',()=>{
+  for(const theme of ['minimal','classic','cassette']) for(const color of ['light','dark']) {
+    const file=`assets/${theme}-${color}.png`,png=read(file);
+    assert.equal(png.readUInt32BE(16),640,file);
+    assert.equal(png.readUInt32BE(20),640,file);
+    assert.equal(readme.split(`](${file})`).length-1,1,file);
+  }
+  assert.ok(readme.includes('| Theme | Light | Dark |'));
+  assert.equal(readme.includes('assets/themes-'),false);
+});

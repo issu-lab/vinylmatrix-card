@@ -1,8 +1,8 @@
+import { captureThemeScreenshots } from './screenshots.mjs';
 import { checkCassette } from './cassette.mjs';
 import { checkTonearm } from './tonearm.mjs';
 // Run against `pnpm dev` after building. Playwright can be installed separately.
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1510,height:950}});
@@ -149,10 +149,7 @@ try {
 
 
   await reset();await page.emulateMedia({reducedMotion:'reduce'});
-  await mkdir('assets',{recursive:true});
-  await page.locator('#grid').screenshot({path:'assets/themes-dark.png'});
   await page.locator('#color').selectOption('light');
-  await page.locator('#grid').screenshot({path:'assets/themes-light.png'});
   for (const width of [240,280,340,480,900]) {
     await page.evaluate(w=>{document.querySelector('#grid').style.display='block';window.preview.cards.forEach(c=>{c.style.width=`${w}px`;c.parentElement.style.width=`${w}px`})},width);
     for(const c of await page.locator('vinylmatrix-card').all()) {
@@ -160,23 +157,10 @@ try {
       assert.deepEqual(await c.locator('.card').evaluate(e=>{const bounds=e.getBoundingClientRect();return [...e.querySelectorAll('button,input,.title,.artist,.player,.stage')].flatMap(child=>{const r=child.getBoundingClientRect();return r.left>=bounds.left-1 && r.right<=bounds.right+1 ? [] : [{theme:e.className,element:child.className || child.getAttribute('aria-label'),left:r.left-bounds.left,right:r.right-bounds.right}]})}),[],`control overflow at ${width}`);
     }
   }
-  await page.setViewportSize({width:390,height:900});
-  await page.evaluate(()=>{window.preview.cards.forEach(c=>{c.style.width='340px';c.parentElement.style.width='340px'})});
-
-  await page.locator('#color').selectOption('dark');
-  await page.setViewportSize({width:600,height:850});
-  await page.evaluate(()=>{window.preview.cards[0].style.width='480px';window.preview.cards[0].parentElement.style.width='480px'});
-  await minimal.screenshot({path:'assets/minimal-dark.png'});
-  await page.locator('#color').selectOption('light');
-  await minimal.screenshot({path:'assets/minimal-light.png'});
-  await page.setViewportSize({width:1000,height:900});
-  await page.evaluate(()=>{window.preview.cards[1].style.width='900px';window.preview.cards[1].parentElement.style.width='900px'});
-  await classic.screenshot({path:'assets/classic-light.png'});
-  await page.locator('#color').selectOption('dark');
-  await classic.screenshot({path:'assets/classic-dark.png'});
   pass('light/dark themes and widths 240/280/340/480/900 have no overflow');
   await checkTonearm(page);
-  await checkCassette(page,{screenshots:true});
+  await checkCassette(page);
+  await captureThemeScreenshots(page);
   assert.deepEqual(errors,[]);
   console.log(`${count} browser scenarios passed; no page errors.`);
 } finally {await browser.close()}
