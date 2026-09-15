@@ -82,16 +82,34 @@ export async function checkTonearm(page) {
   const beforeTick=await geometry();
   await page.waitForTimeout(1300);
   assert.ok((await geometry()).every((g,i)=>g.angle>beforeTick[i].angle),'clock advances arm without a player update');
+  // Keep both arms on screen and sample their actual CSS transitions at a
+  // controlled time; wall-clock sleeps can miss the intermediate frame in CI.
+  await page.setViewportSize({width:1000,height:1000});
+  await page.evaluate(()=>{
+    document.querySelector('header').hidden=true;
+    document.querySelector('#grid').style.cssText='display:flex;max-width:900px;gap:20px';
+    window.preview.cards.forEach(c=>{c.style.width='400px';c.parentElement.style.width='400px';});
+    window.scrollTo(0,0);
+  });
   await setTrack({media_position:25});
   await page.emulateMedia({reducedMotion:'no-preference'});
-  await page.waitForTimeout(1100);
   const start=await geometry();
   await setTrack({media_position:75});
-  await page.waitForTimeout(250);
-  const middle=await geometry();
-  await page.waitForTimeout(1000);
-  const end=await geometry();
-  assert.ok(middle.every((g,i)=>g.angle>start[i].angle && g.angle<end[i].angle),'seek animates smoothly through intermediate positions');
+  async function sampleTransition(time) {
+    await page.locator('.arm-moving').evaluateAll((arms,time)=>{
+      for(const arm of arms) {
+        const transition=arm.getAnimations().find(a=>a.transitionProperty==='transform');
+        if(!transition) throw new Error('Expected a transform transition on each tonearm');
+        transition.pause();
+        transition.currentTime=time;
+      }
+    },time);
+    return geometry();
+  }
+  const middle=await sampleTransition(250);
+  const end=await sampleTransition(1000);
+  assert.ok(middle.every((g,i)=>g.angle>start[i].angle && g.angle<end[i].angle),
+    `seek must animate through intermediate positions: ${JSON.stringify({start,middle,end})}`);
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.deepEqual(await page.locator('.arm-moving').evaluateAll(arms=>arms.map(a=>getComputedStyle(a).transitionDuration)),['0s','0s']);
   console.log('Tonearm: both themes, 60 groove/label bounds, seek, clock, parking, fallback, handover and smooth/reduced motion passed.');
