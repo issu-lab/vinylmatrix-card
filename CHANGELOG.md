@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 — 2026-09-27
+
+- Promote the existing card to stable after regular Home Assistant use without issues reported by the maintainer.
+- Preserve all three themes, controls and configuration from 0.4.1; no migration or functional changes.
+- Update the README to distinguish real-world use, automated validation and compatibility limits, while retaining the uniform theme gallery and HACS installation button.
+
 ## 0.4.1 — 2026-09-15
 
 - Increased light/dark contrast between the shell, tape, heads, controls and text.

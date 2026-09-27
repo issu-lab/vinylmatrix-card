@@ -43,9 +43,9 @@ dist/vinylmatrix-card.js self-contained distribution bundle
 
 ## Distribution checks
 
-Build from this project directory as the repository root. The validation workflow runs unit tests, TypeScript checks, bundle comparison, browser scenarios and HACS checks. It does not publish releases. HACS checks run against the standalone GitHub repository. Publish the built `dist/vinylmatrix-card.js` as a release asset after validation passes. Experimental releases must keep the live-validation warning until testing on Home Assistant is complete.
+Build from this project directory as the repository root. The validation workflow runs unit tests, TypeScript checks, bundle comparison, browser scenarios and HACS checks. It does not publish releases. HACS checks run against the standalone GitHub repository. Publish the built `dist/vinylmatrix-card.js` as a release asset after validation passes. Version 1.0.0 is promoted from 0.4.1 following the maintainer’s report of regular, trouble-free Home Assistant use on 2026-09-27. This is user-reported live experience, separate from the simulated browser checks; it does not establish a full device or Home Assistant version compatibility matrix.
 
-Before a stable release, validate the card on Home Assistant. For every release, review screenshots and configuration examples, verify the README on GitHub and HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
+For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
 
 ## Branding sources
 

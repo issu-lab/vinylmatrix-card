@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Status](https://img.shields.io/badge/status-experimental-41BDF5?style=flat-square)](#project-status)
+[![Status](https://img.shields.io/badge/status-stable-2ea44f?style=flat-square)](#project-status)
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-dashboard-41BDF5?style=flat-square&logo=homeassistant&logoColor=white)](https://www.home-assistant.io/)
 [![HACS](https://img.shields.io/badge/HACS-custom_repository-C346F4?style=flat-square)](#installation)
 [![License](https://img.shields.io/badge/license-MIT-C346F4?style=flat-square)](LICENSE)
@@ -19,17 +19,16 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 
 | Field | Current state |
 |---|---|
-| **Maturity** | 🔵 Experimental |
-| **Used in my homelab** | ❌ Not yet — simulated players only |
-| **Recommended for production** | ❌ Not yet |
+| **Maturity** | 🟢 Stable |
+| **Used in my homelab** | ✅ Regular use in Home Assistant |
+| **Recommended for everyday use** | ✅ For the documented features |
 | **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `0.4.1` — experimental ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v0.4.1)) |
+| **Current version** | `1.0.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.0.0)) |
 | **Validation** | 13 logic tests, 6 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm/Cassette checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
 | **Distribution** | HACS custom repository (not in the default catalog) |
 
-> [!WARNING]
-> This project is experimental. The current version has been tested with simulated players, but has not been validated in a live Home Assistant instance. It is not recommended for production use yet.
+Version 1.0.0 marks the first stable release after regular use in Home Assistant without reported issues. It preserves the behavior, configuration and appearance of 0.4.1; no dashboard migration is required. This real-world experience complements the automated tests and does not imply validation of every media player integration, browser or Home Assistant version.
 
 ---
 
@@ -166,13 +165,13 @@ entity: media_player.living_room
 
 ## Known Limitations
 
-- Live Home Assistant validation is still pending. Distribution through a custom repository does not imply acceptance into the default HACS catalog.
-- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and shared tonearm/Cassette geometry, playback and motion checks in both engines. Validation on physical mobile devices and across Home Assistant versions remains pending.
+- The stable designation is based on regular Home Assistant use and automated regression tests. Compatibility with every media player integration or Home Assistant version is not guaranteed.
+- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and shared tonearm/Cassette geometry, playback and motion checks in both engines. There is no exhaustive compatibility matrix covering physical devices and Home Assistant versions.
 - Available controls depend on the features reported by the selected player. Unsupported controls are disabled.
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.
 - Commands sent to a grouped player may affect its group, according to the integration's behavior.
-- Music search, library browsing, playlists, an equalizer and audio analysis are outside the initial scope.
+- Music search, library browsing, playlists, an equalizer and audio analysis are outside the scope of this card.
 
 ---
 
