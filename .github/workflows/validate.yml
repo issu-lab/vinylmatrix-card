@@ -3,6 +3,8 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: "23 4 * * *"
 permissions:
   contents: read
 jobs:
@@ -17,6 +19,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm build
+      - run: pnpm test:distribution
       - run: git diff --exit-code -- dist/vinylmatrix-card.js
       - run: pnpm exec playwright install --with-deps chromium webkit --only-shell
       - name: Browser scenarios
@@ -37,3 +40,4 @@ jobs:
       - uses: hacs/action@main
         with:
           category: plugin
+          comment: false

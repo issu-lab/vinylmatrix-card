@@ -10,7 +10,7 @@ test('README uses banner first, status and shared public structure without dupli
   const titles=['Project Status','Why It Exists','Features','How It Works','Interface','Installation','Configuration','Known Limitations','Documentation','License'];
   const positions=titles.map(title=>readme.indexOf('## '+title));
   assert.ok(positions.every((p,i)=>p>=0 && (i===0 || p>positions[i-1])));
-  assert.match(readme,/🟢 Stable/);assert.ok(readme.includes('`'+JSON.parse(read('package.json')).version+'` — stable'));
+  assert.match(readme,/🟢 Stable/);assert.ok(readme.includes('`'+JSON.parse(read('package.json')).version+'` — unreleased'));
   assert.equal(/status-experimental|Live Home Assistant validation is still pending|simulated players only/.test(readme),false);
 });
 test('footer has exact HACS-safe raw URL, destination and width',()=>{
@@ -34,12 +34,16 @@ test('banner and social preview use canonical dimensions and geometry',()=>{
   assert.match(svg,/M 4910 1280 A 210 210 0 0 1 5120 1070/);
 });
 
-test('installation badge targets the correct custom HACS dashboard repository',()=>{
-  const badge='https://my.home-assistant.io/badges/hacs_repository.svg';
-  const target='https://my.home-assistant.io/redirect/hacs_repository/?owner=issu-lab&repository=vinylmatrix-card&category=plugin';
-  assert.ok(readme.includes(`](${badge})](${target})`));
+test('installation links support Marketplace and legacy HACS without implying catalog inclusion',()=>{
+  for (const route of ['marketplace_repository','hacs_repository']) {
+    const badge=`https://my.home-assistant.io/badges/${route}.svg`;
+    const target=`https://my.home-assistant.io/redirect/${route}/?owner=issu-lab&repository=vinylmatrix-card&category=plugin`;
+    assert.ok(readme.includes(`](${badge})](${target})`));
+  }
+  assert.ok(readme.includes('/local/community/vinylmatrix-card/vinylmatrix-card.js'));
+  assert.ok(readme.includes('installation on 2026.11 has not yet been tested'));
   assert.ok(readme.includes('/hacsfiles/vinylmatrix-card/vinylmatrix-card.js'));
-  assert.ok(readme.includes('not included in the default HACS catalog'));
+  assert.ok(readme.includes('not included in the shared default catalog'));
 });
 
 test('README gallery uses six equally sized theme previews without legacy collages',()=>{

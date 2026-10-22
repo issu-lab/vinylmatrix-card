@@ -4,7 +4,7 @@
 
 [![Status](https://img.shields.io/badge/status-stable-2ea44f?style=flat-square)](#project-status)
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-dashboard-41BDF5?style=flat-square&logo=homeassistant&logoColor=white)](https://www.home-assistant.io/)
-[![HACS](https://img.shields.io/badge/HACS-custom_repository-C346F4?style=flat-square)](#installation)
+[![Marketplace / HACS](https://img.shields.io/badge/Marketplace%20%2F%20HACS-custom_repository-C346F4?style=flat-square)](#installation)
 [![License](https://img.shields.io/badge/license-MIT-C346F4?style=flat-square)](LICENSE)
 
 **A turntable and cassette music card for Home Assistant.**
@@ -22,11 +22,12 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Maturity** | 🟢 Stable |
 | **Used in my homelab** | ✅ Regular use in Home Assistant |
 | **Recommended for everyday use** | ✅ For the documented features |
-| **Setup difficulty** | 🟡 Intermediate — HACS custom repository |
+| **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
 | **Current version** | `1.0.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.0.0)) |
-| **Validation** | 13 logic tests, 6 documentation checks, 15 Chromium scenarios, 12 WebKit layout checks and tonearm/Cassette checks in both engines ([GitHub checks](https://github.com/issu-lab/vinylmatrix-card/actions), including HACS validation) |
-| **Distribution** | HACS custom repository (not in the default catalog) |
+| **Prepared version** | `1.0.1` — unreleased; Marketplace documentation and distribution checks |
+| **Validation** | Stable 1.0.0 passed logic/documentation, Chromium/WebKit and HACS checks. See [development](docs/development.md#marketplace-readiness) for the prepared update and remaining checks. |
+| **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
 Version 1.0.0 marks the first stable release after regular use in Home Assistant without reported issues. It preserves the behavior, configuration and appearance of 0.4.1; no dashboard migration is required. This real-world experience complements the automated tests and does not imply validation of every media player integration, browser or Home Assistant version.
 
@@ -88,29 +89,38 @@ The three styles below use the same preview size. Each screenshot shows the actu
 
 ## Installation
 
-### HACS
+### Marketplace — Home Assistant 2026.11 and later
 
-With HACS installed, use this button to open the repository in your Home Assistant instance:
+Home Assistant's [Marketplace documentation](https://contributors.home-assistant.io/marketplace/how-it-works/) describes the built-in store under **Settings → Marketplace** starting with 2026.11. These instructions prepare for that transition; installation on 2026.11 has not yet been tested for this card.
 
 <div align="center">
 
-[![Open your Home Assistant instance and open VinylMatrix Card inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=issu-lab&repository=vinylmatrix-card&category=plugin)
+[![Open VinylMatrix Card in the Home Assistant Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=issu-lab&repository=vinylmatrix-card&category=plugin)
 
 </div>
 
-The button opens the HACS repository page; confirm the download there. VinylMatrix is a dashboard card, so no integration needs to be added under Devices & services.
+1. Open the button in your Home Assistant instance. A custom repository requires a GitHub connection.
+2. Confirm adding `issu-lab/vinylmatrix-card` as a custom repository if prompted, then install the card. Its category is **Dashboard** (`plugin` in the link).
+3. Reload the browser, edit a dashboard and choose **Add card → VinylMatrix Card**.
+4. Select your media players and preferred style.
 
-If the repository is not found, add it manually:
+Marketplace registers the JavaScript module at `/local/community/vinylmatrix-card/vinylmatrix-card.js`, with a version query for cache refresh. If you manage resources in YAML, follow the resource instructions shown during installation. Use one resource entry for the card; do not add a second copy alongside an existing entry or `extra_module_url`.
 
-1. Open **HACS → ⋮ → Custom repositories** ([HACS instructions](https://www.hacs.xyz/docs/faq/custom_repositories/)).
-2. Enter `https://github.com/issu-lab/vinylmatrix-card` and select **Dashboard** as the category.
-3. Find **VinylMatrix Card** in HACS, open it and choose **Download**.
-4. Refresh the browser, edit a dashboard and choose **Add card → VinylMatrix Card**.
-5. Select your media players and preferred style.
+VinylMatrix is a dashboard card, not a device integration. It is not included in the shared default catalog; installing a custom repository does not add it to that catalog.
 
-If the card is not listed, check that `/hacsfiles/vinylmatrix-card/vinylmatrix-card.js` is registered as a dashboard resource of type **JavaScript module**.
+### HACS — Home Assistant 2026.10 and earlier
 
-This repository is distributed as a custom HACS repository. It is not included in the default HACS catalog.
+With HACS already installed, use the compatible button:
+
+<div align="center">
+
+[![Open VinylMatrix Card in HACS or Marketplace.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=issu-lab&repository=vinylmatrix-card&category=plugin)
+
+</div>
+
+If needed, open **HACS → ⋮ → Custom repositories**, add `https://github.com/issu-lab/vinylmatrix-card` with category **Dashboard**, then download it and reload the browser. Add VinylMatrix through the dashboard editor. The legacy resource is `/hacsfiles/vinylmatrix-card/vinylmatrix-card.js` (JavaScript module).
+
+When upgrading to 2026.11, Marketplace takes over installed and custom repositories from HACS. Existing `/hacsfiles/` URLs remain supported; use `/local/community/` for manually maintained resources following the migration prompt. Do not reinstall HACS on 2026.11. The old `hacs_repository` button continues to work on both versions. See the [official migration details](https://contributors.home-assistant.io/marketplace/how-it-works/) and [repository links](https://contributors.home-assistant.io/marketplace/guides/catalog/).
 
 ### Manual installation
 

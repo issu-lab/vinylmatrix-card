@@ -7,6 +7,7 @@ Use Node.js 24 and pnpm 11.19.0 (the package manager version is pinned). The app
 pnpm install --frozen-lockfile
 pnpm test
 pnpm build
+pnpm test:distribution
 pnpm dev --port 5177 --strictPort
 ```
 
@@ -45,7 +46,25 @@ dist/vinylmatrix-card.js self-contained distribution bundle
 
 Build from this project directory as the repository root. The validation workflow runs unit tests, TypeScript checks, bundle comparison, browser scenarios and HACS checks. It does not publish releases. HACS checks run against the standalone GitHub repository. Publish the built `dist/vinylmatrix-card.js` as a release asset after validation passes. Version 1.0.0 is promoted from 0.4.1 following the maintainer’s report of regular, trouble-free Home Assistant use on 2026-09-27. This is user-reported live experience, separate from the simulated browser checks; it does not establish a full device or Home Assistant version compatibility matrix.
 
-For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
+For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and Marketplace/HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
+
+## Marketplace readiness
+
+Audit date: 2026-10-21. Prepared version: **1.0.1, not published**. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its latest [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
+
+The documented 2026.11 distribution contract already matches this card: root `hacs.json`, explicit `vinylmatrix-card.js`, built single-file module in `dist`, and the same asset attached to releases. Lit is bundled. Keep `content_in_root` unset so release/dist lookup works. `render_readme` is retained for legacy HACS; Marketplace ignores unrecognized keys. No new minimum Home Assistant version is imposed because the card itself does not use a 2026.11-only API.
+
+The README now distinguishes Marketplace and legacy HACS, includes both repository buttons, and explains `/local/community/` alongside the compatible `/hacsfiles/` path. The new distribution tests catch a missing/wrongly located module and a stale version in the build. CI runs them after building and adds a daily schedule to the existing push, pull request and manual checks. The HACS job keeps `category: plugin`, skips no checks, and disables PR comments so read-only permissions suffice. Hassfest is for integrations and is not applicable to this dashboard module.
+
+Local verification: 13 player tests, 6 documentation/branding checks, 2 distribution checks, TypeScript and production build passed. The built module differs from stable 1.0.0 only in the version label. Chromium and WebKit suites were attempted but stopped at launch: the required `chromium_headless_shell-1234` and `webkit-2336` executables are absent. No dependencies or browsers were installed. No live Home Assistant or Marketplace installation was performed, and the updated workflow has not run remotely. See the [roadmap](../ROADMAP.md) for release gates.
+
+Official sources checked for this audit:
+
+- [Marketplace behavior and migration](https://contributors.home-assistant.io/marketplace/how-it-works/)
+- [Dashboard packaging and resource registration](https://contributors.home-assistant.io/marketplace/guides/dashboard/)
+- [Manifest keys](https://contributors.home-assistant.io/marketplace/reference/hacs-json/)
+- [Validation action and install checks](https://contributors.home-assistant.io/marketplace/reference/validation/)
+- [Catalog and old/new My Home Assistant links](https://contributors.home-assistant.io/marketplace/guides/catalog/)
 
 ## Branding sources
 
@@ -62,8 +81,8 @@ The editor uses `ha-selector` with `entity.filter.domain: media_player` and excl
 - [Home Assistant custom cards](https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card/)
 - [Media player entity contract](https://developers.home-assistant.io/docs/core/entity/media-player/)
 - [Media player actions](https://www.home-assistant.io/integrations/media_player/)
-- [HACS dashboard repository requirements](https://www.hacs.xyz/docs/publish/plugin/)
-- [HACS validation action](https://www.hacs.xyz/docs/publish/action/)
+- [Marketplace dashboard repository requirements](https://contributors.home-assistant.io/marketplace/guides/dashboard/)
+- [Marketplace validation and HACS action](https://contributors.home-assistant.io/marketplace/reference/validation/)
 
 
 [Back to the project overview](../README.md)

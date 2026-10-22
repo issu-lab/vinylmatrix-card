@@ -1,6 +1,6 @@
 {
   "name": "vinylmatrix-card",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "An animated turntable and cassette music card for Home Assistant",
   "license": "MIT",
@@ -10,6 +10,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "test": "node tests/player.test.mjs && node tests/branding.test.mjs",
+    "test:distribution": "node tests/distribution.test.mjs",
     "test:browser": "node tests/browser.mjs",
     "test:webkit": "node tests/webkit-layout.mjs",
     "build": "tsc --noEmit && vite build",

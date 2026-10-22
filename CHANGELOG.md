@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — 1.0.1
+
+- Prepare Marketplace instructions for Home Assistant 2026.11 while retaining the HACS button and instructions for older versions. Document the new module path and migration without duplicate resource entries.
+- Add passing local distribution checks for manifest/module lookup and build version consistency; add daily validation and disable PR comments in the existing HACS job. The workflow changes are prepared locally and have not run remotely.
+- Preserve runtime behavior and approved assets. Local player/documentation checks, TypeScript and build pass; browser executables and live Marketplace validation remain pending in the roadmap.
+
 ## 1.0.0 — 2026-09-27
 
 - Promote the existing card to stable after regular Home Assistant use without issues reported by the maintainer.
