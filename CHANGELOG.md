@@ -1,18 +1,18 @@
 # Changelog
 
-## Unreleased — 1.1.0
+## 1.1.0 — 2026-10-24
 
-- Recheck Marketplace readiness on 2026-10-24: manifest/layout, reproducible standalone module, both live My Home Assistant badge/link endpoints and README migration references conform to the documented requirements. Clarify that installation links open published releases, not the local 1.1.0 preparation. Live Marketplace installation remains unverified.
+- Recheck Marketplace readiness on 2026-10-24: manifest/layout, reproducible standalone module, both live My Home Assistant badge/link endpoints and README migration references conform to the documented requirements. Live Marketplace installation remains unverified.
 
 - Add a theme-aware Music Assistant playlist button in all four styles, visible when the integration is available and configurable in the editor. The panel supports artwork, server-side search, pagination and an explicit preferred player.
 - Resolve player ownership and library instance from Home Assistant's entity registry, keep the open panel's target fixed across automatic card handovers, and request immediate playlist playback with queue replacement. Handle unavailable players, failed/late requests and double taps without automatic playback retries.
 - Pass seven Music Assistant unit tests and Firefox playlist scenarios across 32 theme/color/width combinations with simulated services. Live read-only checks confirm the installed integration returns playlist names, URIs and artwork; no live playback command or deployment was performed.
 
 - Prepare Marketplace instructions for Home Assistant 2026.11 while retaining the HACS button and instructions for older versions. Document the new module path and migration without duplicate resource entries.
-- Add passing local distribution checks for manifest/module lookup and build version consistency; add daily validation and disable PR comments in the existing HACS job. The workflow changes are prepared locally and have not run remotely.
+- Add passing local distribution checks for manifest/module lookup and build version consistency; add daily validation and disable PR comments in the existing HACS job.
 - Add Minimal Small: stationary square artwork, partially exposed rotating vinyl, right-side metadata/progress/controls, and expandable volume in automatic, light and dark colors.
 - Slow Minimal rotation from 10 to 12 seconds per revolution; align Classic at 33 with that duration and keep its 45 option proportionally faster at 8.8 seconds. Audio speed is unchanged.
-- Extend configuration and browser coverage for the compact theme; retain existing theme assets and add two equal-size previews. Shared compact-theme checks passed in Firefox with simulated players, including ten size/color layouts, rotation/stopped states, controls and handover. Live dashboard and Chromium/WebKit verification remain in the roadmap.
+- Extend configuration and browser coverage for the compact theme; retain existing theme assets and add two equal-size previews. Shared compact-theme checks passed in Firefox with simulated players, including ten size/color layouts, rotation/stopped states, controls and handover. Live dashboard verification remains in the roadmap.
 
 ## 1.0.0 — 2026-09-27
 

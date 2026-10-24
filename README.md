@@ -24,12 +24,11 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Recommended for everyday use** | ✅ For the documented features |
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `1.0.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.0.0)) |
-| **Prepared version** | `1.1.0` — unreleased; Minimal Small, Music Assistant playlists, slower vinyl animation and Marketplace preparation |
-| **Validation** | Stable 1.0.0 passed logic/documentation, Chromium/WebKit and HACS checks. See [development](docs/development.md#marketplace-readiness) for the prepared update and remaining checks. |
+| **Current version** | `1.1.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.0)) |
+| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-110) for release evidence. Live playlist playback and Marketplace installation/migration on 2026.11 remain to be verified. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
-Version 1.0.0 marks the first stable release after regular use in Home Assistant without reported issues. It preserves the behavior, configuration and appearance of 0.4.1; no dashboard migration is required. This real-world experience complements the automated tests and does not imply validation of every media player integration, browser or Home Assistant version.
+Version 1.1.0 adds Music Assistant playlists, Minimal Small, slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; the new playlist playback and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
 
 ---
 
@@ -48,8 +47,8 @@ It works with existing Home Assistant media players, keeping the same experience
 - 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
 - 📼 Transparent Cassette style with rotating reels, lifting playback heads and compact artwork/progress.
-- 📚 Music Assistant playlist picker with search, artwork and explicit playback destination (prepared update).
-- 🎨 Four selectable styles in the prepared update with automatic, light and dark colors.
+- 📚 Music Assistant playlist picker with search, artwork and explicit playback destination.
+- 🎨 Four selectable styles with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
 - 🌍 English and Italian, with automatic language selection.
 - ♿ Keyboard controls, accessible labels and reduced-motion support.
@@ -64,7 +63,7 @@ The playing player takes priority. If several players are playing, VinylMatrix k
 
 When nobody is playing, the last available player remains visible so its artwork and resume control stay accessible. If that player becomes unavailable, the card falls back to the first available configured entry. If all are unavailable, it shows an unavailable state.
 
-The record rotates only during `playing`. In the prepared update, Minimal, Minimal Small and Classic at its default 33 setting share a relaxed 12-second revolution. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
+The record rotates only during `playing`. Minimal, Minimal Small and Classic at its default 33 setting share a relaxed 12-second revolution. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
 
 The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
 
@@ -78,15 +77,14 @@ Selection itself sends no commands. Playback controls target the displayed entit
 
 ## Interface
 
-The four styles below (including unreleased Minimal Small) use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
+The four styles below use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
 
 | Light | Dark |
 |---|---|
 | **Minimal · default**<br>![Minimal in light mode](assets/minimal-light.png) | **Minimal · default**<br>![Minimal in dark mode](assets/minimal-dark.png) |
 | **Classic**<br>![Classic in light mode](assets/classic-light.png) | **Classic**<br>![Classic in dark mode](assets/classic-dark.png) |
 | **Cassette**<br>![Cassette in light mode](assets/cassette-light.png) | **Cassette**<br>![Cassette in dark mode](assets/cassette-dark.png) |
-
-| **Minimal Small · unreleased**<br>![Minimal Small in light mode](assets/minimal_small-light.png) | **Minimal Small · unreleased**<br>![Minimal Small in dark mode](assets/minimal_small-dark.png) |
+| **Minimal Small**<br>![Minimal Small in light mode](assets/minimal_small-light.png) | **Minimal Small**<br>![Minimal Small in dark mode](assets/minimal_small-dark.png) |
 
 **Minimal** puts the record and artwork first. **Minimal Small** is a compact horizontal sleeve-and-record layout. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
@@ -94,7 +92,7 @@ The four styles below (including unreleased Minimal Small) use the same preview 
 
 ## Installation
 
-The buttons below open the published repository in your Home Assistant instance. They do not install unpublished local work: **1.0.0 is the current public release; the prepared 1.1.0 features will become available after that release is published**.
+The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.0** to use Music Assistant playlists and Minimal Small, then reload the browser to load the updated module.
 
 ### Marketplace — Home Assistant 2026.11 and later
 
@@ -159,7 +157,7 @@ language: auto
 | `entities` | Required unless `entity` is used | Ordered list of media player entity IDs. |
 | `entity` | — | Single-player shorthand. `entities` takes precedence if both are present. |
 | `name` | Player's friendly name | Optional player label; the track title stays separate. |
-| `theme` | `minimal` | `minimal`, `minimal_small` (prepared update), `classic` or `cassette`. |
+| `theme` | `minimal` | `minimal`, `minimal_small`, `classic` or `cassette`. |
 | `show_playlists` | `true` | Show the playlist button when the Music Assistant integration is available. |
 | `playlist_entity` | Automatic | Optional preferred Music Assistant player for playlist playback. |
 | `color_mode` | `auto` | Follow Home Assistant, or force `light` / `dark`. |
@@ -167,13 +165,13 @@ language: auto
 
 In the visual editor, search for a media player by friendly name or entity ID. Only `media_player` entities are offered; players already selected in another row are excluded. The row order defines startup priority.
 
-Choose a style in the visual editor, or set `theme: cassette` / `theme: minimal_small` in YAML. Minimal Small requires the prepared update. Minimal remains the default for existing and new configurations.
+Choose a style in the visual editor, or set `theme: cassette` / `theme: minimal_small` in YAML. Minimal remains the default for existing and new configurations.
 
-Classic’s 33/45 buttons change the record animation speed only: in the prepared update, 33 uses 12 seconds per revolution and 45 uses 8.8 seconds. These are decorative speeds. They do not change the playback speed of your audio.
+Classic’s 33/45 buttons change the record animation speed only: 33 uses 12 seconds per revolution and 45 uses 8.8 seconds. These are decorative speeds. They do not change the playback speed of your audio.
 
 Configurations saved with the retired `vinyl` or `ambient` style open Minimal automatically.
 
-### Music Assistant playlists — prepared 1.1.0
+### Music Assistant playlists
 
 With the official Music Assistant integration installed, a **Playlists** button appears in every theme. Open it to search your library, browse playlist artwork and load more results. The card uses your existing Home Assistant connection; no server URL, token, helper, script or additional custom card is needed.
 
@@ -211,7 +209,7 @@ entity: media_player.living_room
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.
 - Commands sent to a grouped player may affect its group, according to the integration's behavior.
-- General music/provider search, playlist editing, queue management, an equalizer and audio analysis are not implemented. The prepared playlist picker only browses playlists in the selected Music Assistant library.
+- General music/provider search, playlist editing, queue management, an equalizer and audio analysis are not implemented. The playlist picker only browses playlists in the selected Music Assistant library.
 - Playlist playback is covered by simulated browser checks; end-to-end playback in a live Home Assistant dashboard remains pending. Live read-only checks confirmed the installed integration returns playlist names, URIs and artwork.
 
 ---

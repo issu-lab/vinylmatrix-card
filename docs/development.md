@@ -52,9 +52,15 @@ Build from this project directory as the repository root. The validation workflo
 
 For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and Marketplace/HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
 
+## Release 1.1.0
+
+The maintainer authorized publishing the combined update on 2026-10-24, with live Home Assistant 2026.11 installation and migration checks deferred until their upgrade. Live playlist playback, selector rendering and non-admin/group behavior remain follow-up checks in the roadmap. No Home Assistant deployment is performed as part of this release.
+
+Release validation and asset verification are recorded below; the earlier preparation audit is retained as historical evidence.
+
 ## Marketplace readiness
 
-Marketplace audit refreshed: 2026-10-24 (initial preparation: 2026-10-21). Originally prepared as 1.0.1; now included in **1.1.0, not published**, alongside the theme changes dated 2026-10-24. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its recorded [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
+Historical pre-publication audit refreshed: 2026-10-24 (initial preparation: 2026-10-21). Originally prepared as 1.0.1; included at audit time in **1.1.0, then unpublished**, alongside the theme changes dated 2026-10-24. At audit time the public version was 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its recorded [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
 
 The documented 2026.11 distribution contract already matches this card: root `hacs.json`, explicit `vinylmatrix-card.js`, built single-file module in `dist`, and the same asset attached to releases. Lit is bundled. Keep `content_in_root` unset so release/dist lookup works. `render_readme` is retained for legacy HACS; Marketplace ignores unrecognized keys. No new minimum Home Assistant version is imposed because the card itself does not use a 2026.11-only API.
 
@@ -113,7 +119,7 @@ Request generations discard late responses after searches, target changes, closi
 
 The optional `?playlists=1` preview parameter and **Toggle Music Assistant** development button enable simulated playlist data. `tests/music-assistant.test.mjs` covers ownership, destination selection, response parsing, request payloads, pagination and timeouts. `tests/playlists.mjs` exercises the real components with mocked HA services, shared between the browser runners. `TEST_SUITE=playlists node tests/firefox-smoke.mjs` runs just the playlist browser scenarios.
 
-References: [HA WebSocket responses](https://contributors.home-assistant.io/core/internals/websocket-api/), [Music Assistant library](https://www.home-assistant.io/actions/music_assistant.get_library/) and [playlist playback](https://www.home-assistant.io/actions/music_assistant.play_media/). Live read-only inspection on HA 2026.10.2 / Music Assistant 2.10.8 confirmed playlist URIs and string artwork URLs. Seven Music Assistant unit tests and the playlist browser scenarios passed locally in system Firefox, including 32 layout combinations. Real playback, live selector rendering and non-admin permissions are still release gates in the roadmap.
+References: [HA WebSocket responses](https://contributors.home-assistant.io/core/internals/websocket-api/), [Music Assistant library](https://www.home-assistant.io/actions/music_assistant.get_library/) and [playlist playback](https://www.home-assistant.io/actions/music_assistant.play_media/). Live read-only inspection on HA 2026.10.2 / Music Assistant 2.10.8 confirmed playlist URIs and string artwork URLs. Seven Music Assistant unit tests and the playlist browser scenarios passed locally in system Firefox, including 32 layout combinations. Real playback, live selector rendering and non-admin permissions remain follow-up checks in the roadmap, explicitly deferred by the maintainer when authorizing publication.
 
 ## Branding sources
 

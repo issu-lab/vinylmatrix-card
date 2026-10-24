@@ -10,7 +10,7 @@ test('README uses banner first, status and shared public structure without dupli
   const titles=['Project Status','Why It Exists','Features','How It Works','Interface','Installation','Configuration','Known Limitations','Documentation','License'];
   const positions=titles.map(title=>readme.indexOf('## '+title));
   assert.ok(positions.every((p,i)=>p>=0 && (i===0 || p>positions[i-1])));
-  assert.match(readme,/🟢 Stable/);assert.ok(readme.includes('`'+JSON.parse(read('package.json')).version+'` — unreleased'));
+  assert.match(readme,/🟢 Stable/);assert.ok(readme.includes('`'+JSON.parse(read('package.json')).version+'` — stable'));
   assert.equal(/status-experimental|Live Home Assistant validation is still pending|simulated players only/.test(readme),false);
 });
 test('footer has exact HACS-safe raw URL, destination and width',()=>{
