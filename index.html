@@ -5,7 +5,7 @@
 <header><h1>VinylMatrix Card</h1><p>Local interactive preview · simulated players, no Home Assistant connection.</p><div class="tools">
 <label>Playback <select id="state"><option>playing</option><option>paused</option><option>idle</option><option>buffering</option><option>off</option><option>unavailable</option></select></label>
 <label>Color <select id="color"><option>dark</option><option>light</option></select></label>
-<button id="switch">Play on second player</button><button id="cover">Toggle cover</button><button id="stream">Toggle live stream</button><button id="fail">Fail next command</button>
+<button id="playlists">Toggle Music Assistant</button><button id="switch">Play on second player</button><button id="cover">Toggle cover</button><button id="stream">Toggle live stream</button><button id="fail">Fail next command</button>
 </div><p class="note">Theme controls below are the real card. Header controls only simulate player updates.</p></header>
 <main id="grid"></main><pre id="events" aria-live="polite">No commands sent.</pre>
 <script type="module">
@@ -15,20 +15,28 @@ const themes=['minimal','classic','cassette','minimal_small'];
 const entities=['media_player.living_room','media_player.office'];
 const attrs={friendly_name:'Living room',supported_features:16447,media_title:'Night Session',media_artist:'Studio Ensemble',media_content_id:'track-1',media_duration:342,media_position:138,media_position_updated_at:new Date().toISOString(),volume_level:.48,entity_picture:'/dev/cover.svg'};
 let states={[entities[0]]:{entity_id:entities[0],state:'playing',attributes:{...attrs}},[entities[1]]:{entity_id:entities[1],state:'idle',attributes:{...attrs,friendly_name:'Office',media_title:'Morning Light',media_content_id:'track-2'}}};
-let fail=false, calls=[];
+let fail=false, calls=[], wsCalls=[];
+let playlistsEnabled=new URLSearchParams(location.search).get('playlists')==='1';
+const library=Array.from({length:32},(_,i)=>({media_type:'playlist',uri:`library://playlist/${i+1}`,name:['Evening Jazz','Acoustic Moments','Sunday Morning'][i] ?? `Session ${String(i+1).padStart(2,'0')}`,image:i%3===0?'/dev/cover.svg':undefined}));
+let maHandler=async message=>{
+  if(message.type==='config/entity_registry/list')return entities.map((entity_id,i)=>({entity_id,platform:'music_assistant',config_entry_id:`demo-server-${i+1}`}));
+  const {search='',offset=0,limit=25}=message.service_data;
+  return {response:{items:library.filter(item=>item.name.toLowerCase().includes(search.toLowerCase())).slice(offset,offset+limit)}};
+};
 const grid=document.querySelector('#grid');
 const cards=themes.map(theme=>{const sample=document.createElement('section');sample.className='sample';sample.innerHTML=`<h2>${theme === 'minimal' ? 'Minimal · default' : theme}</h2>`;const card=document.createElement('vinylmatrix-card');card.setConfig({type:'custom:vinylmatrix-card',entities,theme});sample.append(card);grid.append(sample);return card;});
-function update(){const hass={states:{...states},locale:{language:'en'},themes:{darkMode:document.querySelector('#color').value==='dark'},callService:async(domain,service,data)=>{calls.push({domain,service,data});document.querySelector('#events').textContent=JSON.stringify(calls.slice(-4),null,2);if(fail){fail=false;throw Error('Simulated failure')}const p=structuredClone(states[data.entity_id]);if(service==='media_play')p.state='playing';if(service==='media_pause')p.state='paused';if(service==='media_stop')p.state='idle';if(service==='volume_set')p.attributes.volume_level=data.volume_level;if(service==='volume_mute')p.attributes.is_volume_muted=data.is_volume_muted;if(service==='media_seek'){p.attributes.media_position=data.seek_position;p.attributes.media_position_updated_at=new Date().toISOString()}if(service.includes('track')){p.attributes.media_title=p.attributes.media_title==='Night Session'?'Morning Light':'Night Session';p.attributes.media_content_id=String(Date.now());p.attributes.media_position=0;p.attributes.media_position_updated_at=new Date().toISOString()}states={...states,[data.entity_id]:p};update();}};cards.forEach(c=>c.hass=hass);}
+function update(){const hass={services:playlistsEnabled?{music_assistant:{get_library:{},play_media:{}}}:{},callWS:async message=>{wsCalls.push(message);return maHandler(message)},states:{...states},locale:{language:'en'},themes:{darkMode:document.querySelector('#color').value==='dark'},callService:async(domain,service,data)=>{calls.push({domain,service,data});document.querySelector('#events').textContent=JSON.stringify(calls.slice(-4),null,2);if(fail){fail=false;throw Error('Simulated failure')}const p=structuredClone(states[data.entity_id]);if(domain==='music_assistant' && service==='play_media'){p.state='playing';p.attributes.media_title=library.find(item=>item.uri===data.media_id)?.name ?? 'Playlist';p.attributes.media_position=0;}if(service==='media_play')p.state='playing';if(service==='media_pause')p.state='paused';if(service==='media_stop')p.state='idle';if(service==='volume_set')p.attributes.volume_level=data.volume_level;if(service==='volume_mute')p.attributes.is_volume_muted=data.is_volume_muted;if(service==='media_seek'){p.attributes.media_position=data.seek_position;p.attributes.media_position_updated_at=new Date().toISOString()}if(service.includes('track')){p.attributes.media_title=p.attributes.media_title==='Night Session'?'Morning Light':'Night Session';p.attributes.media_content_id=String(Date.now());p.attributes.media_position=0;p.attributes.media_position_updated_at=new Date().toISOString()}states={...states,[data.entity_id]:p};update();}};cards.forEach(c=>c.hass=hass);}
 document.querySelector('#state').onchange=e=>{states[entities[0]]={...states[entities[0]],state:e.target.value};states[entities[1]]={...states[entities[1]],state:'idle'};update()};
 document.querySelector('#color').onchange=update;
 document.querySelector('#switch').onclick=()=>{states[entities[0]]={...states[entities[0]],state:'paused'};states[entities[1]]={...states[entities[1]],state:'playing'};update()};
 document.querySelector('#cover').onclick=()=>{for(const p of Object.values(states))p.attributes.entity_picture=p.attributes.entity_picture?'':'/dev/cover.svg';update()};
 document.querySelector('#stream').onclick=()=>{for(const p of Object.values(states))p.attributes.media_duration=p.attributes.media_duration?undefined:342;update()};
+document.querySelector('#playlists').onclick=()=>{playlistsEnabled=!playlistsEnabled;update()};
 document.querySelector('#fail').onclick=()=>{fail=true};
 // Deliberate development-only hook for browser integration tests.
 const previewParams=new URLSearchParams(location.search);
 const focusedTheme=previewParams.get('theme');
 if(['light','dark'].includes(previewParams.get('color'))) document.querySelector('#color').value=previewParams.get('color');
 if(themes.includes(focusedTheme)){document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;grid.style.display='block';grid.style.maxWidth=focusedTheme==='minimal'||focusedTheme==='minimal_small'?'480px':'900px';cards.forEach((c,i)=>{c.parentElement.hidden=themes[i]!==focusedTheme;c.parentElement.querySelector('h2').hidden=true;});document.body.style.padding='0';}
-window.preview={cards,entities,get states(){return states},get calls(){return calls},setStates(value){states=value;update()},update};update();
+window.preview={cards,entities,library,get wsCalls(){return wsCalls},setMAHandler(fn){maHandler=fn},setPlaylistsEnabled(value){playlistsEnabled=value;update()},get states(){return states},get calls(){return calls},setStates(value){states=value;update()},update};update();
 </script></body></html>

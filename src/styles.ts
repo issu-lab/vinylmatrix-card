@@ -11,6 +11,9 @@ export const styles = css`
   }
   .card.dark { --surface:#282c2e; --ink:#f0efec; --muted:#bbbcb8; --line:rgba(225,225,225,.25); --arm:#b9bcb9; --button:#f1f0ec; --button-ink:#242728; }
   .backdrop { position:absolute; z-index:-2; inset:-35px; width:calc(100% + 70px); height:calc(100% + 70px); object-fit:cover; filter:blur(30px) saturate(.35); opacity:.27; pointer-events:none; }
+  vinylmatrix-playlists { grid-column:1 / -1; margin-top:8px; }
+  .minimal vinylmatrix-playlists { margin:8px 10% 0; }
+  .classic vinylmatrix-playlists,.cassette vinylmatrix-playlists { margin:0 4% 16px; }
   .stage { display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; gap:2px; }
   .deck { position:relative; min-width:0; aspect-ratio:320 / 300; }
   .record { position:absolute; z-index:0; width:82%; aspect-ratio:1; left:1%; top:8%; border-radius:50%; background:var(--disc);

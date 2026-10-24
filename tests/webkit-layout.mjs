@@ -1,3 +1,4 @@
+import { checkPlaylists } from './playlists.mjs';
 import { checkMinimalSmall } from './minimal-small.mjs';
 import { checkCassette } from './cassette.mjs';
 import { checkTonearm } from './tonearm.mjs';
@@ -45,6 +46,7 @@ try {
   await checkTonearm(page);
   await checkCassette(page);
   await checkMinimalSmall(page);
+  await checkPlaylists(page);
   assert.deepEqual(errors,[]);
   console.log('WebKit: 12 light/dark layout checks, state/artwork visibility and playback passed.');
 } finally {await browser.close()}

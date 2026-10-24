@@ -29,6 +29,9 @@ pnpm test:webkit
 src/player.ts             selection, capabilities, progress and safe artwork URLs
 src/vinylmatrix-card.ts   rendering, animation lifecycle and guarded service calls
 src/editor.ts            visual configuration editor
+src/music-assistant.ts   registry targets, playlist response parsing and HA actions
+src/playlists.ts         lazy playlist panel and asynchronous request guards
+src/playlist-styles.ts   theme-aware playlist button and accessible panel
 src/styles.ts            shared styles
 src/minimal-styles.ts     reference proportions and Minimal styling
 src/minimal-small-styles.ts compact sleeve, exposed vinyl and right-side controls
@@ -71,7 +74,7 @@ Official sources checked for this audit:
 
 Prepared 1.1.0 adds the compact theme and sets the default vinyl period to 12 seconds. `tests/minimal-small.mjs` is shared by Chromium/WebKit and an optional Firefox smoke runner. It checks all three vinyl defaults, ten width/color layouts from 240 to 900 px, a stationary square sleeve and exposed record, actual rotation, five stopped states, playback/seek/volume commands, missing artwork, streams and player handover. Chromium/WebKit also check reduced motion.
 
-The shared scenarios passed in the system Firefox using simulated players. Two actual Minimal Small screenshots were captured as matching 640 × 640 frames. Player tests (13), documentation checks (6), distribution checks (2), TypeScript and the build pass. Full Chromium/WebKit suites remain pending because their matching executables are absent; no browser or dependency installation was performed. Neither the new theme nor playlist playback has been deployed to Home Assistant. The playlist chooser is not implemented.
+The shared scenarios passed in the system Firefox using simulated players. Two actual Minimal Small screenshots were captured as matching 640 × 640 frames. Player tests (13), documentation checks (6), distribution checks (2), TypeScript and the build pass. Full Chromium/WebKit suites remain pending because their matching executables are absent; no browser or dependency installation was performed. Neither the new theme nor playlist playback has been deployed to Home Assistant. The playlist chooser was subsequently added as described below.
 
 For the optional Firefox runner, use a fresh disposable profile and the loopback [WebDriver BiDi endpoint](https://developer.mozilla.org/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection):
 
@@ -85,6 +88,18 @@ CAPTURE_SMALL=1 node tests/firefox-smoke.mjs
 ```
 
 Close the disposable Firefox process after testing. `FIREFOX_BIDI_URL` overrides the endpoint. This smoke check complements rather than replaces the full Playwright regression suites.
+
+## Music Assistant playlist contract
+
+The picker uses Home Assistant's authenticated connection, with no direct Music Assistant server credentials. Opening the panel reads `config/entity_registry/list` and intersects enabled `music_assistant` entities with the card's configured IDs plus optional `playlist_entity`. The registry's `config_entry_id` scopes library reads. Explicit destinations never silently fall back, and active-player changes do not retarget an open panel.
+
+`callWS` sends `call_service` for `music_assistant.get_library`, with `return_response: true`, `media_type: playlist`, a page size of 25, offset, name ordering and optional search. Home Assistant's WebSocket result uses `response.items` (the REST envelope is different). Names, URI and top-level `image` are read from each item. Images pass the shared URL sanitizer; unavailable art gets an icon. Selecting an item calls `music_assistant.play_media` with its URI, `media_type: playlist`, `enqueue: replace` and one explicit entity ID.
+
+Request generations discard late responses after searches, target changes, closing, disconnection or reconfiguration. Playback is guarded against double taps and unavailable targets. Calls time out after 15 seconds, without automatic retries; a timeout on playback reports unconfirmed playback rather than asserting that nothing played. Entity discovery and library reads run only when the panel opens or the user requests more data.
+
+The optional `?playlists=1` preview parameter and **Toggle Music Assistant** development button enable simulated playlist data. `tests/music-assistant.test.mjs` covers ownership, destination selection, response parsing, request payloads, pagination and timeouts. `tests/playlists.mjs` exercises the real components with mocked HA services, shared between the browser runners. `TEST_SUITE=playlists node tests/firefox-smoke.mjs` runs just the playlist browser scenarios.
+
+References: [HA WebSocket responses](https://contributors.home-assistant.io/core/internals/websocket-api/), [Music Assistant library](https://www.home-assistant.io/actions/music_assistant.get_library/) and [playlist playback](https://www.home-assistant.io/actions/music_assistant.play_media/). Live read-only inspection on HA 2026.10.2 / Music Assistant 2.10.8 confirmed playlist URIs and string artwork URLs. Seven Music Assistant unit tests and the playlist browser scenarios passed locally in system Firefox, including 32 layout combinations. Real playback, live selector rendering and non-admin permissions are still release gates in the roadmap.
 
 ## Branding sources
 

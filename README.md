@@ -25,7 +25,7 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
 | **Current version** | `1.0.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.0.0)) |
-| **Prepared version** | `1.1.0` — unreleased; Minimal Small, slower vinyl animation and Marketplace preparation |
+| **Prepared version** | `1.1.0` — unreleased; Minimal Small, Music Assistant playlists, slower vinyl animation and Marketplace preparation |
 | **Validation** | Stable 1.0.0 passed logic/documentation, Chromium/WebKit and HACS checks. See [development](docs/development.md#marketplace-readiness) for the prepared update and remaining checks. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
@@ -48,6 +48,7 @@ It works with existing Home Assistant media players, keeping the same experience
 - 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
 - 📼 Transparent Cassette style with rotating reels, lifting playback heads and compact artwork/progress.
+- 📚 Music Assistant playlist picker with search, artwork and explicit playback destination (prepared update).
 - 🎨 Four selectable styles in the prepared update with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
 - 🌍 English and Italian, with automatic language selection.
@@ -157,6 +158,8 @@ language: auto
 | `entity` | — | Single-player shorthand. `entities` takes precedence if both are present. |
 | `name` | Player's friendly name | Optional player label; the track title stays separate. |
 | `theme` | `minimal` | `minimal`, `minimal_small` (prepared update), `classic` or `cassette`. |
+| `show_playlists` | `true` | Show the playlist button when the Music Assistant integration is available. |
+| `playlist_entity` | Automatic | Optional preferred Music Assistant player for playlist playback. |
 | `color_mode` | `auto` | Follow Home Assistant, or force `light` / `dark`. |
 | `language` | `auto` | Follow Home Assistant, or choose `en` / `it`. Other languages fall back to English. |
 
@@ -168,7 +171,28 @@ Classic’s 33/45 buttons change the record animation speed only: in the prepare
 
 Configurations saved with the retired `vinyl` or `ambient` style open Minimal automatically.
 
-For a single player:
+### Music Assistant playlists — prepared 1.1.0
+
+With the official Music Assistant integration installed, a **Playlists** button appears in every theme. Open it to search your library, browse playlist artwork and load more results. The card uses your existing Home Assistant connection; no server URL, token, helper, script or additional custom card is needed.
+
+Only players belonging to the Music Assistant integration can receive playlists. The initial destination is the active Music Assistant player, otherwise the first available Music Assistant player in the configured list. The destination is shown in the panel and remains fixed while it is open, even if the card switches to another playing entity. You can choose another configured Music Assistant player in the panel. Multiple Music Assistant servers are supported: the library follows the selected player's integration instance.
+
+Choose a preferred player in the visual editor or set `playlist_entity`. It can be outside `entities`; add it to `entities` as well if you want the card's artwork and transport controls to follow it after starting playback. An invalid preferred player never silently redirects playback to a different speaker. Home Assistant's native selector filters this field to Music Assistant media players; the standalone fallback lists media players and ownership is checked when opening the panel.
+
+```yaml
+type: custom:vinylmatrix-card
+entities:
+  - media_player.music_assistant_living_room
+theme: minimal_small
+show_playlists: true
+playlist_entity: media_player.music_assistant_living_room
+```
+
+Selecting a playlist requests immediate playback and **replaces the chosen player's queue**. The panel states this before selection. To hide the feature, set `show_playlists: false` or disable it in the editor. Without Music Assistant, the button stays hidden and ordinary media-player controls continue to work.
+
+The integration must provide [`music_assistant.get_library`](https://www.home-assistant.io/actions/music_assistant.get_library/) and [`music_assistant.play_media`](https://www.home-assistant.io/actions/music_assistant.play_media/), and your Home Assistant user must be allowed to read the entity registry and call these actions. This lists playlists saved in the selected Music Assistant library, not a global provider search. Loading, empty libraries, unavailable players and service errors are shown in the panel; requests time out without automatic playback retries.
+
+For a single player without additional options:
 
 ```yaml
 type: custom:vinylmatrix-card
@@ -185,7 +209,8 @@ entity: media_player.living_room
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.
 - Commands sent to a grouped player may affect its group, according to the integration's behavior.
-- Music search, library browsing, playlist selection, an equalizer and audio analysis are not implemented. Music Assistant players can already be controlled as regular media players.
+- General music/provider search, playlist editing, queue management, an equalizer and audio analysis are not implemented. The prepared playlist picker only browses playlists in the selected Music Assistant library.
+- Playlist playback is covered by simulated browser checks; end-to-end playback in a live Home Assistant dashboard remains pending. Live read-only checks confirmed the installed integration returns playlist names, URIs and artwork.
 
 ---
 

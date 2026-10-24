@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import type { Config, HomeAssistant } from "./types.ts";
 import { labels } from "./i18n.ts";
 import { normalizeTheme } from "./player.ts";
@@ -61,6 +61,8 @@ export class VinylMatrixEditor extends LitElement {
       <label for="name">${t.name}</label><input id="name" .value=${this.config.name ?? ""} @change=${(e:Event)=>this.updateConfig({name:(e.target as HTMLInputElement).value})}/>
       <label for="theme">${t.theme}</label><select id="theme" .value=${this.config.theme ?? "minimal"} @change=${(e:Event)=>this.updateConfig({ theme:(e.target as HTMLSelectElement).value as Config["theme"] })}>${["minimal","minimal_small","classic","cassette"].map(v=>html`<option value=${v}>${t[v as keyof typeof t]}</option>`)}</select>
       <label for="color">${t.color}</label><select id="color" .value=${this.config.color_mode ?? "auto"} @change=${(e:Event)=>this.updateConfig({color_mode:(e.target as HTMLSelectElement).value as Config["color_mode"]})}>${["auto","light","dark"].map(v=>html`<option value=${v}>${t[v as keyof typeof t]}</option>`)}</select>
+      <label for="show-playlists">${t.showPlaylists}</label><select id="show-playlists" .value=${String(this.config.show_playlists !== false)} @change=${(e:Event)=>this.updateConfig({show_playlists:(e.target as HTMLSelectElement).value === "true"})}><option value="true">${t.enabled}</option><option value="false">${t.disabled}</option></select>
+      ${this.config.show_playlists !== false ? html`<label>${t.playlistTarget}</label><p>${t.playlistAuto}</p>${customElements.get("ha-selector") ? html`<ha-selector .hass=${this.hass} .selector=${{entity:{filter:{domain:"media_player",integration:"music_assistant"}}}} .value=${this.config.playlist_entity} .label=${t.playlistTarget} .required=${false} @value-changed=${(e:CustomEvent)=>{e.stopPropagation();const value=e.detail.value;if(!value || typeof value === "string" && /^media_player\.[a-z0-9_]+$/.test(value))this.updateConfig({playlist_entity:value || undefined});}}></ha-selector>` : html`<select aria-label=${t.playlistTarget} .value=${this.config.playlist_entity ?? ""} @change=${(e:Event)=>this.updateConfig({playlist_entity:(e.target as HTMLSelectElement).value || undefined})}><option value="">${t.playlistAuto}</option>${Object.keys(this.hass?.states ?? {}).filter(id=>id.startsWith("media_player.")).map(id=>html`<option value=${id}>${this.hass?.states[id].attributes.friendly_name ?? id} · ${id}</option>`)}</select>`}` : nothing}
       <label for="language">${t.language}</label><select id="language" .value=${this.config.language ?? "auto"} @change=${(e:Event)=>this.updateConfig({language:(e.target as HTMLSelectElement).value as Config["language"]})}><option value="auto">${t.auto}</option><option value="en">English</option><option value="it">Italiano</option></select>
     `;
   }

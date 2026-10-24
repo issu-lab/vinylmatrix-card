@@ -1,5 +1,12 @@
 import type { HomeAssistant, Config } from "./types.ts";
 const en = {
+  playlists: "Playlists", playlistPlayer: "Play on", playlistSearch: "Search playlists", playlistLoading: "Loading playlists…", playlistStarting: "Sending playback request…", playlistStarted: "Playback request sent.",
+  playlistReplace: "Select a playlist to play now and replace this player’s queue.", playlistEmpty: "No playlists found in this Music Assistant library.", loadMore: "Load more", retry: "Retry",
+  playlistConnectError: "Could not connect to Music Assistant. Check its integration and your Home Assistant permissions.",
+  playlistNoTarget: "Add a Music Assistant player to the card or choose a playlist player in the card settings.",
+  playlistLoadError: "Could not load playlists. Check Music Assistant and try again.", playlistPlayError: "Playback could not be confirmed. Check the player before trying again.",
+  showPlaylists: "Music Assistant playlist button", enabled: "Enabled when Music Assistant is available", disabled: "Hidden", playlistTarget: "Preferred playlist player", playlistAuto: "Automatic · active Music Assistant player first",
+
   recordSpeed: "Record animation speed", play: "Play", pause: "Pause", stop: "Stop", previous: "Previous track", next: "Next track",
   volume: "Volume", progress: "Playback position", mute: "Mute", unmute: "Unmute",
   idle: "Nothing playing", paused: "Paused", playing: "Playing", buffering: "Buffering",
@@ -11,6 +18,13 @@ const en = {
   hint: "The playing player is selected automatically. Order determines priority when the card first opens.",
 };
 const it: typeof en = {
+  playlists: "Playlist", playlistPlayer: "Riproduci su", playlistSearch: "Cerca playlist", playlistLoading: "Caricamento playlist…", playlistStarting: "Invio richiesta di riproduzione…", playlistStarted: "Richiesta di riproduzione inviata.",
+  playlistReplace: "Seleziona una playlist per riprodurla subito e sostituire la coda di questo lettore.", playlistEmpty: "Nessuna playlist trovata nella libreria di Music Assistant.", loadMore: "Carica altre", retry: "Riprova",
+  playlistConnectError: "Connessione a Music Assistant non riuscita. Controlla l’integrazione e i tuoi permessi in Home Assistant.",
+  playlistNoTarget: "Aggiungi alla card un lettore Music Assistant oppure scegli il lettore playlist nelle impostazioni della card.",
+  playlistLoadError: "Impossibile caricare le playlist. Controlla Music Assistant e riprova.", playlistPlayError: "Riproduzione non confermata. Controlla il lettore prima di riprovare.",
+  showPlaylists: "Pulsante playlist Music Assistant", enabled: "Attivo quando Music Assistant è disponibile", disabled: "Nascosto", playlistTarget: "Lettore preferito per le playlist", playlistAuto: "Automatico · prima il lettore Music Assistant attivo",
+
   recordSpeed: "Velocità animazione disco", play: "Riproduci", pause: "Pausa", stop: "Ferma", previous: "Brano precedente", next: "Brano successivo",
   volume: "Volume", progress: "Posizione di riproduzione", mute: "Disattiva audio", unmute: "Riattiva audio",
   idle: "Nessuna riproduzione", paused: "In pausa", playing: "In riproduzione", buffering: "Caricamento",

@@ -2,6 +2,10 @@
 
 ## Unreleased — 1.1.0
 
+- Add a theme-aware Music Assistant playlist button in all four styles, visible when the integration is available and configurable in the editor. The panel supports artwork, server-side search, pagination and an explicit preferred player.
+- Resolve player ownership and library instance from Home Assistant's entity registry, keep the open panel's target fixed across automatic card handovers, and request immediate playlist playback with queue replacement. Handle unavailable players, failed/late requests and double taps without automatic playback retries.
+- Pass seven Music Assistant unit tests and Firefox playlist scenarios across 32 theme/color/width combinations with simulated services. Live read-only checks confirm the installed integration returns playlist names, URIs and artwork; no live playback command or deployment was performed.
+
 - Prepare Marketplace instructions for Home Assistant 2026.11 while retaining the HACS button and instructions for older versions. Document the new module path and migration without duplicate resource entries.
 - Add passing local distribution checks for manifest/module lookup and build version consistency; add daily validation and disable PR comments in the existing HACS job. The workflow changes are prepared locally and have not run remotely.
 - Add Minimal Small: stationary square artwork, partially exposed rotating vinyl, right-side metadata/progress/controls, and expandable volume in automatic, light and dark colors.

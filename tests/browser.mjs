@@ -1,3 +1,4 @@
+import { checkPlaylists } from './playlists.mjs';
 import { checkMinimalSmall } from './minimal-small.mjs';
 import { captureThemeScreenshots } from './screenshots.mjs';
 import { checkCassette } from './cassette.mjs';
@@ -102,11 +103,11 @@ try {
   assert.equal(await editor.locator('.picker select option:not([disabled])').count(),0);
   // Verify the contract passed to Home Assistant's native selector separately from the fallback.
   await page.evaluate(()=>customElements.define('ha-selector',class extends HTMLElement{}));
-  await editor.locator('ha-selector').waitFor({state:'attached'});
-  assert.equal(await editor.locator('ha-selector').evaluate(e=>e.selector.entity.filter.domain),'media_player');
-  await editor.locator('ha-selector').evaluate(e=>e.dispatchEvent(new CustomEvent('value-changed',{detail:{value:'light.kitchen'},bubbles:true,composed:true})));
+  await editor.locator('.row ha-selector').waitFor({state:'attached'});
+  assert.equal(await editor.locator('.row ha-selector').evaluate(e=>e.selector.entity.filter.domain),'media_player');
+  await editor.locator('.row ha-selector').evaluate(e=>e.dispatchEvent(new CustomEvent('value-changed',{detail:{value:'light.kitchen'},bubbles:true,composed:true})));
   assert.deepEqual(await page.evaluate(()=>window.editorConfig.entities),['media_player.office']);
-  await editor.locator('ha-selector').evaluate(e=>e.dispatchEvent(new CustomEvent('value-changed',{detail:{value:'media_player.living_room'},bubbles:true,composed:true})));
+  await editor.locator('.row ha-selector').evaluate(e=>e.dispatchEvent(new CustomEvent('value-changed',{detail:{value:'media_player.living_room'},bubbles:true,composed:true})));
   assert.deepEqual(await page.evaluate(()=>window.editorConfig.entities),['media_player.living_room']);
   pass('player search filters friendly name and entity ID; native selector excludes other domains');
 
@@ -162,6 +163,7 @@ try {
   await checkTonearm(page);
   await checkCassette(page);
   await checkMinimalSmall(page);
+  await checkPlaylists(page);
   await captureThemeScreenshots(page);
   assert.deepEqual(errors,[]);
   console.log(`${count} browser scenarios passed; no page errors.`);

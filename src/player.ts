@@ -20,6 +20,8 @@ export function normalizeConfig(config: Config): NormalizedConfig {
   if (config.color_mode && !["auto", "light", "dark"].includes(config.color_mode)) throw new Error("VinylMatrix: invalid color_mode.");
   if (config.language && !["auto", "en", "it"].includes(config.language)) throw new Error("VinylMatrix: invalid language.");
   if (config.name !== undefined && typeof config.name !== "string") throw new Error("VinylMatrix: name must be text.");
+  if (config.show_playlists !== undefined && typeof config.show_playlists !== "boolean") throw new Error("VinylMatrix: show_playlists must be boolean.");
+  if (config.playlist_entity !== undefined && (typeof config.playlist_entity !== "string" || !/^media_player\.[a-z0-9_]+$/.test(config.playlist_entity))) throw new Error("VinylMatrix: playlist_entity must be a media_player.");
   return { ...config, entities: [...new Set(ids)], theme, color_mode: config.color_mode ?? "auto", language: config.language ?? "auto" };
 }
 

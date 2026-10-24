@@ -13,6 +13,8 @@ import { classicArm, platterRim } from "./classic-graphics.ts";
 import { cassetteMechanism } from "./cassette-graphics.ts";
 import { cassetteStyles } from "./cassette-styles.ts";
 import "./editor.ts";
+import "./playlists.ts";
+import { hasMusicAssistant } from "./music-assistant.ts";
 
 type Slider = "seek" | "volume";
 interface Gesture { kind: Slider; entity: string; key: string; value: number; canceled?: boolean }
@@ -202,6 +204,7 @@ export class VinylMatrixCard extends LitElement {
       </div>`}
       ${compact ? html`<div class="small-footer">${footer}</div>` : theme === "classic" ? html`<div class="classic-footer">${footer}</div>` : theme === "cassette" ? html`<div class="cassette-footer"><div class="album">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div>${footer}</div>` : footer}
       ${popupVolume && this.volumeOpen ? html`<div class="volume-popover"><button aria-label=${p?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!supports(p,Feature.VOLUME_MUTE) || this.busy} @click=${()=>this.command("volume_mute",Feature.VOLUME_MUTE,{is_volume_muted:!p?.attributes.is_volume_muted},capturedEntity)}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : nothing}
+      ${this.config.show_playlists !== false && hasMusicAssistant(this.hass) ? html`<vinylmatrix-playlists .hass=${this.hass} .config=${this.config} .activeEntity=${this.active} .theme=${theme}></vinylmatrix-playlists>` : nothing}
       ${this.error ? html`<p class="error" role="alert">${this.error}</p>` : nothing}
     </ha-card>`;
   }

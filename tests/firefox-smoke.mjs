@@ -1,6 +1,7 @@
 // Optional smoke test using an already installed Firefox and its loopback BiDi endpoint.
 // Launch a disposable profile with: firefox --headless --no-remote --profile /tmp/vinylmatrix-firefox-profile --remote-debugging-port 9222
 import {writeFile} from 'node:fs/promises';
+import {playlistBrowserChecks} from './playlists.mjs';
 import {minimalSmallChecks} from './minimal-small.mjs';
 const ws=new WebSocket(process.env.FIREFOX_BIDI_URL ?? 'ws://127.0.0.1:9222/session');
 await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject});
@@ -18,8 +19,22 @@ try {
   const navigate=()=>command('browsingContext.navigate',{context,url:process.env.PREVIEW_URL ?? 'http://127.0.0.1:5177',wait:'complete'});
   await navigate();
   await evaluate('new Promise((resolve,reject)=>{let n=0;const t=setInterval(()=>{if(window.preview){clearInterval(t);resolve(true)}else if(++n>100){clearInterval(t);reject(Error("Preview did not load"))}},50)})');
-  console.log('Preview loaded; checking compact layout and playback');
-  console.log(await evaluate(`(${minimalSmallChecks.toString()})()`));
+  console.log('Preview loaded; checking card behavior');
+  if(process.env.TEST_SUITE !== 'playlists') console.log(await evaluate(`(${minimalSmallChecks.toString()})()`));
+  await navigate();
+  console.log(await evaluate(`(${playlistBrowserChecks.toString()})()`));
+  if(process.env.CAPTURE_PLAYLISTS==='1') {
+    for(const [theme,color] of [['minimal_small','dark'],['classic','light']]) {
+      await navigate();
+      await command('browsingContext.setViewport',{context,viewport:{width:520,height:1100},devicePixelRatio:1});
+      await evaluate(`(async()=>{document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;document.body.style.cssText='padding:20px;margin:0;background:${color==='dark'?'#111820':'#f2f2ed'}';document.querySelector('#grid').style.cssText='display:block;width:480px;max-width:none;margin:0';window.preview.cards.forEach((c,i)=>{c.parentElement.hidden=i!==0;c.parentElement.querySelector('h2').hidden=true;c.parentElement.style.width='480px'});const c=window.preview.cards[0];c.setConfig({entities:window.preview.entities,theme:'${theme}',color_mode:'${color}'});window.preview.setPlaylistsEnabled(true);await c.updateComplete;const picker=c.shadowRoot.querySelector('vinylmatrix-playlists');await picker.updateComplete;picker.shadowRoot.querySelector('.toggle').click();await new Promise((resolve,reject)=>{let n=0;const id=setInterval(()=>{if(picker.shadowRoot.querySelectorAll('.playlist').length){clearInterval(id);resolve()}else if(++n>100){clearInterval(id);reject(Error('No playlists'))}},20)});await Promise.all([...picker.shadowRoot.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));return true})()`);
+      const height=await evaluate('Math.ceil(window.preview.cards[0].getBoundingClientRect().height)+40');
+      await command('browsingContext.setViewport',{context,viewport:{width:520,height},devicePixelRatio:1});
+      const screenshot=await command('browsingContext.captureScreenshot',{context,origin:'viewport'});
+      await writeFile(`/tmp/vinylmatrix-playlists-${theme}-${color}.png`,Buffer.from(screenshot.data,'base64'));
+      console.log(`Captured playlist panel: ${theme}/${color}`);
+    }
+  }
   if(process.env.CAPTURE_SMALL==='1') {
     await navigate();await command('browsingContext.setViewport',{context,viewport:{width:640,height:640},devicePixelRatio:1});
     for(const color of ['light','dark']) {

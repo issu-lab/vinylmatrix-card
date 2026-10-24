@@ -5,6 +5,9 @@ export interface Player {
 }
 export interface HomeAssistant {
   states: Record<string, Player>;
+  services?: Record<string, Record<string, unknown>>;
+  connection?: object;
+  callWS?<T = unknown>(message: Record<string, unknown>): Promise<T>;
   language?: string;
   locale?: { language?: string };
   themes?: { darkMode?: boolean };
@@ -17,6 +20,8 @@ export interface Config {
   entities?: string[];
   entity?: string;
   name?: string;
+  show_playlists?: boolean;
+  playlist_entity?: string;
   theme?: Theme;
   color_mode?: "auto" | "light" | "dark";
   language?: "auto" | "en" | "it";
