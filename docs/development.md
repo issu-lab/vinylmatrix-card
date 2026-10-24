@@ -11,7 +11,7 @@ pnpm test:distribution
 pnpm dev --port 5177 --strictPort
 ```
 
-Open `http://127.0.0.1:5177`. Add `?theme=minimal`, `?theme=classic` `?theme=cassette` or `?theme=minimal_small` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
+Open `http://127.0.0.1:5177`. Add `?theme=minimal`, `?theme=classic`, `?theme=cassette` or `?theme=minimal_small` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
 
 Browser checks, with the preview server running:
 
@@ -54,13 +54,27 @@ For stable releases, retain the documented real-world validation basis and verif
 
 ## Marketplace readiness
 
-Marketplace audit date: 2026-10-21. Originally prepared as 1.0.1; now included in **1.1.0, not published**, alongside the theme changes dated 2026-10-24. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its latest [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
+Marketplace audit refreshed: 2026-10-24 (initial preparation: 2026-10-21). Originally prepared as 1.0.1; now included in **1.1.0, not published**, alongside the theme changes dated 2026-10-24. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its recorded [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
 
 The documented 2026.11 distribution contract already matches this card: root `hacs.json`, explicit `vinylmatrix-card.js`, built single-file module in `dist`, and the same asset attached to releases. Lit is bundled. Keep `content_in_root` unset so release/dist lookup works. `render_readme` is retained for legacy HACS; Marketplace ignores unrecognized keys. No new minimum Home Assistant version is imposed because the card itself does not use a 2026.11-only API.
 
 The README now distinguishes Marketplace and legacy HACS, includes both repository buttons, and explains `/local/community/` alongside the compatible `/hacsfiles/` path. The new distribution tests catch a missing/wrongly located module and a stale version in the build. CI runs them after building and adds a daily schedule to the existing push, pull request and manual checks. The HACS job keeps `category: plugin`, skips no checks, and disables PR comments so read-only permissions suffice. Hassfest is for integrations and is not applicable to this dashboard module.
 
 At the original 1.0.1 preparation: 13 player tests, 6 documentation/branding checks, 2 distribution checks, TypeScript and production build passed. That earlier module differed from stable 1.0.0 only in its version label; the current 1.1.0 module also includes the new theme and rotation changes. Chromium and WebKit suites were attempted but stopped at launch: the required `chromium_headless_shell-1234` and `webkit-2336` executables are absent. No dependencies or browsers were installed. No live Home Assistant or Marketplace installation was performed, and the updated workflow has not run remotely. See the [roadmap](../ROADMAP.md) for release gates.
+
+Readiness recheck on 2026-10-24, against the prepared 1.1.0 at `df3f14f`:
+
+| Check | Result |
+|---|---|
+| Manifest and layout | Root `hacs.json`, `filename: vinylmatrix-card.js`, no root-only or ZIP override; category `plugin` in links and validation. No manifest changes needed. |
+| Built module | TypeScript and production build passed; rebuilding reproduced the committed bundle byte-for-byte. The 98,109-byte file parses as an ES module with no external static imports. |
+| Automated packaging/documentation | 2 distribution and 6 README/branding checks passed. |
+| Installation badges | Both official SVG badge URLs returned HTTP 200 with `image/svg+xml`. Both My Home Assistant links returned HTTP 200 and the expected repository-link pages, with `owner=issu-lab`, `repository=vinylmatrix-card`, `category=plugin`. This verifies link availability, not installation in a user's instance. |
+| README | Marketplace 2026.11 instructions, legacy HACS path, migration and single resource registration agree with the official docs. The README explicitly separates public 1.0.0 from unpublished 1.1.0. |
+| GitHub release and catalog | Public latest release is v1.0.0 with its `vinylmatrix-card.js` asset. Repository is public, active, has topics and issues enabled. It is not present in `hacs/default`'s `plugin` list. |
+| Remaining validation | Updated remote CI, live Marketplace install/update, migrated HACS resource registration and live playlist playback are still pending. This audit does not certify those paths. |
+
+The reviewed module SHA-256 is `42fedc6ffa27b34ec5f21398be21758dac51b8edf6e8714bad7aad4c409b9a5c`. Its public release asset must be rebuilt and compared again when publishing. No remote metadata, Home Assistant configuration or releases were changed by this audit.
 
 Official sources checked for this audit:
 

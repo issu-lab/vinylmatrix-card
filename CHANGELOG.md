@@ -2,6 +2,8 @@
 
 ## Unreleased — 1.1.0
 
+- Recheck Marketplace readiness on 2026-10-24: manifest/layout, reproducible standalone module, both live My Home Assistant badge/link endpoints and README migration references conform to the documented requirements. Clarify that installation links open published releases, not the local 1.1.0 preparation. Live Marketplace installation remains unverified.
+
 - Add a theme-aware Music Assistant playlist button in all four styles, visible when the integration is available and configurable in the editor. The panel supports artwork, server-side search, pagination and an explicit preferred player.
 - Resolve player ownership and library instance from Home Assistant's entity registry, keep the open panel's target fixed across automatic card handovers, and request immediate playlist playback with queue replacement. Handle unavailable players, failed/late requests and double taps without automatic playback retries.
 - Pass seven Music Assistant unit tests and Firefox playlist scenarios across 32 theme/color/width combinations with simulated services. Live read-only checks confirm the installed integration returns playlist names, URIs and artwork; no live playback command or deployment was performed.

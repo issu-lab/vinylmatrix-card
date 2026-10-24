@@ -94,6 +94,8 @@ The four styles below (including unreleased Minimal Small) use the same preview 
 
 ## Installation
 
+The buttons below open the published repository in your Home Assistant instance. They do not install unpublished local work: **1.0.0 is the current public release; the prepared 1.1.0 features will become available after that release is published**.
+
 ### Marketplace — Home Assistant 2026.11 and later
 
 Home Assistant's [Marketplace documentation](https://contributors.home-assistant.io/marketplace/how-it-works/) describes the built-in store under **Settings → Marketplace** starting with 2026.11. These instructions prepare for that transition; installation on 2026.11 has not yet been tested for this card.

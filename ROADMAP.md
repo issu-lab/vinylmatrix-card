@@ -8,6 +8,7 @@
 - Validate the playlist picker in a live Home Assistant dashboard: non-admin permissions, native preferred-player selector, real playlist playback/queue replacement and grouped-player behavior. Live library reads are verified; no live playback test or deployment has been performed.
 - Run Chromium/WebKit suites when the matching browser executables are available; the local 2026-10-21 attempt stopped before scenarios because they are absent. Do not treat the passing 1.0.0 workflow as proof for this update.
 - Validate installation/update, single resource registration, the visual editor and README rendering on Home Assistant 2026.11 Marketplace, including custom-repository and migrated HACS paths.
+- During the single combined release, update the public GitHub description, which still names only Minimal and Classic, to include the current themes and Music Assistant playlists.
 - After user approval, publish from a fresh standalone checkout, require a passing updated workflow without ignored HACS checks, attach the built module and compare the downloaded asset. No push or release is currently authorized.
 
 ## Presentation
