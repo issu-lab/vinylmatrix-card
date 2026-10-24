@@ -25,7 +25,7 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
 | **Current version** | `1.0.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.0.0)) |
-| **Prepared version** | `1.0.1` — unreleased; Marketplace documentation and distribution checks |
+| **Prepared version** | `1.1.0` — unreleased; Minimal Small, slower vinyl animation and Marketplace preparation |
 | **Validation** | Stable 1.0.0 passed logic/documentation, Chromium/WebKit and HACS checks. See [development](docs/development.md#marketplace-readiness) for the prepared update and remaining checks. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
@@ -48,7 +48,7 @@ It works with existing Home Assistant media players, keeping the same experience
 - 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
 - 📼 Transparent Cassette style with rotating reels, lifting playback heads and compact artwork/progress.
-- 🎨 Three selectable styles with automatic, light and dark colors.
+- 🎨 Four selectable styles in the prepared update with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
 - 🌍 English and Italian, with automatic language selection.
 - ♿ Keyboard controls, accessible labels and reduced-motion support.
@@ -63,9 +63,11 @@ The playing player takes priority. If several players are playing, VinylMatrix k
 
 When nobody is playing, the last available player remains visible so its artwork and resume control stay accessible. If that player becomes unavailable, the card falls back to the first available configured entry. If all are unavailable, it shows an unavailable state.
 
-The record rotates only during `playing`. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
+The record rotates only during `playing`. In the prepared update, Minimal, Minimal Small and Classic at its default 33 setting share a relaxed 12-second revolution. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
 
 The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
+
+Minimal Small keeps a stationary square sleeve on the left, with part of the spinning vinyl visible behind it. Track information, progress and essential controls sit on the right; volume expands below. It supports the same light, dark and automatic color modes.
 
 In Cassette, both reels rotate while playing and the playback heads rise to the tape. Pause, stop, buffering and unavailable states stop the reels and lower the heads. Reduced motion disables reel rotation and makes the heads move instantly. The four rectangular buttons control previous track, play/pause (or stop when supported instead), next track and volume.
 
@@ -75,7 +77,7 @@ Selection itself sends no commands. Playback controls target the displayed entit
 
 ## Interface
 
-The three styles below use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
+The four styles below (including unreleased Minimal Small) use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
 
 | Light | Dark |
 |---|---|
@@ -83,7 +85,9 @@ The three styles below use the same preview size. Each screenshot shows the actu
 | **Classic**<br>![Classic in light mode](assets/classic-light.png) | **Classic**<br>![Classic in dark mode](assets/classic-dark.png) |
 | **Cassette**<br>![Cassette in light mode](assets/cassette-light.png) | **Cassette**<br>![Cassette in dark mode](assets/cassette-dark.png) |
 
-**Minimal** puts the record and artwork first. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
+| **Minimal Small · unreleased**<br>![Minimal Small in light mode](assets/minimal_small-light.png) | **Minimal Small · unreleased**<br>![Minimal Small in dark mode](assets/minimal_small-dark.png) |
+
+**Minimal** puts the record and artwork first. **Minimal Small** is a compact horizontal sleeve-and-record layout. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
 ---
 
@@ -152,15 +156,15 @@ language: auto
 | `entities` | Required unless `entity` is used | Ordered list of media player entity IDs. |
 | `entity` | — | Single-player shorthand. `entities` takes precedence if both are present. |
 | `name` | Player's friendly name | Optional player label; the track title stays separate. |
-| `theme` | `minimal` | `minimal`, `classic` or `cassette`. |
+| `theme` | `minimal` | `minimal`, `minimal_small` (prepared update), `classic` or `cassette`. |
 | `color_mode` | `auto` | Follow Home Assistant, or force `light` / `dark`. |
 | `language` | `auto` | Follow Home Assistant, or choose `en` / `it`. Other languages fall back to English. |
 
 In the visual editor, search for a media player by friendly name or entity ID. Only `media_player` entities are offered; players already selected in another row are excluded. The row order defines startup priority.
 
-Choose **Cassette** in the visual editor, or set `theme: cassette` in YAML. Minimal remains the default for existing and new configurations.
+Choose a style in the visual editor, or set `theme: cassette` / `theme: minimal_small` in YAML. Minimal Small requires the prepared update. Minimal remains the default for existing and new configurations.
 
-Classic’s 33/45 buttons change the record animation speed only. They do not change the playback speed of your audio.
+Classic’s 33/45 buttons change the record animation speed only: in the prepared update, 33 uses 12 seconds per revolution and 45 uses 8.8 seconds. These are decorative speeds. They do not change the playback speed of your audio.
 
 Configurations saved with the retired `vinyl` or `ambient` style open Minimal automatically.
 
@@ -181,7 +185,7 @@ entity: media_player.living_room
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.
 - Commands sent to a grouped player may affect its group, according to the integration's behavior.
-- Music search, library browsing, playlists, an equalizer and audio analysis are outside the scope of this card.
+- Music search, library browsing, playlist selection, an equalizer and audio analysis are not implemented. Music Assistant players can already be controlled as regular media players.
 
 ---
 

@@ -1,3 +1,4 @@
+import { checkMinimalSmall } from './minimal-small.mjs';
 import { checkCassette } from './cassette.mjs';
 import { checkTonearm } from './tonearm.mjs';
 import assert from 'node:assert/strict';
@@ -43,6 +44,7 @@ try {
   assert.equal(await minimal.locator('.rotor').evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
   await checkTonearm(page);
   await checkCassette(page);
+  await checkMinimalSmall(page);
   assert.deepEqual(errors,[]);
   console.log('WebKit: 12 light/dark layout checks, state/artwork visibility and playback passed.');
 } finally {await browser.close()}

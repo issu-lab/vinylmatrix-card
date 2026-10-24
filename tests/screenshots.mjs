@@ -23,12 +23,12 @@ export async function captureThemeScreenshots(page) {
     states[window.preview.entities[1]].state='idle';window.preview.setStates(states);
   });
   await mkdir('assets',{recursive:true});
-  for(const theme of ['minimal','classic','cassette']) {
+  for(const theme of ['minimal','classic','cassette','minimal_small']) {
     for(const color of ['light','dark']) {
       await page.evaluate(async ({theme,color})=>{
         const card=window.preview.cards[0];
         card.parentElement.style.transform='none';
-        const width=theme==='minimal'?480:900;
+        const width=theme==='minimal'||theme==='minimal_small'?480:900;
         card.parentElement.style.width=`${width}px`;
         card.setConfig({type:'custom:vinylmatrix-card',entities:window.preview.entities,theme,color_mode:color});
         await card.updateComplete;
@@ -47,5 +47,5 @@ export async function captureThemeScreenshots(page) {
       await frame.screenshot({path:`assets/${theme}-${color}.png`});
     }
   }
-  console.log('README: six 640 × 640 theme previews captured without stretching or cropping.');
+  console.log('README: eight 640 × 640 theme previews captured without stretching or cropping.');
 }

@@ -11,7 +11,7 @@ pnpm test:distribution
 pnpm dev --port 5177 --strictPort
 ```
 
-Open `http://127.0.0.1:5177`. Add `?theme=minimal`, `?theme=classic` or `?theme=cassette` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
+Open `http://127.0.0.1:5177`. Add `?theme=minimal`, `?theme=classic` `?theme=cassette` or `?theme=minimal_small` for a focused, interactive preview. The preview uses the generated bundle and two simulated players. It has no connection to Home Assistant. Rebuild after source changes. The only dependency allowed to run an installation build script is esbuild.
 
 Browser checks, with the preview server running:
 
@@ -21,7 +21,7 @@ pnpm test:browser
 pnpm test:webkit
 ```
 
-`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Chromium checks call `tests/screenshots.mjs` to regenerate six equal 640 × 640 previews in `assets/`, using the original sample SVG in `dev/cover.svg`. Each real card is centered and scaled proportionally within its frame; no content is cropped or stretched. The README presents one row per theme, with Light and Dark columns. WebKit checks verify Minimal geometry in both colors from 240 to 900 px, visibility across player states and missing artwork, and play/pause. Both browser suites also run `tests/tonearm.mjs`, measuring the actual SVG stylus against the grooves and label at five progress positions, three widths and both colors. They cover seeking, clock updates, player handover, parking, missing timeline data, smooth transitions and reduced motion. `tests/cassette.mjs` runs in both engines, covering 10 size/color combinations, reel rotation, head lift/parking, essential controls, active-player handover, artwork fallback, service errors and reduced motion. These simulated checks do not replace validation on a physical iOS device or in Home Assistant.
+`PREVIEW_URL` can override the preview URL. `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_BROWSERS_PATH` support an existing external test runtime. Chromium checks call `tests/screenshots.mjs` to regenerate eight equal 640 × 640 previews in `assets/`, using the original sample SVG in `dev/cover.svg`. Each real card is centered and scaled proportionally within its frame; no content is cropped or stretched. The README presents one row per theme, with Light and Dark columns. WebKit checks verify Minimal geometry in both colors from 240 to 900 px, visibility across player states and missing artwork, and play/pause. Both browser suites also run `tests/tonearm.mjs`, measuring the actual SVG stylus against the grooves and label at five progress positions, three widths and both colors. They cover seeking, clock updates, player handover, parking, missing timeline data, smooth transitions and reduced motion. `tests/cassette.mjs` runs in both engines, covering 10 size/color combinations, reel rotation, head lift/parking, essential controls, active-player handover, artwork fallback, service errors and reduced motion. These simulated checks do not replace validation on a physical iOS device or in Home Assistant.
 
 ### Structure
 
@@ -31,6 +31,7 @@ src/vinylmatrix-card.ts   rendering, animation lifecycle and guarded service cal
 src/editor.ts            visual configuration editor
 src/styles.ts            shared styles
 src/minimal-styles.ts     reference proportions and Minimal styling
+src/minimal-small-styles.ts compact sleeve, exposed vinyl and right-side controls
 src/classic-styles.ts     turntable base and responsive Classic controls
 src/classic-graphics.ts   dotted platter and S-shaped arm
 src/cassette-graphics.ts  transparent shell, reels, tape path and lifting heads
@@ -50,13 +51,13 @@ For stable releases, retain the documented real-world validation basis and verif
 
 ## Marketplace readiness
 
-Audit date: 2026-10-21. Prepared version: **1.0.1, not published**. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its latest [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
+Marketplace audit date: 2026-10-21. Originally prepared as 1.0.1; now included in **1.1.0, not published**, alongside the theme changes dated 2026-10-24. The public version remains 1.0.0 at commit `5e838b2ddc89d90ae191c138ec97a3b4f6da3ee7`; its latest [validation run](https://github.com/issu-lab/vinylmatrix-card/actions/runs/36299663148) passed. That older run is not validation of this local update.
 
 The documented 2026.11 distribution contract already matches this card: root `hacs.json`, explicit `vinylmatrix-card.js`, built single-file module in `dist`, and the same asset attached to releases. Lit is bundled. Keep `content_in_root` unset so release/dist lookup works. `render_readme` is retained for legacy HACS; Marketplace ignores unrecognized keys. No new minimum Home Assistant version is imposed because the card itself does not use a 2026.11-only API.
 
 The README now distinguishes Marketplace and legacy HACS, includes both repository buttons, and explains `/local/community/` alongside the compatible `/hacsfiles/` path. The new distribution tests catch a missing/wrongly located module and a stale version in the build. CI runs them after building and adds a daily schedule to the existing push, pull request and manual checks. The HACS job keeps `category: plugin`, skips no checks, and disables PR comments so read-only permissions suffice. Hassfest is for integrations and is not applicable to this dashboard module.
 
-Local verification: 13 player tests, 6 documentation/branding checks, 2 distribution checks, TypeScript and production build passed. The built module differs from stable 1.0.0 only in the version label. Chromium and WebKit suites were attempted but stopped at launch: the required `chromium_headless_shell-1234` and `webkit-2336` executables are absent. No dependencies or browsers were installed. No live Home Assistant or Marketplace installation was performed, and the updated workflow has not run remotely. See the [roadmap](../ROADMAP.md) for release gates.
+At the original 1.0.1 preparation: 13 player tests, 6 documentation/branding checks, 2 distribution checks, TypeScript and production build passed. That earlier module differed from stable 1.0.0 only in its version label; the current 1.1.0 module also includes the new theme and rotation changes. Chromium and WebKit suites were attempted but stopped at launch: the required `chromium_headless_shell-1234` and `webkit-2336` executables are absent. No dependencies or browsers were installed. No live Home Assistant or Marketplace installation was performed, and the updated workflow has not run remotely. See the [roadmap](../ROADMAP.md) for release gates.
 
 Official sources checked for this audit:
 
@@ -65,6 +66,25 @@ Official sources checked for this audit:
 - [Manifest keys](https://contributors.home-assistant.io/marketplace/reference/hacs-json/)
 - [Validation action and install checks](https://contributors.home-assistant.io/marketplace/reference/validation/)
 - [Catalog and old/new My Home Assistant links](https://contributors.home-assistant.io/marketplace/guides/catalog/)
+
+## Minimal Small verification — 2026-10-24
+
+Prepared 1.1.0 adds the compact theme and sets the default vinyl period to 12 seconds. `tests/minimal-small.mjs` is shared by Chromium/WebKit and an optional Firefox smoke runner. It checks all three vinyl defaults, ten width/color layouts from 240 to 900 px, a stationary square sleeve and exposed record, actual rotation, five stopped states, playback/seek/volume commands, missing artwork, streams and player handover. Chromium/WebKit also check reduced motion.
+
+The shared scenarios passed in the system Firefox using simulated players. Two actual Minimal Small screenshots were captured as matching 640 × 640 frames. Player tests (13), documentation checks (6), distribution checks (2), TypeScript and the build pass. Full Chromium/WebKit suites remain pending because their matching executables are absent; no browser or dependency installation was performed. Neither the new theme nor playlist playback has been deployed to Home Assistant. The playlist chooser is not implemented.
+
+For the optional Firefox runner, use a fresh disposable profile and the loopback [WebDriver BiDi endpoint](https://developer.mozilla.org/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection):
+
+```sh
+mkdir -p /tmp/vinylmatrix-firefox-profile
+firefox --headless --no-remote --profile /tmp/vinylmatrix-firefox-profile --remote-debugging-port 9222
+# In a second terminal, with the preview server running:
+node tests/firefox-smoke.mjs
+# Optionally regenerate only the two compact-theme previews:
+CAPTURE_SMALL=1 node tests/firefox-smoke.mjs
+```
+
+Close the disposable Firefox process after testing. `FIREFOX_BIDI_URL` overrides the endpoint. This smoke check complements rather than replaces the full Playwright regression suites.
 
 ## Branding sources
 

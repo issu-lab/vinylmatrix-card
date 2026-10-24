@@ -1,3 +1,4 @@
+import { checkMinimalSmall } from './minimal-small.mjs';
 import { captureThemeScreenshots } from './screenshots.mjs';
 import { checkCassette } from './cassette.mjs';
 import { checkTonearm } from './tonearm.mjs';
@@ -15,11 +16,11 @@ async function reset(){await page.goto(process.env.PREVIEW_URL ?? 'http://127.0.
 async function states(fn){await page.evaluate(fn);await page.evaluate(()=>Promise.all(window.preview.cards.map(c=>c.updateComplete)));}
 try {
   await reset();
-  assert.equal(await page.locator('vinylmatrix-card .card').count(),3);
+  assert.equal(await page.locator('vinylmatrix-card .card').count(),4);
   assert.equal(await card.locator('.rotor').evaluate(e=>getComputedStyle(e).animationPlayState),'running');
   assert.equal(await card.locator('.tonearm').evaluate(e=>getComputedStyle(e).zIndex),'1');
   assert.equal(await card.locator('.record').evaluate(e=>getComputedStyle(e).zIndex),'0');
-  pass('three themes render; playing record animates');
+  pass('four themes render; playing record animates');
   await card.getByRole('button',{name:'Pause',exact:true}).click();
   assert.equal(await card.locator('.rotor').evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
   assert.equal(await page.evaluate(()=>window.preview.calls.at(-1).service),'media_pause');
@@ -88,7 +89,7 @@ try {
   await editor.getByRole('button',{name:'Remove player 2'}).click();
   assert.equal(await page.evaluate(()=>window.editorConfig.entities.length),1);
   pass('visual editor emits theme and ordered-player changes');
-  assert.deepEqual(await editor.locator('#theme option').evaluateAll(options=>options.map(o=>o.value)),['minimal','classic','cassette']);
+  assert.deepEqual(await editor.locator('#theme option').evaluateAll(options=>options.map(o=>o.value)),['minimal','minimal_small','classic','cassette']);
   await page.evaluate(()=>{const editor=document.querySelector('vinylmatrix-card-editor');const hass=structuredClone(window.preview.states);hass['media_player.office'].attributes.friendly_name='Kitchen speaker';hass['light.kitchen']={entity_id:'light.kitchen',state:'on',attributes:{friendly_name:'Kitchen light'}};editor.hass={...window.preview.cards[0].hass,states:hass};});
   const search=editor.getByRole('searchbox',{name:'Search media players 1'});
   await search.fill('KITCHEN');
@@ -134,7 +135,7 @@ try {
   assert.equal(await classic.getByRole('button',{name:'Record animation speed: 45',exact:true}).getAttribute('aria-pressed'),'true');
   assert.equal(await page.evaluate(()=>window.preview.calls.length),0,'speed selection must not change audio playback');
   await page.emulateMedia({reducedMotion:'no-preference'});
-  assert.ok(Math.abs(parseFloat(await classic.locator('.rotor').evaluate(e=>getComputedStyle(e).animationDuration))-60/45)<.001);
+  assert.ok(Math.abs(parseFloat(await classic.locator('.rotor').evaluate(e=>getComputedStyle(e).animationDuration))-12*33/45)<.001);
   await page.emulateMedia({reducedMotion:'reduce'});
   const classicPlaying=await classic.locator('.arm-moving').evaluate(e=>getComputedStyle(e).transform);
   await classic.getByRole('button',{name:'Start / Stop · Pause',exact:true}).click();
@@ -160,6 +161,7 @@ try {
   pass('light/dark themes and widths 240/280/340/480/900 have no overflow');
   await checkTonearm(page);
   await checkCassette(page);
+  await checkMinimalSmall(page);
   await captureThemeScreenshots(page);
   assert.deepEqual(errors,[]);
   console.log(`${count} browser scenarios passed; no page errors.`);

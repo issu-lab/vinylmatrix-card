@@ -17,7 +17,7 @@ export const styles = css`
     box-shadow:0 2px 5px #0003,inset 0 0 0 1px #8885; overflow:hidden; }
   .record::after { content:""; position:absolute; inset:1%; border-radius:50%; pointer-events:none;
     background:repeating-radial-gradient(circle at center,transparent 0 2px,#ffffff08 2.3px 2.7px),conic-gradient(from 35deg,transparent,#ffffff12 12%,transparent 26%,transparent 45%,#ffffff0c 62%,transparent 77%); }
-  .rotor { position:absolute; inset:0; border-radius:50%; animation:spin 10s linear infinite; animation-play-state:paused; }
+  .rotor { position:absolute; inset:0; border-radius:50%; animation:spin var(--record-period,12s) linear infinite; animation-play-state:paused; }
   .playing .rotor { animation-play-state:running; }
   .cover { position:absolute; z-index:1; inset:12%; border-radius:50%; overflow:hidden;
     background:radial-gradient(circle at 25% 30%,#bcb5a4,transparent 60%),linear-gradient(145deg,#8d928b,#343d3a); box-shadow:0 0 0 1px #ffffff15; }

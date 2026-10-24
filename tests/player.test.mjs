@@ -79,7 +79,7 @@ test('arm progress has no synthetic timeline when duration or position is missin
   }
 });
 
-test('Cassette is selectable without changing the default or legacy themes',()=>{
-  assert.equal(normalizeConfig({entity:ids[0],theme:'cassette'}).theme,'cassette');
+test('Cassette and Minimal Small are selectable without changing the default or legacy themes',()=>{
+  for(const theme of ['cassette','minimal_small']) assert.equal(normalizeConfig({entity:ids[0],theme}).theme,theme);
   assert.equal(normalizeConfig({entity:ids[0]}).theme,'minimal');
 });

@@ -7,6 +7,7 @@ import { labels, type Label } from "./i18n.ts";
 import { minimalArm, icon } from "./graphics.ts";
 import { styles } from "./styles.ts";
 import { minimalStyles } from "./minimal-styles.ts";
+import { minimalSmallStyles } from "./minimal-small-styles.ts";
 import { classicStyles } from "./classic-styles.ts";
 import { classicArm, platterRim } from "./classic-graphics.ts";
 import { cassetteMechanism } from "./cassette-graphics.ts";
@@ -22,7 +23,7 @@ export class VinylMatrixCard extends LitElement {
     clock: { state:true }, failedArt: { state:true }, error: { state:true },
     rpm: { state:true }, busy: { state:true }, volumeOpen: { state:true }, gesture: { state:true },
   };
-  static styles = [styles, minimalStyles, classicStyles, cassetteStyles];
+  static styles = [styles, minimalStyles, classicStyles, cassetteStyles, minimalSmallStyles];
   hass?: HomeAssistant;
   private config?: NormalizedConfig;
   private active?: string;
@@ -58,7 +59,7 @@ export class VinylMatrixCard extends LitElement {
     if (this.gesture) this.gesture={...this.gesture,canceled:true};
     this.error="";
   }
-  getCardSize() { return (this.config?.theme === "minimal") ? 8 : 7; }
+  getCardSize() { return this.config?.theme === "minimal_small" ? 3 : this.config?.theme === "minimal" ? 8 : 7; }
   getGridOptions() { return { columns:12, min_columns:6 }; }
   connectedCallback() {
     super.connectedCallback();
@@ -154,7 +155,8 @@ export class VinylMatrixCard extends LitElement {
     const p=this.player;
     const playing=p?.state === "playing";
     const theme=this.config.theme;
-    const horizontal=theme === "minimal";
+    const compact=theme === "minimal_small";
+    const horizontal=theme === "minimal" || compact;
     const popupVolume=theme !== "classic";
     const dark=this.config.color_mode === "dark" || (this.config.color_mode === "auto" && (this.hass.themes?.darkMode ?? false));
     const requestedArt=this.art();
@@ -177,9 +179,12 @@ export class VinylMatrixCard extends LitElement {
         ${popupVolume ? html`<button aria-label=${t.volume} title=${t.volume} aria-expanded=${this.volumeOpen} ?disabled=${!supports(p,Feature.VOLUME_SET) && !supports(p,Feature.VOLUME_MUTE)} @click=${()=>{this.volumeOpen=!this.volumeOpen;}}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button>` : nothing}
       </div>
 `;
-    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" style=${`--arm-progress:${progress(p,this.clock) ?? .35};--record-period:${this.rpm === 33 ? 60/33 : 60/45}s`} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
+    return html`<ha-card class="card ${theme} ${dark ? "dark" : "light"} ${playing ? "playing" : ""}" style=${`--arm-progress:${progress(p,this.clock) ?? .35};--record-period:${theme === "classic" && this.rpm === 45 ? 12*33/45 : 12}s`} data-player=${this.active ?? ""} aria-label=${`VinylMatrix · ${playerName}`}>
       ${horizontal && artUrl ? html`<img class="backdrop" src=${artUrl} alt="" referrerpolicy="no-referrer"/>` : nothing}
-      <div class="stage">
+      ${compact ? html`<div class="small-art" role="img" aria-label=${`${title} · ${state}`}>
+        <div class="record"><div class="rotor"><div class="small-label"></div></div><span class="spindle"></span></div>
+        <div class="sleeve">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div>
+      </div>` : html`<div class="stage">
         <div class="deck" role=${theme === "classic" ? "group" : "img"} aria-label=${`${title} · ${state}`}>
           ${theme === "cassette" ? cassetteMechanism() : html`
           ${theme === "classic" ? platterRim() : nothing}
@@ -194,8 +199,8 @@ export class VinylMatrixCard extends LitElement {
             <div class="classic-volume"><span>${t.volume}</span>${this.slider("volume",true)}</div>
           ` : nothing}
         </div>
-      </div>
-      ${theme === "classic" ? html`<div class="classic-footer">${footer}</div>` : theme === "cassette" ? html`<div class="cassette-footer"><div class="album">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div>${footer}</div>` : footer}
+      </div>`}
+      ${compact ? html`<div class="small-footer">${footer}</div>` : theme === "classic" ? html`<div class="classic-footer">${footer}</div>` : theme === "cassette" ? html`<div class="cassette-footer"><div class="album">${keyed(artUrl ?? "fallback",artUrl ? artImage : html`<div class="fallback" aria-hidden="true">♫</div>`)}</div>${footer}</div>` : footer}
       ${popupVolume && this.volumeOpen ? html`<div class="volume-popover"><button aria-label=${p?.attributes.is_volume_muted ? t.unmute : t.mute} ?disabled=${!supports(p,Feature.VOLUME_MUTE) || this.busy} @click=${()=>this.command("volume_mute",Feature.VOLUME_MUTE,{is_volume_muted:!p?.attributes.is_volume_muted},capturedEntity)}>${icon(p?.attributes.is_volume_muted ? "mute" : "volume")}</button><div style="flex:1">${this.slider("volume")}</div></div>` : nothing}
       ${this.error ? html`<p class="error" role="alert">${this.error}</p>` : nothing}
     </ha-card>`;
@@ -205,4 +210,4 @@ if (!customElements.get("vinylmatrix-card")) customElements.define("vinylmatrix-
 const registry=window as Window & { customCards?: Array<{type:string;name:string;description:string;preview:boolean}> };
 registry.customCards ??= [];
 if (!registry.customCards.some(card=>card.type === "vinylmatrix-card")) registry.customCards.push({type:"vinylmatrix-card",name:"VinylMatrix Card",description:"Animated turntable and cassette styles for your music players",preview:true});
-console.info("VinylMatrix Card 1.0.1");
+console.info("VinylMatrix Card 1.1.0");

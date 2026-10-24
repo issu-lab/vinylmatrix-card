@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased — 1.0.1
+## Unreleased — 1.1.0
 
 - Prepare Marketplace instructions for Home Assistant 2026.11 while retaining the HACS button and instructions for older versions. Document the new module path and migration without duplicate resource entries.
 - Add passing local distribution checks for manifest/module lookup and build version consistency; add daily validation and disable PR comments in the existing HACS job. The workflow changes are prepared locally and have not run remotely.
-- Preserve runtime behavior and approved assets. Local player/documentation checks, TypeScript and build pass; browser executables and live Marketplace validation remain pending in the roadmap.
+- Add Minimal Small: stationary square artwork, partially exposed rotating vinyl, right-side metadata/progress/controls, and expandable volume in automatic, light and dark colors.
+- Slow Minimal rotation from 10 to 12 seconds per revolution; align Classic at 33 with that duration and keep its 45 option proportionally faster at 8.8 seconds. Audio speed is unchanged.
+- Extend configuration and browser coverage for the compact theme; retain existing theme assets and add two equal-size previews. Shared compact-theme checks passed in Firefox with simulated players, including ten size/color layouts, rotation/stopped states, controls and handover. Live dashboard and Chromium/WebKit verification remain in the roadmap.
 
 ## 1.0.0 — 2026-09-27
 
