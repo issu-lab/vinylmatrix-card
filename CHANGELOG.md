@@ -2,6 +2,8 @@
 
 ## 1.1.0 — 2026-10-25
 
+- Publish the combined update after passing 28 logic/documentation/distribution tests, TypeScript, reproducible build, full Chromium/WebKit scenarios and HACS validation. The downloaded release module matches the tested build byte-for-byte. Live Home Assistant playlist playback and 2026.11 Marketplace migration remain follow-up checks.
+
 - Recheck Marketplace readiness on 2026-10-24: manifest/layout, reproducible standalone module, both live My Home Assistant badge/link endpoints and README migration references conform to the documented requirements. Live Marketplace installation remains unverified.
 
 - Add a theme-aware Music Assistant playlist button in all four styles, visible when the integration is available and configurable in the editor. The panel supports artwork, server-side search, pagination and an explicit preferred player.

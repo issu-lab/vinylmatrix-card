@@ -56,7 +56,11 @@ For stable releases, retain the documented real-world validation basis and verif
 
 The maintainer authorized publishing the combined update on 2026-10-24, with live Home Assistant 2026.11 installation and migration checks deferred until their upgrade. Live playlist playback, selector rendering and non-admin/group behavior remain follow-up checks in the roadmap. No Home Assistant deployment is performed as part of this release.
 
-Local release checks passed: 13 player tests, 7 Music Assistant tests, 6 documentation checks, 2 distribution checks, TypeScript and a reproducible production build. The first release workflow passed HACS and the full Chromium suite; WebKit exposed a timing-sensitive Minimal Small animation assertion. That check now samples actual CSS animation frames at known times, matching the existing cassette test, while still asserting running/paused states and reduced motion. The distributable is unchanged. The full workflow must pass before publishing. The earlier preparation audit below is retained as historical evidence.
+Local release checks passed: 13 player tests, 7 Music Assistant tests, 6 documentation checks, 2 distribution checks, TypeScript and a reproducible production build. The first release workflow passed HACS and the full Chromium suite; WebKit exposed a timing-sensitive Minimal Small animation assertion. That check now samples actual CSS animation frames at known times, matching the existing cassette test, while still asserting running/paused states and reduced motion. The distributable is unchanged. The complete [release workflow](https://github.com/issu-lab/vinylmatrix-card/actions/runs/40174520068) subsequently passed on `bde482636222421a91b9623baab49386ed6f316c`: Chromium and WebKit both covered the original themes, Minimal Small and the playlist panel, and HACS validation passed without ignored checks.
+
+[Version 1.1.0](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.0) was published on 2026-10-25 from that tested commit as the latest stable release. The downloaded `vinylmatrix-card.js` matches the local build byte-for-byte: 98,109 bytes, SHA-256 `42fedc6ffa27b34ec5f21398be21758dac51b8edf6e8714bad7aad4c409b9a5c`. The README and public GitHub description now include all four themes and Music Assistant playlists. Live validation remains separate and pending as listed above.
+
+The earlier preparation audit below is retained as historical evidence.
 
 ## Marketplace readiness
 
