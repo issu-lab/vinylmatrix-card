@@ -2,7 +2,7 @@
 
 ## Follow-up validation — 1.1.1
 
-- Confirm the four updated playlist layouts in a live dashboard after updating. Compact Minimal now follows Vinyl with Playlist beside Previous and centered playback; all eight README previews have been refreshed. Local Firefox checks cover 32 theme/color/width combinations; updated Chromium/WebKit checks remain pending.
+- Confirm the four updated playlist layouts in a live dashboard after updating. Compact Minimal now follows Vinyl with Playlist beside Previous and centered playback; all eight README previews have been refreshed. Local Firefox checks cover 32 theme/color/width combinations; Chromium/WebKit and HACS checks passed in release workflow 40225144287.
 
 ## Follow-up validation — 1.1.0
 
