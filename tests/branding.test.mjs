@@ -47,7 +47,7 @@ test('installation links support Marketplace and legacy HACS without implying ca
 });
 
 test('README gallery uses eight equally sized theme previews without legacy collages',()=>{
-  for(const theme of ['minimal','classic','cassette','minimal_small']) for(const color of ['light','dark']) {
+  for(const theme of ['vinyl','sl1200','tape-deck','minimal']) for(const color of ['light','dark']) {
     const file=`assets/${theme}-${color}.png`,png=read(file);
     assert.equal(png.readUInt32BE(16),640,file);
     assert.equal(png.readUInt32BE(20),640,file);

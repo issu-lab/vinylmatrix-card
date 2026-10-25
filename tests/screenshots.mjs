@@ -1,3 +1,5 @@
+export const themeImageNames = {minimal:'vinyl', classic:'sl1200', cassette:'tape-deck', minimal_small:'minimal'};
+
 // Shared browser-side setup for repeatable, equally sized README captures.
 export async function prepareThemeFrame({theme,color}) {
   const {cards,entities}=window.preview, card=cards[0];
@@ -42,7 +44,7 @@ export async function captureThemeScreenshots(page) {
   await page.emulateMedia({reducedMotion:'reduce'});
   for(const theme of ['minimal','classic','cassette','minimal_small']) for(const color of ['light','dark']) {
     await page.evaluate(prepareThemeFrame,{theme,color});
-    await page.locator('#theme-frame').screenshot({path:`assets/${theme}-${color}.png`});
+    await page.locator('#theme-frame').screenshot({path:`assets/${themeImageNames[theme]}-${color}.png`});
   }
   console.log('README: eight 640 × 640 theme previews with playlist controls, without stretching or cropping.');
 }

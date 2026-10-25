@@ -1,6 +1,6 @@
 // Optional smoke test using an already installed Firefox and its loopback BiDi endpoint.
 // Launch a disposable profile with: firefox --headless --no-remote --profile /tmp/vinylmatrix-firefox-profile --remote-debugging-port 9222
-import {prepareThemeFrame} from './screenshots.mjs';
+import {prepareThemeFrame,themeImageNames} from './screenshots.mjs';
 import {writeFile} from 'node:fs/promises';
 import {playlistBrowserChecks} from './playlists.mjs';
 import {minimalSmallChecks} from './minimal-small.mjs';
@@ -47,7 +47,7 @@ try {
     for(const theme of ['minimal','classic','cassette','minimal_small']) for(const color of ['light','dark']) {
       await evaluate(`(${prepareThemeFrame.toString()})(${JSON.stringify({theme,color})})`);
       const screenshot=await command('browsingContext.captureScreenshot',{context,origin:'viewport'});
-      await writeFile(`assets/${theme}-${color}.png`,Buffer.from(screenshot.data,'base64'));
+      await writeFile(`assets/${themeImageNames[theme]}-${color}.png`,Buffer.from(screenshot.data,'base64'));
       console.log(`Captured README gallery: ${theme}/${color}, 640 × 640, playlists enabled`);
     }
   }

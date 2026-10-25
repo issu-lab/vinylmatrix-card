@@ -90,10 +90,10 @@ The eight previews below show version 1.1.1, with the Playlist button visible in
 
 | Light | Dark |
 |---|---|
-| **Vinyl · default**<br>![Vinyl in light mode](assets/minimal-light.png) | **Vinyl · default**<br>![Vinyl in dark mode](assets/minimal-dark.png) |
-| **SL1200**<br>![SL1200 in light mode](assets/classic-light.png) | **SL1200**<br>![SL1200 in dark mode](assets/classic-dark.png) |
-| **Tape Deck**<br>![Tape Deck in light mode](assets/cassette-light.png) | **Tape Deck**<br>![Tape Deck in dark mode](assets/cassette-dark.png) |
-| **Minimal**<br>![Minimal in light mode](assets/minimal_small-light.png) | **Minimal**<br>![Minimal in dark mode](assets/minimal_small-dark.png) |
+| **Vinyl · default**<br>![Vinyl in light mode](assets/vinyl-light.png) | **Vinyl · default**<br>![Vinyl in dark mode](assets/vinyl-dark.png) |
+| **SL1200**<br>![SL1200 in light mode](assets/sl1200-light.png) | **SL1200**<br>![SL1200 in dark mode](assets/sl1200-dark.png) |
+| **Tape Deck**<br>![Tape Deck in light mode](assets/tape-deck-light.png) | **Tape Deck**<br>![Tape Deck in dark mode](assets/tape-deck-dark.png) |
+| **Minimal**<br>![Minimal in light mode](assets/minimal-light.png) | **Minimal**<br>![Minimal in dark mode](assets/minimal-dark.png) |
 
 **Vinyl** puts the record and artwork first. **Minimal** is a compact horizontal sleeve-and-record layout. **SL1200** adds a turntable base, S arm and physical controls. **Tape Deck** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
