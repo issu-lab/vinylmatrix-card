@@ -54,6 +54,8 @@ For stable releases, retain the documented real-world validation basis and verif
 
 ## Release 1.1.2
 
+Published from `2228073d5674a87fa027108d39554e0f798bd143` after [validation run 40225848998](https://github.com/issu-lab/vinylmatrix-card/actions/runs/40225848998) passed, including Chromium, WebKit and HACS. The downloaded release module matches the tested build (SHA-256 `cb7a1dcf0c6bfd92f39985077d8a21d551c0d902069ea2f14f56a64053855d75`).
+
 This packaging update includes the renamed README preview assets and their capture/test mappings in a tagged release. Runtime behavior is unchanged from 1.1.1; only the module version label changes. Existing live-validation follow-ups still apply.
 
 ## Release 1.1.1
