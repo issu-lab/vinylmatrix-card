@@ -54,6 +54,8 @@ For stable releases, retain the documented real-world validation basis and verif
 
 ## Release 1.1.3
 
+Published as a stable release from `fae3375faa74e887d8feed0ff665826b9708c1fe` after [validation run 40226382968](https://github.com/issu-lab/vinylmatrix-card/actions/runs/40226382968) passed Chromium, WebKit, HACS and all build/logic/documentation checks. The downloaded 99,801-byte module matches the tested bundle (SHA-256 `cbe4ff2a11e3c0a2d5fd5afaa4ff1b799df7e3a05a8acab2fc3f96d61a55dcd6`).
+
 The maintainer reported only Minimal previews visible in Home Assistant after 1.1.2. All eight assets exist in that tag. The README now links directly to those version-pinned raw files instead of relying on relative URL rewriting. HTTP availability is checked separately from local gallery dimensions; confirmation in the Home Assistant viewer remains pending.
 
 ## Release 1.1.2
