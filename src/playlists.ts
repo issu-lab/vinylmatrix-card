@@ -8,12 +8,11 @@ import { playlistStyles } from "./playlist-styles.ts";
 const listIcon=()=>html`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12M3 11h12M3 16h7M18 8v10"/><path d="M18 8l4 1"/><ellipse cx="15.5" cy="18" rx="2.5" ry="2"/></svg>`;
 export class VinylMatrixPlaylists extends LitElement {
   static styles=playlistStyles;
-  static properties={hass:{attribute:false},config:{attribute:false},activeEntity:{attribute:false},theme:{reflect:true},
-    open:{state:true},loading:{state:true},starting:{state:true},targets:{state:true},selected:{state:true},items:{state:true},draft:{state:true},more:{state:true},error:{state:true},notice:{state:true},failedImages:{state:true}};
+  static properties={hass:{attribute:false},config:{attribute:false},activeEntity:{attribute:false},
+    open:{type:Boolean,reflect:true},loading:{state:true},starting:{state:true},targets:{state:true},selected:{state:true},items:{state:true},draft:{state:true},more:{state:true},error:{state:true},notice:{state:true},failedImages:{state:true}};
   hass?: HomeAssistant;
   config?: Config;
   activeEntity?: string;
-  theme="minimal";
   private open=false;
   private loading=false;
   private starting=false;
@@ -34,8 +33,11 @@ export class VinylMatrixPlaylists extends LitElement {
     const old=changes.get("hass") as HomeAssistant | undefined;
     if (changes.has("config") || (old && old.connection !== this.hass?.connection)) this.reset();
   }
+  protected updated(changes:PropertyValues) {
+    if (changes.has("open")) this.dispatchEvent(new CustomEvent('playlist-open-changed',{detail:this.open}));
+  }
   disconnectedCallback() { super.disconnectedCallback();this.reset(); }
-  private async toggle() {
+  async toggle() {
     if (this.open) { this.reset();return; }
     this.open=true;this.draft="";this.search="";this.failedImages=new Set();
     await this.discover();
@@ -81,8 +83,7 @@ export class VinylMatrixPlaylists extends LitElement {
   }
   protected render() {
     const t=labels(this.config,this.hass), unavailable=!available(this.hass?.states[this.selected]);
-    return html`<div class="tools"><button class="toggle" aria-expanded=${this.open} aria-controls="playlist-panel" @click=${this.toggle}>${listIcon()}${t.playlists}</button></div>
-      ${this.open ? html`<section class="panel" id="playlist-panel" role="region" aria-label=${t.playlists} @keydown=${(e:KeyboardEvent)=>{if(e.key === "Escape"){e.stopPropagation();this.reset();this.renderRoot.querySelector<HTMLButtonElement>('.toggle')?.focus();}}}>
+    return html`${this.open ? html`<section class="panel" id="playlist-panel" role="region" aria-label=${t.playlists} @keydown=${(e:KeyboardEvent)=>{if(e.key === "Escape"){e.stopPropagation();this.reset();this.dispatchEvent(new CustomEvent('playlist-focus-toggle'));}}}>
         <h3>Music Assistant</h3>
         ${this.targets.length ? html`<label for="playlist-player">${t.playlistPlayer}</label><select id="playlist-player" .value=${live(this.selected)} ?disabled=${this.starting}
           @change=${(e:Event)=>{this.selected=(e.target as HTMLSelectElement).value;this.draft="";void this.load();}}>

@@ -52,7 +52,9 @@ export const minimalStyles = css`
   .minimal .transport .primary { width:max(40px,11cqi); height:max(40px,11cqi); }
   .minimal .transport .primary svg { width:6.3cqi; height:6.3cqi; min-width:24px; min-height:24px; stroke-width:3.5; }
   .minimal .transport button:not(.primary) svg { fill:currentColor; }
-  .minimal .transport button:last-child svg { fill:none; }
+  .minimal .transport button:nth-child(4) svg,.minimal .transport .playlist-toggle svg { fill:none; }
+  .minimal .transport .playlist-toggle { grid-column:1; grid-row:1; }
+  .minimal .transport .playlist-toggle span { display:none; }
   .minimal .volume-popover { margin:3cqi 10% 0; }
   .minimal .volume-popover .horizontal { margin:0; }
   .minimal .error { margin:3cqi 10% 0; }

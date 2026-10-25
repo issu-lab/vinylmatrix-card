@@ -52,6 +52,10 @@ Build from this project directory as the repository root. The validation workflo
 
 For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and Marketplace/HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
 
+## Release 1.1.1
+
+This maintenance release updates the four theme names, integrates playlist controls into each approved layout, and refreshes all eight equal-size gallery previews. Persisted YAML theme keys remain unchanged. Local Firefox scenarios passed across 32 theme/color/width combinations. Live Home Assistant confirmation of the new layouts and Marketplace 2026.11 migration remain follow-ups.
+
 ## Release 1.1.0
 
 The maintainer authorized publishing the combined update on 2026-10-24, with live Home Assistant 2026.11 installation and migration checks deferred until their upgrade. Live playlist playback, selector rendering and non-admin/group behavior remain follow-up checks in the roadmap. No Home Assistant deployment is performed as part of this release.
@@ -107,11 +111,19 @@ mkdir -p /tmp/vinylmatrix-firefox-profile
 firefox --headless --no-remote --profile /tmp/vinylmatrix-firefox-profile --remote-debugging-port 9222
 # In a second terminal, with the preview server running:
 node tests/firefox-smoke.mjs
-# Optionally regenerate only the two compact-theme previews:
-CAPTURE_SMALL=1 node tests/firefox-smoke.mjs
+# Optionally regenerate all eight README previews with playlists visible:
+CAPTURE_GALLERY=1 node tests/firefox-smoke.mjs
 ```
 
 Close the disposable Firefox process after testing. `FIREFOX_BIDI_URL` overrides the endpoint. This smoke check complements rather than replaces the full Playwright regression suites.
+
+## Theme names and playlist control placement — 1.1.1
+
+Display names are now Vinyl (`minimal`), SL1200 (`classic`), Tape Deck (`cassette`) and Minimal (`minimal_small`). Only the labels change; normalization and persisted values remain unchanged. The editor is checked in the browser for all four value/label pairs.
+
+Version 1.1.1 places Vinyl’s icon-only trigger in its free lower-left transport slot, with a full-length progress bar and unchanged existing controls. The button inherits the same size and unbordered styling as the adjacent transport controls; its accessible label and tooltip remain. SL1200 uses a text-only Playlist key at the lower-right of the deck, sharing the 33/45 keys’ dark rectangular styling. The volume slider is shortened from below and centered above the key. Its hit area is at least 56 × 28 px and stays clear of the platter, start/speed buttons and volume control. Tape Deck uses five equal-width rectangular keys ordered Playlist, Previous, Play/Pause, Next, Volume. The central key is Play/Pause, and the progress bar is full width again. With playlists hidden or Music Assistant absent, its previous four-key layout remains. Compact Minimal uses the same five-control order with an icon-only Playlist button beside Previous, a centered Play/Pause button and a full progress bar. It retains its original four controls when playlists are unavailable or disabled. The panel component remains mounted below the card content but is hidden when closed, preserving lazy discovery and in-flight request guards. Its open-state event updates the external button's accessible state; Escape returns focus to that button. Firefox checks assert no extra closed-card height, unchanged Vinyl/SL1200 transport geometry, trigger containment, Vinyl’s free left slot, SL1200’s deck-switch containment and non-overlap, Tape Deck and compact Minimal’s key order and centered playback button, visible labels, usable seeking width, focus restoration and the existing playlist behavior across 32 theme/color/width combinations. Chromium/WebKit reruns and live visual confirmation remain pending for this follow-up.
+
+All eight gallery images are captured from the actual card at 640 × 640 with playlists enabled and the panel closed. The shared `prepareThemeFrame` helper preserves proportions, freezes motion for capture, and checks frame dimensions, card containment and trigger visibility.
 
 ## Music Assistant playlist contract
 

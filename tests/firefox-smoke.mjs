@@ -1,5 +1,6 @@
 // Optional smoke test using an already installed Firefox and its loopback BiDi endpoint.
 // Launch a disposable profile with: firefox --headless --no-remote --profile /tmp/vinylmatrix-firefox-profile --remote-debugging-port 9222
+import {prepareThemeFrame} from './screenshots.mjs';
 import {writeFile} from 'node:fs/promises';
 import {playlistBrowserChecks} from './playlists.mjs';
 import {minimalSmallChecks} from './minimal-small.mjs';
@@ -24,24 +25,30 @@ try {
   await navigate();
   console.log(await evaluate(`(${playlistBrowserChecks.toString()})()`));
   if(process.env.CAPTURE_PLAYLISTS==='1') {
-    for(const [theme,color] of [['minimal_small','dark'],['classic','light']]) {
+    for(const [theme,color] of [['minimal','dark'],['minimal_small','dark'],['classic','light'],['classic','dark'],['cassette','light'],['cassette','dark']]) {
       await navigate();
       await command('browsingContext.setViewport',{context,viewport:{width:520,height:1100},devicePixelRatio:1});
-      await evaluate(`(async()=>{document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;document.body.style.cssText='padding:20px;margin:0;background:${color==='dark'?'#111820':'#f2f2ed'}';document.querySelector('#grid').style.cssText='display:block;width:480px;max-width:none;margin:0';window.preview.cards.forEach((c,i)=>{c.parentElement.hidden=i!==0;c.parentElement.querySelector('h2').hidden=true;c.parentElement.style.width='480px'});const c=window.preview.cards[0];c.setConfig({entities:window.preview.entities,theme:'${theme}',color_mode:'${color}'});window.preview.setPlaylistsEnabled(true);await c.updateComplete;const picker=c.shadowRoot.querySelector('vinylmatrix-playlists');await picker.updateComplete;picker.shadowRoot.querySelector('.toggle').click();await new Promise((resolve,reject)=>{let n=0;const id=setInterval(()=>{if(picker.shadowRoot.querySelectorAll('.playlist').length){clearInterval(id);resolve()}else if(++n>100){clearInterval(id);reject(Error('No playlists'))}},20)});await Promise.all([...picker.shadowRoot.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));return true})()`);
+      await evaluate(`(async()=>{document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;document.body.style.cssText='padding:20px;margin:0;background:${color==='dark'?'#111820':'#f2f2ed'}';document.querySelector('#grid').style.cssText='display:block;width:480px;max-width:none;margin:0';window.preview.cards.forEach((c,i)=>{c.parentElement.hidden=i!==0;c.parentElement.querySelector('h2').hidden=true;c.parentElement.style.width='480px'});const c=window.preview.cards[0];c.setConfig({entities:window.preview.entities,theme:'${theme}',color_mode:'${color}'});window.preview.setPlaylistsEnabled(true);await c.updateComplete;const picker=c.shadowRoot.querySelector('vinylmatrix-playlists');await picker.updateComplete;c.shadowRoot.querySelector('.playlist-toggle').click();await new Promise((resolve,reject)=>{let n=0;const id=setInterval(()=>{if(picker.shadowRoot.querySelectorAll('.playlist').length){clearInterval(id);resolve()}else if(++n>100){clearInterval(id);reject(Error('No playlists'))}},20)});await Promise.all([...picker.shadowRoot.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));return true})()`);
       const height=await evaluate('Math.ceil(window.preview.cards[0].getBoundingClientRect().height)+40');
       await command('browsingContext.setViewport',{context,viewport:{width:520,height},devicePixelRatio:1});
       const screenshot=await command('browsingContext.captureScreenshot',{context,origin:'viewport'});
       await writeFile(`/tmp/vinylmatrix-playlists-${theme}-${color}.png`,Buffer.from(screenshot.data,'base64'));
+      await evaluate("window.preview.cards[0].shadowRoot.querySelector('.playlist-toggle').click();new Promise(r=>setTimeout(r,50))");
+      const closedHeight=await evaluate('Math.ceil(window.preview.cards[0].getBoundingClientRect().height)+40');
+      await command('browsingContext.setViewport',{context,viewport:{width:520,height:closedHeight},devicePixelRatio:1});
+      const closed=await command('browsingContext.captureScreenshot',{context,origin:'viewport'});
+      await writeFile(`/tmp/vinylmatrix-playlists-${theme}-${color}-closed.png`,Buffer.from(closed.data,'base64'));
       console.log(`Captured playlist panel: ${theme}/${color}`);
     }
   }
-  if(process.env.CAPTURE_SMALL==='1') {
-    await navigate();await command('browsingContext.setViewport',{context,viewport:{width:640,height:640},devicePixelRatio:1});
-    for(const color of ['light','dark']) {
-      await evaluate(`(async()=>{document.querySelector('header').hidden=true;document.querySelector('#events').hidden=true;document.body.style.cssText='padding:0;margin:0;background:${color==='dark'?'#111820':'#f2f2ed'}';const frame=document.querySelector('#grid');frame.style.cssText='display:flex;align-items:center;justify-content:center;width:640px;height:640px;max-width:none;margin:0';window.preview.cards.forEach((c,i)=>{c.parentElement.hidden=i!==0;c.parentElement.querySelector('h2').hidden=true;c.parentElement.style.cssText='width:480px;flex:none'});const c=window.preview.cards[0];c.setConfig({entities:window.preview.entities,theme:'minimal_small',color_mode:'${color}'});const s=structuredClone(window.preview.states);s[window.preview.entities[0]].attributes.media_position_updated_at=null;window.preview.setStates(s);await c.updateComplete;await Promise.all([...c.shadowRoot.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));c.shadowRoot.querySelector('.rotor').style.animationPlayState='paused';return true})()`);
+  if(process.env.CAPTURE_GALLERY==='1') {
+    await navigate();
+    await command('browsingContext.setViewport',{context,viewport:{width:640,height:640},devicePixelRatio:1});
+    for(const theme of ['minimal','classic','cassette','minimal_small']) for(const color of ['light','dark']) {
+      await evaluate(`(${prepareThemeFrame.toString()})(${JSON.stringify({theme,color})})`);
       const screenshot=await command('browsingContext.captureScreenshot',{context,origin:'viewport'});
-      await writeFile(`assets/minimal_small-${color}.png`,Buffer.from(screenshot.data,'base64'));
-      console.log(`Captured Minimal Small ${color} in a 640 × 640 frame`);
+      await writeFile(`assets/${theme}-${color}.png`,Buffer.from(screenshot.data,'base64'));
+      console.log(`Captured README gallery: ${theme}/${color}, 640 × 640, playlists enabled`);
     }
   }
 } finally {await command('session.end').catch(()=>{});ws.close()}

@@ -37,6 +37,8 @@ export const minimalSmallStyles = css`
   .minimal_small input[type=range]::-moz-range-track { background:linear-gradient(to right,var(--ink) var(--range-fill,0%),var(--line) var(--range-fill,0%)); }
   .minimal_small .times { font-size:10px; }
   .minimal_small .transport { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; margin:5px 0 0; }
+  .minimal_small .transport.has-playlists { grid-template-columns:repeat(5,minmax(0,1fr)); }
+  .minimal_small .transport .playlist-toggle span { display:none; }
   .minimal_small .transport button { justify-self:center; width:100%; max-width:44px; height:44px; padding:6px; }
   .minimal_small .transport .primary { width:36px; max-width:100%; height:36px; }
   .minimal_small .transport button svg { width:19px; height:19px; }

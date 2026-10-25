@@ -2,17 +2,14 @@ import { css } from "lit";
 export const playlistStyles=css`
   :host { display:block; min-width:0; color:var(--ink); font:inherit; }
   * { box-sizing:border-box; }
-  .tools { display:flex; justify-content:flex-end; }
+  :host(:not([open])) { display:none; }
   button,input,select { font:inherit; color:var(--ink); min-width:0; }
   button { cursor:pointer; border:1px solid var(--line); border-radius:8px; padding:8px 12px; background:transparent; min-height:36px; }
   button:hover:enabled { background:color-mix(in srgb,var(--ink),transparent 92%); }
   button:disabled { opacity:.45; cursor:default; }
   button:focus-visible,input:focus-visible,select:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
   svg { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:1.7; }
-  .toggle { display:flex; align-items:center; gap:7px; font-size:12px; border-radius:20px; }
-  :host([theme=classic]) .toggle,:host([theme=cassette]) .toggle { border-radius:4px; background:linear-gradient(#ffffff18,#00000015); box-shadow:inset 0 1px #ffffff22,0 2px 2px #0003; letter-spacing:.04em; }
-  :host([theme=cassette]) .toggle { text-transform:uppercase; font-size:10px; }
-  .panel { margin-top:10px; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+  .panel { margin:0; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
   h3 { margin:0 0 12px; font-size:14px; font-weight:600; }
   label { display:block; font-size:12px; color:var(--muted); margin-bottom:5px; }
   select,input { width:100%; border:1px solid var(--line); background:var(--surface); border-radius:6px; padding:8px; min-height:36px; font-size:13px; }

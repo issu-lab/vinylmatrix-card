@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.1 — 2026-10-25
+
+- Place compact Minimal’s icon-only Playlist button beside Previous, with Play/Pause centered in a five-control row and the full progress bar restored. Retain the original four controls when playlists are unavailable or disabled.
+- Refresh all eight README previews at 640 × 640 with the theme-specific Playlist controls visible. Share deterministic gallery capture between Chromium and Firefox.
+
+- Add Tape Deck’s Playlist key at the left end of the transport row: Playlist, Previous, Play/Pause, Next, Volume. Use five equal-width matching keys with Play/Pause centered and restore the full progress bar. When Music Assistant is absent or playlists are hidden, retain the original four-key layout.
+
+- Integrate SL1200’s text-only Playlist key at the lower-right of the deck, styled like the 33/45 keys. Shorten and center the volume slider above it; preserve the full progress bar and transport controls. Verify the key stays clear of the platter, start/speed buttons and volume slider across tested widths.
+
+- Rename the displayed themes to Vinyl, SL1200, Tape Deck and Minimal in English and Italian. Preserve existing YAML values and saved layouts; the compact Minimal still uses `minimal_small`.
+
+- Move Vinyl's icon-only Playlist button into the free lower-left control slot and restore its full-width progress bar. Preserve existing transport/volume geometry and closed-card height.
+- Keep playlist loading lazy and return keyboard focus to the Playlist button when closing with Escape. Verify all 32 theme/color/width combinations in Firefox with simulated services.
+- The maintainer reports the installed 1.1.0 is working; detailed Marketplace 2026.11 migration and integration edge-case checks remain separate follow-ups.
+
 ## 1.1.0 — 2026-10-25
 
 - Publish the combined update after passing 28 logic/documentation/distribution tests, TypeScript, reproducible build, full Chromium/WebKit scenarios and HACS validation. The downloaded release module matches the tested build byte-for-byte. Live Home Assistant playlist playback and 2026.11 Marketplace migration remain follow-up checks.

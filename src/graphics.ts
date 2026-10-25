@@ -5,6 +5,7 @@ export function icon(name: string) {
     previous: "M5 5v14M19 5 8 12l11 7Z", next: "M19 5v14M5 5l11 7-11 7Z",
     volume: "M4 9v6h4l5 4V5L8 9ZM17 8c3 2 3 6 0 8M20 5c5 4 5 10 0 14",
     mute: "M4 9v6h4l5 4V5L8 9ZM17 9l5 6M22 9l-5 6",
+    playlists: "M3 6h12M3 11h12M3 16h7M18 8v10M18 8l4 1M18 18a2.5 2 0 1 1-5 0a2.5 2 0 1 1 5 0",
     progress: "M12 7v5l3 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0",
   };
   return svg`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d=${paths[name] ?? paths.play}/></svg>`;

@@ -42,12 +42,14 @@ export const cassetteStyles = css`
   .screw-slot { stroke:#323a3f; }
   .cassette-footer { display:grid; grid-template-columns:10% minmax(0,1fr) minmax(0,1.65fr); gap:0 2.5cqi; align-items:center; padding:0 3.5cqi 2.5cqi; }
   .cassette .transport { grid-row:1; grid-column:1 / -1; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1cqi; margin:0 -3.5cqi 2cqi; padding:1.1cqi 8.5cqi 1.6cqi; border-bottom:1px solid var(--line); }
+  .cassette .transport.has-playlists { grid-template-columns:repeat(5,minmax(0,1fr)); }
+  .cassette .transport .playlist-toggle span { display:none; }
   .cassette .transport button { width:100%; height:max(32px,6cqi); padding:1cqi; border-radius:.65cqi; border:3px solid #232b30; background:#e0e3df; color:#172126; box-shadow:inset 0 1px 0 #ffffff70,0 1px 0 #0005; }
   .cassette .transport .primary { background:#e0e3df; color:#172126; }
   .cassette.playing .transport .primary { background:#b6c0c3; box-shadow:inset 0 2px 2px #0003; }
   .cassette .transport button:hover:enabled { background:#e1e5e3; filter:none; }
   .cassette .transport button svg { width:clamp(18px,3cqi,32px); height:clamp(18px,3cqi,32px); }
-  .cassette .transport button:first-child svg,.cassette .transport button:nth-child(3) svg { fill:currentColor; }
+  .cassette .transport:not(.has-playlists) button:first-child svg,.cassette .transport:not(.has-playlists) button:nth-child(3) svg,.cassette .transport.has-playlists button:nth-child(2) svg,.cassette .transport.has-playlists button:nth-child(4) svg { fill:currentColor; }
   .cassette .album { grid-column:1; grid-row:2; aspect-ratio:1; overflow:hidden; border:1px solid var(--line); border-radius:.6cqi; background:#64716d; }
   .cassette .album img { display:block; width:100%; height:100%; object-fit:cover; }
   .cassette .album .fallback { font-size:5cqi; }

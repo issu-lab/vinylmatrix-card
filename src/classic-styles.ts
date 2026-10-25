@@ -40,14 +40,19 @@ export const classicStyles = css`
   }
   .classic .start-stop:hover:enabled { filter:brightness(1.1); background-color:#b7b7b7; }
   .classic .speed-buttons { display:flex; gap:.8cqi; }
-  .classic .speed-buttons button {
+  .classic .speed-buttons button,.classic .deck > .playlist-toggle {
     position:relative; width:max(23px,4.6cqi); height:max(24px,3.7cqi); padding:.7cqi; border-radius:.35cqi; border:1px solid #161616;
     color:#cbcbcb; background:linear-gradient(135deg,#3d3d3d,#232323); box-shadow:inset 0 1px 1px #8b8b8b77,0 .12cqi .25cqi #00000088;
     font-size:clamp(9px,1.2cqi,16px);
   }
   .classic .speed-buttons button[aria-pressed=true] { color:#f0f0f0; }
   .classic .speed-buttons button[aria-pressed=true]::before { content:""; position:absolute; top:.5cqi; left:32%; width:36%; height:.3cqi; min-height:1px; border-radius:2px; background:#f2f2f2; box-shadow:0 0 .45cqi #e9e9e9; }
-  .classic .classic-volume { position:absolute; left:90%; top:42%; width:6.5%; height:45%; display:flex; flex-direction:column; align-items:center; gap:1.4cqi; }
+  .classic .deck > .playlist-toggle { position:absolute; right:3.8%; bottom:3.4cqi; z-index:2;
+    width:max(56px,9cqi); height:max(28px,3.7cqi); padding:4px; text-transform:uppercase; font-size:clamp(8px,1.05cqi,14px); }
+  .classic .deck > .playlist-toggle[aria-expanded=true] { color:#f0f0f0; box-shadow:inset 0 2px 3px #0009,0 1px 0 #ffffff22; }
+  .classic .classic-volume { position:absolute; right:calc(3.8% + (max(56px,9cqi) - max(26px,6.5cqi)) / 2); top:42%;
+    bottom:calc(3.4cqi + max(28px,3.7cqi) + 2cqi); width:max(26px,6.5cqi);
+    display:flex; flex-direction:column; align-items:center; gap:1.4cqi; }
   .classic-volume > span { color:var(--muted); font-size:clamp(7px,1.05cqi,15px); letter-spacing:.1em; text-transform:uppercase; }
   .classic-volume .vertical { position:relative; width:100%; min-height:0; }
   .classic-volume .vertical > svg,.classic-volume output { display:none; }
@@ -79,7 +84,7 @@ export const classicStyles = css`
     .classic .classic-footer { grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto auto; gap:0 8px; padding:14px 4%; }
     .classic .transport { grid-column:2; grid-row:1 / 3; }
     .classic-footer > .horizontal { grid-column:1 / 3; grid-row:3; margin-top:8px; padding:0 34px; }
-    .classic .classic-volume { width:8%; left:89%; gap:4px; }
+    .classic .classic-volume { gap:4px; }
   }
   @media(prefers-reduced-motion:reduce) { .classic .arm-moving,.classic.playing .arm-moving { transition:none; } }
 `;

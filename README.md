@@ -24,11 +24,11 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Recommended for everyday use** | ✅ For the documented features |
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `1.1.0` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.0)) |
-| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-110) for release evidence. Live playlist playback and Marketplace installation/migration on 2026.11 remain to be verified. |
+| **Current version** | `1.1.1` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.1)) |
+| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-111) for release evidence. The maintainer reports playlist playback works; targeted player edge cases and Marketplace installation/migration on 2026.11 remain to be verified. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
-Version 1.1.0 adds Music Assistant playlists, Minimal Small, slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; the new playlist playback and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
+Version 1.1.1 refines playlist placement in every theme, renames the styles and refreshes the gallery. Version 1.1.0 added Music Assistant playlists, the compact layout (then named Minimal Small), slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; targeted playlist edge cases and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
 
 ---
 
@@ -46,7 +46,7 @@ It works with existing Home Assistant media players, keeping the same experience
 - 🔄 Automatic selection from an ordered list of media players.
 - 💿 Rotating record and a tonearm that follows track progress, returning to rest when playback stops or pauses.
 - 🎛️ Play/pause, previous/next, volume and seeking when supported by the player.
-- 📼 Transparent Cassette style with rotating reels, lifting playback heads and compact artwork/progress.
+- 📼 Transparent Tape Deck style with rotating reels, lifting playback heads and compact artwork/progress.
 - 📚 Music Assistant playlist picker with search, artwork and explicit playback destination.
 - 🎨 Four selectable styles with automatic, light and dark colors.
 - 🖱️ Visual configuration editor and YAML support.
@@ -63,13 +63,13 @@ The playing player takes priority. If several players are playing, VinylMatrix k
 
 When nobody is playing, the last available player remains visible so its artwork and resume control stay accessible. If that player becomes unavailable, the card falls back to the first available configured entry. If all are unavailable, it shows an unavailable state.
 
-The record rotates only during `playing`. Minimal, Minimal Small and Classic at its default 33 setting share a relaxed 12-second revolution. In both Minimal and Classic, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
+The record rotates only during `playing`. Vinyl, Minimal and SL1200 at its default 33 setting share a relaxed 12-second revolution. In both Vinyl and SL1200, the arm gradually moves from the outer grooves toward the label as the track advances, stopping short of the artwork. It follows position updates after seeking and the selected player when playback changes devices. Radio streams or tracks without a usable duration/position keep a fixed playing position.
 
 The arm returns to its support during pause, idle, buffering or unavailability. Reduced motion disables spinning and makes the arm change position without animation.
 
-Minimal Small keeps a stationary square sleeve on the left, with part of the spinning vinyl visible behind it. Track information, progress and essential controls sit on the right; volume expands below. It supports the same light, dark and automatic color modes.
+Minimal keeps a stationary square sleeve on the left, with part of the spinning vinyl visible behind it. Track information, progress and essential controls sit on the right; volume expands below. It supports the same light, dark and automatic color modes.
 
-In Cassette, both reels rotate while playing and the playback heads rise to the tape. Pause, stop, buffering and unavailable states stop the reels and lower the heads. Reduced motion disables reel rotation and makes the heads move instantly. The four rectangular buttons control previous track, play/pause (or stop when supported instead), next track and volume.
+In Tape Deck, both reels rotate while playing and the playback heads rise to the tape. Pause, stop, buffering and unavailable states stop the reels and lower the heads. Reduced motion disables reel rotation and makes the heads move instantly. The four rectangular buttons control previous track, play/pause (or stop when supported instead), next track and volume.
 
 Selection itself sends no commands. Playback controls target the displayed entity, and a seek or volume gesture is canceled if the active player changes. Seeking is also canceled when the track changes.
 
@@ -77,22 +77,31 @@ Selection itself sends no commands. Playback controls target the displayed entit
 
 ## Interface
 
-The four styles below use the same preview size. Each screenshot shows the actual card with sample artwork; its original proportions are preserved.
+**Theme names in 1.1.1:** the editor uses the names below. Saved YAML identifiers stay unchanged to avoid switching existing dashboards to a different layout.
+
+| New display name | Previous name | YAML `theme` value |
+|---|---|---|
+| Vinyl | Minimal | `minimal` |
+| SL1200 | Classic | `classic` |
+| Tape Deck | Cassette | `cassette` |
+| Minimal | Minimal Small | `minimal_small` |
+
+The eight previews below show version 1.1.1, with the Playlist button visible in every theme and color variant. Each 640 × 640 screenshot shows the actual card with sample artwork and simulated Music Assistant; its original proportions are preserved.
 
 | Light | Dark |
 |---|---|
-| **Minimal · default**<br>![Minimal in light mode](assets/minimal-light.png) | **Minimal · default**<br>![Minimal in dark mode](assets/minimal-dark.png) |
-| **Classic**<br>![Classic in light mode](assets/classic-light.png) | **Classic**<br>![Classic in dark mode](assets/classic-dark.png) |
-| **Cassette**<br>![Cassette in light mode](assets/cassette-light.png) | **Cassette**<br>![Cassette in dark mode](assets/cassette-dark.png) |
-| **Minimal Small**<br>![Minimal Small in light mode](assets/minimal_small-light.png) | **Minimal Small**<br>![Minimal Small in dark mode](assets/minimal_small-dark.png) |
+| **Vinyl · default**<br>![Vinyl in light mode](assets/minimal-light.png) | **Vinyl · default**<br>![Vinyl in dark mode](assets/minimal-dark.png) |
+| **SL1200**<br>![SL1200 in light mode](assets/classic-light.png) | **SL1200**<br>![SL1200 in dark mode](assets/classic-dark.png) |
+| **Tape Deck**<br>![Tape Deck in light mode](assets/cassette-light.png) | **Tape Deck**<br>![Tape Deck in dark mode](assets/cassette-dark.png) |
+| **Minimal**<br>![Minimal in light mode](assets/minimal_small-light.png) | **Minimal**<br>![Minimal in dark mode](assets/minimal_small-dark.png) |
 
-**Minimal** puts the record and artwork first. **Minimal Small** is a compact horizontal sleeve-and-record layout. **Classic** adds a turntable base, S arm and physical controls. **Cassette** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
+**Vinyl** puts the record and artwork first. **Minimal** is a compact horizontal sleeve-and-record layout. **SL1200** adds a turntable base, S arm and physical controls. **Tape Deck** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
 ---
 
 ## Installation
 
-The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.0** to use Music Assistant playlists and Minimal Small, then reload the browser to load the updated module.
+The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.1** to use Music Assistant playlists and the compact layout, then reload the browser to load the updated module.
 
 ### Marketplace — Home Assistant 2026.11 and later
 
@@ -165,13 +174,15 @@ language: auto
 
 In the visual editor, search for a media player by friendly name or entity ID. Only `media_player` entities are offered; players already selected in another row are excluded. The row order defines startup priority.
 
-Choose a style in the visual editor, or set `theme: cassette` / `theme: minimal_small` in YAML. Minimal remains the default for existing and new configurations.
+Choose a style in the visual editor, or set `theme: cassette` / `theme: minimal_small` in YAML. Vinyl remains the default for existing and new configurations.
 
-Classic’s 33/45 buttons change the record animation speed only: 33 uses 12 seconds per revolution and 45 uses 8.8 seconds. These are decorative speeds. They do not change the playback speed of your audio.
+SL1200’s 33/45 buttons change the record animation speed only: 33 uses 12 seconds per revolution and 45 uses 8.8 seconds. These are decorative speeds. They do not change the playback speed of your audio.
 
-Configurations saved with the retired `vinyl` or `ambient` style open Minimal automatically.
+Configurations saved with the retired `vinyl` or `ambient` style open Vinyl automatically.
 
 ### Music Assistant playlists
+
+**Playlist controls in 1.1.1:** Vinyl places the icon-only Playlist button in the free lower-left control slot, restoring the full progress bar. SL1200 uses a text-only Playlist key inside the deck, at the lower-right corner beneath a shortened, aligned volume slider, with the same dark rectangular finish as the 33/45 keys. Tape Deck places five matching keys in the order Playlist, Previous, Play/Pause, Next, Volume, with Play/Pause centered. The compact Minimal uses the same five-control order, with an icon-only Playlist button beside Previous, centered Play/Pause and a full progress bar. Without Music Assistant or with playlists disabled, the original controls remain. A closed playlist panel uses no extra row.
 
 With the official Music Assistant integration installed, a **Playlists** button appears in every theme. Open it to search your library, browse playlist artwork and load more results. The card uses your existing Home Assistant connection; no server URL, token, helper, script or additional custom card is needed.
 
@@ -204,7 +215,7 @@ entity: media_player.living_room
 ## Known Limitations
 
 - The stable designation is based on regular Home Assistant use and automated regression tests. Compatibility with every media player integration or Home Assistant version is not guaranteed.
-- Browser scenarios run in Chromium, with additional Minimal layout checks in WebKit and shared tonearm/Cassette geometry, playback and motion checks in both engines. There is no exhaustive compatibility matrix covering physical devices and Home Assistant versions.
+- Browser scenarios run in Chromium, with additional Vinyl layout checks in WebKit and shared tonearm/Tape Deck geometry, playback and motion checks in both engines. There is no exhaustive compatibility matrix covering physical devices and Home Assistant versions.
 - Available controls depend on the features reported by the selected player. Unsupported controls are disabled.
 - Live streams without a finite duration cannot seek. Missing duration or position is displayed as `—:—`.
 - Unavailable cover images use a built-in placeholder. Artwork URLs are supplied by the media player integration.

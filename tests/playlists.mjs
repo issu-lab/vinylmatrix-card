@@ -2,7 +2,7 @@ export async function playlistBrowserChecks() {
   const assert=(value,message)=>{if(!value)throw Error(message)};
   const preview=window.preview,card=preview.cards[0],entities=preview.entities;
   const panel=()=>card.shadowRoot.querySelector('vinylmatrix-playlists');
-  const find=s=>panel()?.shadowRoot.querySelector(s);
+  const find=s=>s==='.toggle' ? card.shadowRoot.querySelector('.playlist-toggle') : panel()?.shadowRoot.querySelector(s);
   const all=s=>[...(panel()?.shadowRoot.querySelectorAll(s) ?? [])];
   const settle=async()=>{await card.updateComplete;await panel()?.updateComplete};
   const until=async(fn)=>{for(let n=0;n<400;n++){await settle();if(fn())return;await new Promise(r=>setTimeout(r,5))}throw Error('Playlist UI did not settle')};
@@ -45,13 +45,54 @@ export async function playlistBrowserChecks() {
   preview.setPlaylistsEnabled(true);preview.setMAHandler(normal);await settle();
   const grid=document.querySelector('#grid');grid.style.display='block';
   for(const theme of ['minimal','classic','cassette','minimal_small']) for(const color of ['light','dark']) for(const width of [240,340,480,900]) {
-    card.parentElement.style.width=width+'px';card.setConfig({entities,theme,color_mode:color});await settle();await open();
+    card.parentElement.style.width=width+'px';card.setConfig({entities,theme,color_mode:color});await settle();
+    const closedHeight=card.getBoundingClientRect().height;
+    const transportGeometry=()=>[...card.shadowRoot.querySelectorAll('.transport button:not(.playlist-toggle)')].map(el=>{const r=el.getBoundingClientRect();return [r.x,r.y,r.width,r.height]});
+    const controlsBefore=JSON.stringify(transportGeometry());
+    const toggle=find('.toggle').getBoundingClientRect(), transport=card.shadowRoot.querySelector(theme==='classic' ? '.deck' : '.transport').getBoundingClientRect();
+    assert(toggle.width>=(theme==='minimal_small'?24:theme==='minimal'?32:36) && toggle.height>=(theme==='classic'?28:32) && toggle.left>=transport.left-1 && toggle.right<=transport.right+1 && toggle.top>=transport.top-6 && toggle.bottom<=transport.bottom+6,`${theme}/${color}/${width} playlist button beside seek bar`);
+    const compactIcon=theme!=='classic';
+    assert((getComputedStyle(find('.toggle').querySelector('span')).display!=='none')===!compactIcon,`${theme}/${width} readable label policy`);
+    const seek=card.shadowRoot.querySelector('input[data-kind=seek]').getBoundingClientRect();
+    assert(seek.width>=40 && ((theme==='minimal' || theme==='minimal_small') ? seek.bottom<toggle.top : toggle.bottom<seek.top),`${theme}/${width} usable seek bar separate from button`);
+    if(theme==='minimal') {
+      const previous=card.shadowRoot.querySelector('.transport button').getBoundingClientRect();
+      assert(toggle.right<=previous.left && toggle.left<previous.left,'Vinyl uses the free left slot');assert(Math.abs(toggle.width-previous.width)<1 && Math.abs(toggle.height-previous.height)<1,'Vinyl playlist matches adjacent controls');
+    }
+    if(theme==='classic') {
+      assert(find('.toggle').parentElement.classList.contains('deck'),'SL1200 playlist key is in the deck');
+      for(const selector of ['.deck-buttons','.classic-volume','.record']) {
+        const r=card.shadowRoot.querySelector(selector).getBoundingClientRect();
+        assert(toggle.right<=r.left || toggle.left>=r.right || toggle.bottom<=r.top || toggle.top>=r.bottom,`playlist key does not overlap ${selector}`);
+      }
+      assert(!find('.toggle').querySelector('svg'),'SL1200 uses text without an icon');
+      assert(find('.toggle').classList.contains('speed-key'),'SL1200 uses speed-key styling');
+      const start=card.shadowRoot.querySelector('.deck-buttons .start-stop').getBoundingClientRect();
+      const volume=card.shadowRoot.querySelector('.classic-volume').getBoundingClientRect();
+      assert(Math.abs(toggle.bottom-start.bottom)<1 && volume.bottom<toggle.top && Math.abs((toggle.left+toggle.width/2)-(volume.left+volume.width/2))<1,'SL1200 key at bottom of aligned volume column');
+      assert(getComputedStyle(find('.toggle')).backgroundImage===getComputedStyle(card.shadowRoot.querySelector('.speed-buttons button')).backgroundImage,'Playlist shares 33/45 finish');
+      assert(find('.toggle').scrollWidth<=find('.toggle').clientWidth,'playlist label fits');
+    }
+    if(theme==='cassette' || theme==='minimal_small') {
+      const buttons=[...card.shadowRoot.querySelectorAll('.transport button')];
+      assert(JSON.stringify(buttons.map(b=>b.getAttribute('aria-label')))===JSON.stringify(['Playlists','Previous track',card.shadowRoot.querySelector('.primary').getAttribute('aria-label'),'Next track','Volume']),'Tape Deck control order');
+      const play=buttons[2].getBoundingClientRect();
+      assert(Math.abs(play.left+play.width/2-(transport.left+transport.width/2))<1,'Tape Deck play is centered');
+      if(theme==='cassette') assert(buttons.every(b=>Math.abs(b.getBoundingClientRect().width-toggle.width)<1),'Tape Deck keys have equal widths');
+      assert(getComputedStyle(buttons[0]).backgroundColor===getComputedStyle(buttons[1]).backgroundColor,'Tape Deck keys share finish');
+    }
+    assert(panel().getBoundingClientRect().height===0,'closed panel takes no row');
+    preview.setPlaylistsEnabled(false);await settle();
+    assert(Math.abs(card.getBoundingClientRect().height-closedHeight)<1,`${theme}/${color}/${width} no additional closed-card height`);
+    if(theme!=='cassette' && theme!=='minimal_small') assert(JSON.stringify(transportGeometry())===controlsBefore,`${theme}/${color}/${width} transport geometry unchanged`);
+    preview.setPlaylistsEnabled(true);await settle();await open();
+    assert(find('.toggle').getAttribute('aria-expanded')==='true','toggle reports expanded panel');
     const bounds=card.shadowRoot.querySelector('.card').getBoundingClientRect();
     for(const el of all('.toggle,.panel,select,form,input,.playlist,.more')) {
       const b=el.getBoundingClientRect();assert(b.width>0 && b.left>=bounds.left && b.right<=bounds.right+1,`${theme}/${color}/${width} contained playlist UI`);
     }
     assert(find('ul').getBoundingClientRect().height<=261,'long lists scroll inside bounded area');
-    find('.panel').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));await settle();assert(!find('.panel'),'Escape collapses the panel');
+    find('.panel').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));await settle();assert(!find('.panel'),'Escape collapses the panel');assert(card.shadowRoot.activeElement===find('.toggle'),'Escape returns focus to seek-row button');assert(find('.toggle').getAttribute('aria-expanded')==='false','toggle reports collapsed panel');
   }
   // Late replies after closing and reopening cannot contaminate a new panel.
   let finishClosed;
@@ -60,6 +101,7 @@ export async function playlistBrowserChecks() {
   const states=structuredClone(preview.states);states[find('#playlist-player').value].state='unavailable';preview.setStates(states);await settle();assert(all('.playlist').every(b=>b.disabled),'unavailable target blocks playback');
   // Editor emits both new options; native selector contract is integration-filtered.
   const editor=document.createElement('vinylmatrix-card-editor');editor.hass=card.hass;editor.setConfig({type:'custom:vinylmatrix-card',entities});document.body.append(editor);await editor.updateComplete;
+  assert(JSON.stringify([...editor.shadowRoot.querySelectorAll('#theme option')].map(o=>[o.value,o.textContent]))===JSON.stringify([['minimal','Vinyl'],['minimal_small','Minimal'],['classic','SL1200'],['cassette','Tape Deck']]),'new display names preserve saved theme identifiers');
   let config;editor.addEventListener('config-changed',e=>config=e.detail.config);
   const setting=editor.shadowRoot.querySelector('#show-playlists');setting.value='false';setting.dispatchEvent(new Event('change',{bubbles:true}));await editor.updateComplete;assert(config.show_playlists===false,'editor hides button');
   setting.value='true';setting.dispatchEvent(new Event('change',{bubbles:true}));await editor.updateComplete;
