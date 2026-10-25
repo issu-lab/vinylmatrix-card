@@ -26,8 +26,15 @@ export async function minimalSmallChecks() {
     }
   }
   sample.style.width='480px';await state('playing');
-  const motion=getComputedStyle(find('.rotor')).transform;await new Promise(r=>setTimeout(r,120));
-  assert(getComputedStyle(find('.rotor')).transform!==motion,'record visibly advances');
+  // Sample the actual CSS animation at known times, as for the cassette reels.
+  // Headless WebKit need not composite two different frames within a short timer.
+  const rotor=find('.rotor'),animation=rotor.getAnimations()[0];
+  assert(getComputedStyle(rotor).animationPlayState==='running' && animation?.playState==='running','playing record animation runs');
+  animation.pause();animation.currentTime=1000;
+  const motion=getComputedStyle(rotor).transform;
+  animation.currentTime=2000;
+  assert(getComputedStyle(rotor).transform!==motion,'record visibly advances');
+  animation.play();
   for(const value of ['paused','idle','buffering','off','unavailable']) {
     await state(value);assert(getComputedStyle(find('.rotor')).animationPlayState==='paused',value+' stops rotation');
   }

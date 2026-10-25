@@ -56,7 +56,7 @@ For stable releases, retain the documented real-world validation basis and verif
 
 The maintainer authorized publishing the combined update on 2026-10-24, with live Home Assistant 2026.11 installation and migration checks deferred until their upgrade. Live playlist playback, selector rendering and non-admin/group behavior remain follow-up checks in the roadmap. No Home Assistant deployment is performed as part of this release.
 
-Release validation and asset verification are recorded below; the earlier preparation audit is retained as historical evidence.
+Local release checks passed: 13 player tests, 7 Music Assistant tests, 6 documentation checks, 2 distribution checks, TypeScript and a reproducible production build. The first release workflow passed HACS and the full Chromium suite; WebKit exposed a timing-sensitive Minimal Small animation assertion. That check now samples actual CSS animation frames at known times, matching the existing cassette test, while still asserting running/paused states and reduced motion. The distributable is unchanged. The full workflow must pass before publishing. The earlier preparation audit below is retained as historical evidence.
 
 ## Marketplace readiness
 

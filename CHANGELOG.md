@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 — 2026-10-24
+## 1.1.0 — 2026-10-25
 
 - Recheck Marketplace readiness on 2026-10-24: manifest/layout, reproducible standalone module, both live My Home Assistant badge/link endpoints and README migration references conform to the documented requirements. Live Marketplace installation remains unverified.
 
