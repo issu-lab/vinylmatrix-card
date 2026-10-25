@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2 — 2026-10-25
+
+- Include renamed gallery assets (`vinyl`, `sl1200`, `tape-deck`, `minimal`) and updated README links in an installable release.
+- Update screenshot generators and gallery checks to preserve the new filenames. Card behavior and saved YAML identifiers remain unchanged.
+
 ## 1.1.1 — 2026-10-25
 
 - Place compact Minimal’s icon-only Playlist button beside Previous, with Play/Pause centered in a five-control row and the full progress bar restored. Retain the original four controls when playlists are unavailable or disabled.

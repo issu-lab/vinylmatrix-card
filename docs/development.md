@@ -52,6 +52,10 @@ Build from this project directory as the repository root. The validation workflo
 
 For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and Marketplace/HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
 
+## Release 1.1.2
+
+This packaging update includes the renamed README preview assets and their capture/test mappings in a tagged release. Runtime behavior is unchanged from 1.1.1; only the module version label changes. Existing live-validation follow-ups still apply.
+
 ## Release 1.1.1
 
 Published as [v1.1.1](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.1) from `06c93b9393fce33aeaeeb5d68edbc12972492703`. [Validation run 40225144287](https://github.com/issu-lab/vinylmatrix-card/actions/runs/40225144287) passed logic, documentation, distribution, reproducible build, Chromium, WebKit and HACS checks. The downloaded 99,801-byte release asset matches the tested bundle byte-for-byte (SHA-256 `05c75b84981fd6fd55b38332492739ae84b6158a0c2054544c77d00484aa463f`).

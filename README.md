@@ -24,11 +24,11 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Recommended for everyday use** | ✅ For the documented features |
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `1.1.1` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.1)) |
-| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-111) for release evidence. The maintainer reports playlist playback works; targeted player edge cases and Marketplace installation/migration on 2026.11 remain to be verified. |
+| **Current version** | `1.1.2` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.2)) |
+| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-112) for release evidence. The maintainer reports playlist playback works; targeted player edge cases and Marketplace installation/migration on 2026.11 remain to be verified. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
-Version 1.1.1 refines playlist placement in every theme, renames the styles and refreshes the gallery. Version 1.1.0 added Music Assistant playlists, the compact layout (then named Minimal Small), slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; targeted playlist edge cases and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
+Version 1.1.2 includes the corrected preview filenames and README links. Version 1.1.1 refines playlist placement in every theme, renames the styles and refreshes the gallery. Version 1.1.0 added Music Assistant playlists, the compact layout (then named Minimal Small), slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; targeted playlist edge cases and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
 
 ---
 
@@ -101,7 +101,7 @@ The eight previews below show version 1.1.1, with the Playlist button visible in
 
 ## Installation
 
-The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.1** to use Music Assistant playlists and the compact layout, then reload the browser to load the updated module.
+The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.2** to use Music Assistant playlists and the compact layout, then reload the browser to load the updated module.
 
 ### Marketplace — Home Assistant 2026.11 and later
 

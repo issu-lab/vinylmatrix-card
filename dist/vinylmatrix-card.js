@@ -1693,7 +1693,7 @@ customElements.get("vinylmatrix-card") || customElements.define("vinylmatrix-car
 const ut = window;
 ut.customCards ??= [];
 ut.customCards.some((s) => s.type === "vinylmatrix-card") || ut.customCards.push({ type: "vinylmatrix-card", name: "VinylMatrix Card", description: "Animated turntable and cassette styles for your music players", preview: !0 });
-console.info("VinylMatrix Card 1.1.1");
+console.info("VinylMatrix Card 1.1.2");
 export {
   ht as VinylMatrixCard
 };
