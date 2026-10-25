@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const read=path=>readFileSync(new URL('../'+path,import.meta.url));
 const readme=read('README.md').toString();
 test('README uses banner first, status and shared public structure without duplicate H1',()=>{
-  assert.ok(readme.startsWith('![VinylMatrix Card](assets/vinylmatrix-banner.png)'));
+  assert.ok(readme.startsWith('![VinylMatrix Card](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/vinylmatrix-banner.png)'));
   assert.equal(/^# /m.test(readme),false);
   const titles=['Project Status','Why It Exists','Features','How It Works','Interface','Installation','Configuration','Known Limitations','Documentation','License'];
   const positions=titles.map(title=>readme.indexOf('## '+title));
@@ -51,8 +51,9 @@ test('README gallery uses eight equally sized theme previews without legacy coll
     const file=`assets/${theme}-${color}.png`,png=read(file);
     assert.equal(png.readUInt32BE(16),640,file);
     assert.equal(png.readUInt32BE(20),640,file);
-    assert.equal(readme.split(`](${file})`).length-1,1,file);
+    assert.equal(readme.split(`](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/${file})`).length-1,1,file);
   }
   assert.ok(readme.includes('| Light | Dark |'));
+  assert.equal(/!\[[^\]]*\]\((?:\.\/)?assets\//.test(readme),false,'README images must use direct URLs');
   assert.equal(readme.includes('assets/themes-'),false);
 });

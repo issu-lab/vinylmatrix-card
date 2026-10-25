@@ -1,4 +1,4 @@
-![VinylMatrix Card](assets/vinylmatrix-banner.png)
+![VinylMatrix Card](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/vinylmatrix-banner.png)
 
 <div align="center">
 
@@ -24,11 +24,11 @@ VinylMatrix brings album artwork and animated turntable or cassette mechanisms t
 | **Recommended for everyday use** | ✅ For the documented features |
 | **Setup difficulty** | 🟡 Intermediate — custom repository |
 | **Documentation** | ✅ Installation, configuration and development |
-| **Current version** | `1.1.2` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.2)) |
-| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-112) for release evidence. The maintainer reports playlist playback works; targeted player edge cases and Marketplace installation/migration on 2026.11 remain to be verified. |
+| **Current version** | `1.1.3` — stable ([release](https://github.com/issu-lab/vinylmatrix-card/releases/tag/v1.1.3)) |
+| **Validation** | Automated logic, packaging and browser checks; see [development](docs/development.md#release-113) for release evidence. The maintainer reports playlist playback works; targeted player edge cases and Marketplace installation/migration on 2026.11 remain to be verified. |
 | **Distribution** | Custom repository: Marketplace on Home Assistant 2026.11+, HACS on earlier versions; not in the shared default catalog |
 
-Version 1.1.2 includes the corrected preview filenames and README links. Version 1.1.1 refines playlist placement in every theme, renames the styles and refreshes the gallery. Version 1.1.0 added Music Assistant playlists, the compact layout (then named Minimal Small), slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; targeted playlist edge cases and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
+Version 1.1.3 uses direct, version-pinned image URLs for the README in Home Assistant. Version 1.1.2 includes the corrected preview filenames and README links. Version 1.1.1 refines playlist placement in every theme, renames the styles and refreshes the gallery. Version 1.1.0 added Music Assistant playlists, the compact layout (then named Minimal Small), slower vinyl animation and Marketplace installation instructions. Existing card configurations remain valid. The original themes and controls have been used regularly in Home Assistant since the first stable release; targeted playlist edge cases and the 2026.11 migration still need live validation. Automated checks do not establish compatibility with every player, browser or Home Assistant version.
 
 ---
 
@@ -90,10 +90,10 @@ The eight previews below show version 1.1.1, with the Playlist button visible in
 
 | Light | Dark |
 |---|---|
-| **Vinyl · default**<br>![Vinyl in light mode](assets/vinyl-light.png) | **Vinyl · default**<br>![Vinyl in dark mode](assets/vinyl-dark.png) |
-| **SL1200**<br>![SL1200 in light mode](assets/sl1200-light.png) | **SL1200**<br>![SL1200 in dark mode](assets/sl1200-dark.png) |
-| **Tape Deck**<br>![Tape Deck in light mode](assets/tape-deck-light.png) | **Tape Deck**<br>![Tape Deck in dark mode](assets/tape-deck-dark.png) |
-| **Minimal**<br>![Minimal in light mode](assets/minimal-light.png) | **Minimal**<br>![Minimal in dark mode](assets/minimal-dark.png) |
+| **Vinyl · default**<br>![Vinyl in light mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/vinyl-light.png) | **Vinyl · default**<br>![Vinyl in dark mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/vinyl-dark.png) |
+| **SL1200**<br>![SL1200 in light mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/sl1200-light.png) | **SL1200**<br>![SL1200 in dark mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/sl1200-dark.png) |
+| **Tape Deck**<br>![Tape Deck in light mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/tape-deck-light.png) | **Tape Deck**<br>![Tape Deck in dark mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/tape-deck-dark.png) |
+| **Minimal**<br>![Minimal in light mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/minimal-light.png) | **Minimal**<br>![Minimal in dark mode](https://raw.githubusercontent.com/issu-lab/vinylmatrix-card/v1.1.2/assets/minimal-dark.png) |
 
 **Vinyl** puts the record and artwork first. **Minimal** is a compact horizontal sleeve-and-record layout. **SL1200** adds a turntable base, S arm and physical controls. **Tape Deck** exposes the tape mechanism, with champagne-gold iSSU reels and four rectangular keys.
 
@@ -101,7 +101,7 @@ The eight previews below show version 1.1.1, with the Playlist button visible in
 
 ## Installation
 
-The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.2** to use Music Assistant playlists and the compact layout, then reload the browser to load the updated module.
+The buttons below open VinylMatrix Card in your Home Assistant instance. Install or update to **1.1.3** to use Music Assistant playlists and the compact layout, then reload the browser to load the updated module.
 
 ### Marketplace — Home Assistant 2026.11 and later
 

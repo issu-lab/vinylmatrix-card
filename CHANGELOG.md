@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3 — 2026-10-25
+
+- Replace relative README banner/gallery image paths with direct raw GitHub URLs pinned to the existing 1.1.2 assets, avoiding viewer-dependent path rewriting.
+- Require direct image URLs in documentation checks. Card behavior is unchanged.
+
 ## 1.1.2 — 2026-10-25
 
 - Include renamed gallery assets (`vinyl`, `sl1200`, `tape-deck`, `minimal`) and updated README links in an installable release.

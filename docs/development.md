@@ -52,6 +52,10 @@ Build from this project directory as the repository root. The validation workflo
 
 For stable releases, retain the documented real-world validation basis and verify any behavior changes against it. For every release, review screenshots and configuration examples, verify the README on GitHub and Marketplace/HACS, and configure the repository social preview using `assets/vinylmatrix-social-preview.png`.
 
+## Release 1.1.3
+
+The maintainer reported only Minimal previews visible in Home Assistant after 1.1.2. All eight assets exist in that tag. The README now links directly to those version-pinned raw files instead of relying on relative URL rewriting. HTTP availability is checked separately from local gallery dimensions; confirmation in the Home Assistant viewer remains pending.
+
 ## Release 1.1.2
 
 Published from `2228073d5674a87fa027108d39554e0f798bd143` after [validation run 40225848998](https://github.com/issu-lab/vinylmatrix-card/actions/runs/40225848998) passed, including Chromium, WebKit and HACS. The downloaded release module matches the tested build (SHA-256 `cb7a1dcf0c6bfd92f39985077d8a21d551c0d902069ea2f14f56a64053855d75`).
